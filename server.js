@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("/sqlite.js"); // Notre module modifié
+const auth = require("./sqlite.js"); // Notre module modifié
 const bodyParser = require("body-parser");
 
 const app = express();
