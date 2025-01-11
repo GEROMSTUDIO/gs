@@ -6,10 +6,8 @@ const path = require("path");
 const app = express();
 app.use(bodyParser.json());
 
-// Route pour servir le fichier login.html à la racine
-app.get("/", (request, response) => {
-  response.sendFile(path.join(__dirname, "public/index.html"));
-});
+// Servir les fichiers statiques du répertoire "public"
+app.use(express.static(path.join(__dirname, "public")));
 
 // Route de connexion (traiter le formulaire)
 app.post("/login", async (request, response) => {
