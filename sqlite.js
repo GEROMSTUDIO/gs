@@ -132,7 +132,16 @@ module.exports = {
         [email, "login", new Date().toISOString()]
       );
 
-      return { success: true, user: { email: user.email, created_at: user.created_at } };
+      return {
+        success: true, 
+        user: {
+          email: user.email,
+          unique_id: user.unique_id,  // Ajouter l'ID unique
+          profile_picture: user.profile_picture,  // Ajouter l'image de profil
+          access: user.access,  // Ajouter l'accès
+          created_at: user.created_at
+        }
+      };
     } catch (dbError) {
       console.error(dbError);
       return { success: false, error: "Erreur serveur" };

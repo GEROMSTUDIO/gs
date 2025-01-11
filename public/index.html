@@ -31,9 +31,7 @@
             class="logo"
             src="https://i.ibb.co/4s6sMj9/Logo-removebg-preview.png" 
             alt="Logo du site"
-            />     
-        </nav>
-    </nav>
+            />
         
     </header>
 
@@ -198,6 +196,25 @@
         });
 
       </script>
+
+      <script>
+          document.addEventListener('DOMContentLoaded', () => {
+          // Récupérer l'ID utilisateur de l'URL
+          const urlParams = new URLSearchParams(window.location.search);
+          const userId = urlParams.get('userId');
+
+          if (userId) {
+              // Afficher l'ID utilisateur ou effectuer d'autres actions spécifiques à cet utilisateur
+              console.log("Utilisateur connecté avec ID : " + userId);
+
+              // Vous pouvez également récupérer les informations de l'utilisateur à partir de l'ID en faisant une autre requête au serveur.
+          } else {
+              console.log("Aucun utilisateur connecté");
+          }
+      });
+
+      </script>
+    
 
 </body>
 
