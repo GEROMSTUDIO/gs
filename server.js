@@ -27,6 +27,20 @@ app.post("/login", async (request, response) => {
   }
 });
 
+// Route pour gérer l'inscription des utilisateurs
+app.post('/signup', (req, res) => {
+    const { email, password } = req.body;
+
+    // Vérifiez que l'email et le mot de passe sont fournis
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email et mot de passe sont requis' });
+    }
+
+    // Logique pour enregistrer l'utilisateur dans la base de données ici
+    // Pour l'exemple, on renvoie simplement un message de succès
+    res.status(200).json({ message: 'Inscription réussie !' });
+});
+
 
 // Listen for requests
 const listener = app.listen(process.env.PORT, () => {

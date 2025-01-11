@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupForm = document.querySelector('.form.signup form');
   const signupEmailInput = signupForm.querySelector('input[type="email"]');
   const signupPasswordInput = signupForm.querySelectorAll('input[type="password"]');
-  
+
   signupForm.addEventListener('submit', async (event) => {
       event.preventDefault(); // Empêche le rechargement de la page
 
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (response.ok) {
               // Rediriger l'utilisateur ou afficher un message de succès
-              window.location.href = '/index.html'; // Rediriger vers la page de connexion
+              window.location.href = '/login.html'; // Rediriger vers la page de connexion
           } else {
               // Afficher un message d'erreur si l'inscription échoue
               alert(result.message || 'Erreur lors de l\'inscription');
