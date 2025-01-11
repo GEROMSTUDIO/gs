@@ -2,27 +2,29 @@ const express = require("express");
 const auth = require("./sqlite.js");
 const bodyParser = require("body-parser");
 const path = require("path");
+const { verifyLogin } = require('./sqlite');
 
 const app = express();
 app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.post("/login", async (request, response) => {
-  const { email, password } = request.body;
+app.post('/login', (req, res) => {
+  const { email, password } = req.body;
 
-  if (!email || !password) {
-    response.status(400).json({ error: "Email et mot de passe requis" });
-    return;
-  }
+  verifyLogin(email, password, (err, result) => {
+    if (err) {
+      console.error('Erreur lors de la vérification du login:', err);
+      return res.status(500).json({ success: false, message: 'Erreur serveur.' });
+    }
 
-  const result = await auth.verifyUser(email, password);
-
-  if (result.success) {
-    response.status(200).json(result);
-  } else {
-    response.status(401).json(result);
-  }
+    if (result.success) {
+      return res.status(200).json({ success: true, uniqueId: result.uniqueId });
+    } else {
+      return res.status(401).json({ success: false, message: result.message });
+    }
+  });
+  
 });
 
 app.post('/signup', async (req, res) => {

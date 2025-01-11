@@ -1,152 +1,108 @@
-const fs = require("fs");
-const bcrypt = require("bcrypt");
-const crypto = require("crypto");
+const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt'); // Assurez-vous d'avoir installé bcrypt : npm install bcrypt
 
-// Initialize the database
-const dbFile = "data/users.db";
-const exists = fs.existsSync(dbFile);
-const sqlite3 = require("sqlite3").verbose();
-const dbWrapper = require("sqlite");
-let db;
+// Connexion à la base de données SQLite
+const db = new sqlite3.Database('./users.db', (err) => {
+  if (err) {
+    console.error('Erreur lors de l\'ouverture de la base de données:', err.message);
+  } else {
+    console.log('Connecté à la base de données SQLite.');
+  }
+});
 
-dbWrapper
-  .open({
-    filename: dbFile,
-    driver: sqlite3.Database
-  })
-  .then(async dBase => {
-    db = dBase;
-
-    try {
-      if (!exists) {
-        console.log("Création de la base de données...");
-        // Création de la table Users
-        await db.run(`
-          CREATE TABLE Users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE,
-            password TEXT,
-            profile_picture TEXT DEFAULT '',
-            access BOOLEAN DEFAULT FALSE,
-            unique_id TEXT UNIQUE,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-          )
-        `);
-
-        // Création de la table Log pour tracer les connexions
-        await db.run(`
-          CREATE TABLE AuthLog (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT,
-            action TEXT,
-            time STRING
-          )
-        `);
-        console.log("Base de données créée avec succès !");
-      } else {
-        console.log("Base de données existante détectée.");
-        console.log(await db.all("SELECT * FROM Users"));
-      }
-    } catch (dbError) {
-      console.error("Erreur lors de la configuration de la base de données :", dbError);
+// Création de la table "users" si elle n'existe pas encore
+db.serialize(() => {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      email TEXT UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      uniqueId TEXT NOT NULL,
+      created_at TEXT DEFAULT CURRENT_TIMESTAMP
+    )
+  `, (err) => {
+    if (err) {
+      console.error('Erreur lors de la création de la table:', err.message);
+    } else {
+      console.log('Table "users" prête.');
     }
   });
+});
 
-module.exports = {
-  /**
-   * Créer un nouvel utilisateur
-   * @param {string} email - Email de l'utilisateur
-   * @param {string} password - Mot de passe
-   * @returns {Object} Résultat de l'opération
-   */
-  createUser: async (email, password) => {
-    try {
-      // Vérifiez si l'utilisateur existe déjà
-      const existingUser = await db.get("SELECT email FROM Users WHERE email = ?", email);
-      if (existingUser) {
-        return { success: false, error: "Email déjà utilisé" };
+// Fonction d'inscription : Ajouter un utilisateur dans la base de données
+function registerUser(email, plainPassword, uniqueId, callback) {
+  const saltRounds = 10; // Niveau de complexité pour bcrypt
+
+  // Hacher le mot de passe avant de le stocker
+  bcrypt.hash(plainPassword, saltRounds, (err, hashedPassword) => {
+    if (err) {
+      console.error('Erreur lors du hachage du mot de passe:', err);
+      return callback(err);
+    }
+
+    const query = `INSERT INTO users (email, password, uniqueId) VALUES (?, ?, ?)`;
+
+    db.run(query, [email, hashedPassword, uniqueId], function (err) {
+      if (err) {
+        console.error('Erreur lors de l\'insertion dans la base de données:', err.message);
+        return callback(err);
+      }
+      console.log('Utilisateur enregistré avec succès :', email);
+      return callback(null, { success: true, userId: this.lastID });
+    });
+  });
+}
+
+// Fonction de vérification de login : Comparer l'email et le mot de passe
+function verifyLogin(email, plainPassword, callback) {
+  const query = `SELECT * FROM users WHERE email = ?`;
+
+  db.get(query, [email], (err, user) => {
+    if (err) {
+      console.error('Erreur lors de la requête SQLite:', err);
+      return callback(err);
+    }
+
+    if (!user) {
+      // Aucun utilisateur trouvé avec cet email
+      return callback(null, { success: false, message: 'Email ou mot de passe incorrect.' });
+    }
+
+    // Comparer le mot de passe saisi avec le mot de passe haché dans la base de données
+    bcrypt.compare(plainPassword, user.password, (bcryptErr, isMatch) => {
+      if (bcryptErr) {
+        console.error('Erreur lors de la comparaison bcrypt:', bcryptErr);
+        return callback(bcryptErr);
       }
 
-      // Générer un identifiant unique
-      const uniqueId = crypto.randomBytes(16).toString("hex"); // 32 caractères hexadécimaux
-
-      // Hasher le mot de passe
-      const hashedPassword = await bcrypt.hash(password, 10);
-
-      console.log("Données à insérer :");
-      console.log({
-        email,
-        hashedPassword,
-        uniqueId,
-        profile_picture: "",
-        access: false
-      });
-
-      // Insérer l'utilisateur dans la base de données
-      const result = await db.run(
-        `
-          INSERT INTO Users (email, password, unique_id, profile_picture, access) 
-          VALUES (?, ?, ?, ?, ?)
-        `,
-        [email, hashedPassword, uniqueId, "", false]
-      );
-
-      if (result && result.changes === 1) {
-        console.log("Nouvel utilisateur inséré avec succès !");
+      if (isMatch) {
+        // Mot de passe correct
+        return callback(null, { success: true, uniqueId: user.uniqueId });
       } else {
-        console.error("Échec de l'insertion de l'utilisateur.");
+        // Mot de passe incorrect
+        return callback(null, { success: false, message: 'Email ou mot de passe incorrect.' });
       }
+    });
+  });
+}
 
-      // Logger l'action
-      await db.run(
-        "INSERT INTO AuthLog (email, action, time) VALUES (?, ?, ?)",
-        [email, "signup", new Date().toISOString()]
-      );
+// Fonction pour vérifier si un utilisateur existe déjà (par email)
+function userExists(email, callback) {
+  const query = `SELECT COUNT(*) AS count FROM users WHERE email = ?`;
 
-      return { success: true, message: "Utilisateur créé avec succès" };
-    } catch (dbError) {
-      console.error("Erreur lors de la création de l'utilisateur :", dbError);
-      return { success: false, error: "Erreur serveur" };
+  db.get(query, [email], (err, row) => {
+    if (err) {
+      console.error('Erreur lors de la requête SQLite:', err);
+      return callback(err);
     }
-  },
 
-  /**
-   * Vérifier les identifiants d'un utilisateur
-   * @param {string} email - Email de l'utilisateur
-   * @param {string} password - Mot de passe
-   * @returns {Object} Résultat de l'opération
-   */
-  verifyUser: async (email, password) => {
-    try {
-      const user = await db.get("SELECT * FROM Users WHERE email = ?", email);
-      if (!user) {
-        return { success: false, error: "Utilisateur non trouvé" };
-      }
+    callback(null, row.count > 0);
+  });
+}
 
-      const validPassword = await bcrypt.compare(password, user.password);
-      if (!validPassword) {
-        return { success: false, error: "Mot de passe incorrect" };
-      }
-
-      // Logger la connexion réussie
-      await db.run(
-        "INSERT INTO AuthLog (email, action, time) VALUES (?, ?, ?)",
-        [email, "login", new Date().toISOString()]
-      );
-
-      return {
-        success: true,
-        user: {
-          email: user.email,
-          unique_id: user.unique_id,
-          profile_picture: user.profile_picture,
-          access: user.access,
-          created_at: user.created_at
-        }
-      };
-    } catch (dbError) {
-      console.error("Erreur lors de la vérification de l'utilisateur :", dbError);
-      return { success: false, error: "Erreur serveur" };
-    }
-  }
+// Export des fonctions
+module.exports = {
+  registerUser,
+  verifyLogin,
+  userExists,
 };
