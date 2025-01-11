@@ -2,7 +2,7 @@ const fs = require("fs");
 const bcrypt = require("bcrypt");
 
 // Initialize the database
-const dbFile = "./.src/users.db";
+const dbFile = "src/users.db";
 const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
