@@ -27,11 +27,6 @@ app.post("/login", async (request, response) => {
   }
 });
 
-// Route pour voir les logs (optionnel, pour debug)
-app.get("/logs", async (request, response) => {
-  const logs = await auth.getAuthLogs();
-  response.json(logs);
-});
 
 // Listen for requests
 const listener = app.listen(process.env.PORT, () => {

@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (response.ok) {
               // Rediriger l'utilisateur en cas de succès
-              window.location.href = '/dashboard'; // Remplacez par la page de destination souhaitée après connexion
+              window.location.href = '/index.html'; // Remplacez par la page de destination souhaitée après connexion
           } else {
               // Afficher un message d'erreur si les identifiants sont incorrects
               errorMessage.style.display = 'block';
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           if (response.ok) {
               // Rediriger l'utilisateur ou afficher un message de succès
-              window.location.href = '/login'; // Rediriger vers la page de connexion
+              window.location.href = '/index.html'; // Rediriger vers la page de connexion
           } else {
               // Afficher un message d'erreur si l'inscription échoue
               alert(result.message || 'Erreur lors de l\'inscription');
