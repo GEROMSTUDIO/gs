@@ -1,6 +1,6 @@
-const forms = document.querySelector(".forms"),
-  pwShowHide = document.querySelectorAll(".eye-icon"),
-  links = document.querySelectorAll(".link");
+const forms = document.querySelector(".forms"), 
+      pwShowHide = document.querySelectorAll(".eye-icon"),
+      links = document.querySelectorAll(".link");
 
 // Ajouter un gestionnaire d'événement au clic sur chaque icône pour basculer la visibilité du mot de passe
 pwShowHide.forEach(eyeIcon => {
@@ -56,18 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await response.json();
 
       if (response.ok) {
-        // Vérifiez que l'ID utilisateur unique (uniqueId) est bien présent
-        if (result.uniqueId) {
-          // Rediriger l'utilisateur vers 'index.html' avec l'identifiant unique
-          window.location.href = `/index.html?uniqueId=${result.uniqueId}`;
-        } else {
-          // En cas d'absence d'ID unique, afficher un message d'erreur
-          errorMessage.textContent = "Erreur : Identifiant utilisateur introuvable.";
-          errorMessage.style.display = 'block';
-        }
+        // Rediriger l'utilisateur vers 'index.html' avec l'identifiant unique
+        window.location.href = `/index.html?uniqueId=${result.unique_id}`;
       } else {
         // Afficher un message d'erreur si les identifiants sont incorrects
-        errorMessage.textContent = result.message || "Identifiants incorrects.";
         errorMessage.style.display = 'block';
       }
     } catch (error) {
