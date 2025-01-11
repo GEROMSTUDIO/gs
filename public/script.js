@@ -1,16 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Le script est chargé et prêt.");
-
-  window.onUserConnected = function () {
-    // Masquer le lien "Se connecter"
-    const loginLink = document.querySelector("a.login");
-    if (loginLink) {
-      loginLink.style.display = "none";
-    }
-    console.log("Utilisateur connecté : lien 'Se connecter' masqué.");
-  };
-});
-
 function acceptCookies() {
   localStorage.setItem("cookieConsent", "accepted");
   hideBanner();
@@ -92,4 +79,21 @@ window.addEventListener("scroll", () => {
   } else {
     header.classList.remove("bg");
   }
+});
+
+function onUserConnected() {
+    console.log("L'utilisateur est connecté !");
+    // Cache le bouton de connexion en ajoutant une classe
+    const loginButton = document.querySelector('.right-nav .login');
+    if (loginButton) {
+        loginButton.classList.add('hidden');
+    }
+}
+
+// Cette partie doit rester en JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('connect') === 'true') {
+        onUserConnected();
+    }
 });
