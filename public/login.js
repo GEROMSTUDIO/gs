@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         // Rediriger l'utilisateur ou afficher un message de succès
-        window.location.href = "/login.html"; // Rediriger vers la page de connexion
+        window.location.href = "/signup.html"; // Rediriger vers la page de connexion
       } else {
         alert(result.message || "Erreur lors de l'inscription.");
       }
