@@ -2,7 +2,6 @@ const express = require("express");
 const auth = require("./sqlite.js");
 const bodyParser = require("body-parser");
 const path = require("path");
-const fs = require("fs");
 
 const app = express();
 app.use(bodyParser.json());
@@ -26,56 +25,25 @@ app.post("/login", async (request, response) => {
   }
 });
 
-app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
+app.post('/signup', async (req, res) => {
+    const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Email et mot de passe sont requis" });
-  }
-
-  const result = await auth.createUser(email, password);
-
-  // Vérifiez le résultat de la création
-  if (result.success) {
-    res.status(200).json({ message: "Inscription réussie !" });
-  } else {
-    res.status(400).json({ message: result.error });
-  }
-});
-
-app.get("/index.html", (req, res) => {
-  const connectParam = req.query.connect === "true";
-
-  fs.readFile("public/index.html", "utf8", (err, data) => {
-    if (err) {
-      console.error("Erreur lors de la lecture du fichier index.html :", err);
-      return res.status(500).send("Erreur serveur");
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email et mot de passe sont requis' });
     }
 
-    let modifiedHtml = data;
-    if (connectParam) {
-      const injectedScript = `
-        <script>
-          document.addEventListener("DOMContentLoaded", () => {
-            if (typeof onUserConnected === "function") {
-              onUserConnected();
-            }
-          });
-        </script>
-      `;
-      modifiedHtml = data.replace("</body>", `${injectedScript}</body>`);
-    }
+    const result = await auth.createUser(email, password);
 
-    res.send(modifiedHtml);
-  });
+    // Vérifiez le résultat de la création
+    if (result.success) {
+        res.status(200).json({ message: 'Inscription réussie !' });
+    } else {
+        res.status(400).json({ message: result.error });
+    }
 });
 
 
 // Listen for requests
 const listener = app.listen(process.env.PORT, () => {
-  console.log(
-    "Votre application écoute sur le port " + listener.address().port
-  );
+  console.log("Votre application écoute sur le port " + listener.address().port);
 });
