@@ -75,10 +75,17 @@ module.exports = {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Insérer le nouvel utilisateur
-      await db.run(
+      const result = await db.run(
         "INSERT INTO Users (email, password, unique_id, profile_picture, access) VALUES (?, ?, ?, ?, ?)",
         [email, hashedPassword, uniqueId, "", false]
       );
+
+      // Vérification de l'insertion
+      if (result.changes === 1) {
+        console.log("Utilisateur ajouté avec succès !");
+      } else {
+        console.log("Erreur lors de l'ajout de l'utilisateur");
+      }
 
       // Logger l'action
       await db.run(
@@ -88,7 +95,7 @@ module.exports = {
 
       return { success: true, message: "Utilisateur créé avec succès" };
     } catch (dbError) {
-      console.error(dbError);
+      console.error("Erreur lors de la création de l'utilisateur:", dbError);
       return { success: false, error: "Erreur serveur" };
     }
   },
