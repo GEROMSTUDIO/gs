@@ -19,7 +19,8 @@ dbWrapper
 
     try {
       if (!exists) {
-        // Création de la table Users si elle n'existe pas
+        console.log("Création de la base de données...");
+        // Création de la table Users
         await db.run(`
           CREATE TABLE Users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,50 +42,59 @@ dbWrapper
             time STRING
           )
         `);
-        
-        console.log("Base de données créée avec succès");
+        console.log("Base de données créée avec succès !");
       } else {
-        console.log("Base de données existante trouvée");
-        console.log(await db.all("SELECT email, created_at from Users"));
+        console.log("Base de données existante détectée.");
+        console.log(await db.all("SELECT * FROM Users"));
       }
     } catch (dbError) {
-      console.error(dbError);
+      console.error("Erreur lors de la configuration de la base de données :", dbError);
     }
   });
 
 module.exports = {
   /**
    * Créer un nouvel utilisateur
-   * 
    * @param {string} email - Email de l'utilisateur
-   * @param {string} password - Mot de passe (sera hashé)
+   * @param {string} password - Mot de passe
    * @returns {Object} Résultat de l'opération
    */
   createUser: async (email, password) => {
     try {
-      // Vérifier si l'email existe déjà
+      // Vérifiez si l'utilisateur existe déjà
       const existingUser = await db.get("SELECT email FROM Users WHERE email = ?", email);
       if (existingUser) {
         return { success: false, error: "Email déjà utilisé" };
       }
 
       // Générer un identifiant unique
-      const uniqueId = crypto.randomBytes(16).toString('hex'); // 32 caractères hexadécimaux
+      const uniqueId = crypto.randomBytes(16).toString("hex"); // 32 caractères hexadécimaux
 
       // Hasher le mot de passe
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Insérer le nouvel utilisateur
+      console.log("Données à insérer :");
+      console.log({
+        email,
+        hashedPassword,
+        uniqueId,
+        profile_picture: "",
+        access: false
+      });
+
+      // Insérer l'utilisateur dans la base de données
       const result = await db.run(
-        "INSERT INTO Users (email, password, unique_id, profile_picture, access) VALUES (?, ?, ?, ?, ?)",
+        `
+          INSERT INTO Users (email, password, unique_id, profile_picture, access) 
+          VALUES (?, ?, ?, ?, ?)
+        `,
         [email, hashedPassword, uniqueId, "", false]
       );
 
-      // Vérification de l'insertion
-      if (result.changes === 1) {
-        console.log("Utilisateur ajouté avec succès !");
+      if (result && result.changes === 1) {
+        console.log("Nouvel utilisateur inséré avec succès !");
       } else {
-        console.log("Erreur lors de l'ajout de l'utilisateur");
+        console.error("Échec de l'insertion de l'utilisateur.");
       }
 
       // Logger l'action
@@ -95,31 +105,16 @@ module.exports = {
 
       return { success: true, message: "Utilisateur créé avec succès" };
     } catch (dbError) {
-      console.error("Erreur lors de la création de l'utilisateur:", dbError);
+      console.error("Erreur lors de la création de l'utilisateur :", dbError);
       return { success: false, error: "Erreur serveur" };
     }
   },
 
   /**
-   * Récupérer les logs d'authentification
-   * 
-   * @returns {Array} Dernières entrées du log
-   */
-  getAuthLogs: async () => {
-    try {
-      return await db.all("SELECT * from AuthLog ORDER BY time DESC LIMIT 20");
-    } catch (dbError) {
-      console.error(dbError);
-      return [];
-    }
-  },
-
-  /**
    * Vérifier les identifiants d'un utilisateur
-   * 
    * @param {string} email - Email de l'utilisateur
-   * @param {string} password - Mot de passe à vérifier
-   * @returns {Object} Résultat de la vérification
+   * @param {string} password - Mot de passe
+   * @returns {Object} Résultat de l'opération
    */
   verifyUser: async (email, password) => {
     try {
@@ -140,17 +135,17 @@ module.exports = {
       );
 
       return {
-        success: true, 
+        success: true,
         user: {
           email: user.email,
-          unique_id: user.unique_id,  // Ajouter l'ID unique
-          profile_picture: user.profile_picture,  // Ajouter l'image de profil
-          access: user.access,  // Ajouter l'accès
+          unique_id: user.unique_id,
+          profile_picture: user.profile_picture,
+          access: user.access,
           created_at: user.created_at
         }
       };
     } catch (dbError) {
-      console.error(dbError);
+      console.error("Erreur lors de la vérification de l'utilisateur :", dbError);
       return { success: false, error: "Erreur serveur" };
     }
   }
