@@ -6,10 +6,8 @@ const path = require("path");
 const app = express();
 app.use(bodyParser.json());
 
-// Servir les fichiers statiques du répertoire "public"
 app.use(express.static(path.join(__dirname, "public")));
 
-// Route de connexion (traiter le formulaire)
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
 
@@ -27,18 +25,21 @@ app.post("/login", async (request, response) => {
   }
 });
 
-// Route pour gérer l'inscription des utilisateurs
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
     const { email, password } = req.body;
 
-    // Vérifiez que l'email et le mot de passe sont fournis
     if (!email || !password) {
         return res.status(400).json({ message: 'Email et mot de passe sont requis' });
     }
 
-    // Logique pour enregistrer l'utilisateur dans la base de données ici
-    // Pour l'exemple, on renvoie simplement un message de succès
-    res.status(200).json({ message: 'Inscription réussie !' });
+    const result = await auth.createUser(email, password);
+
+    // Vérifiez le résultat de la création
+    if (result.success) {
+        res.status(200).json({ message: 'Inscription réussie !' });
+    } else {
+        res.status(400).json({ message: result.error });
+    }
 });
 
 
