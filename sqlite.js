@@ -1,8 +1,9 @@
 const fs = require("fs");
 const bcrypt = require("bcrypt");
+const { v4: uuidv4 } = require("uuid");  // Utilisation de uuid pour générer des identifiants uniques
 
-// Initialize the database
-const dbFile = "src/users.db";
+// Initialisation de la base de données
+const dbFile = "data/users.db";
 const exists = fs.existsSync(dbFile);
 const sqlite3 = require("sqlite3").verbose();
 const dbWrapper = require("sqlite");
@@ -18,13 +19,16 @@ dbWrapper
 
     try {
       if (!exists) {
-        // Création de la table Users si elle n'existe pas
+        // Création de la table Users avec les nouveaux champs
         await db.run(`
           CREATE TABLE Users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE,
             password TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+            profile_picture TEXT DEFAULT "",
+            access BOOLEAN DEFAULT FALSE,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            unique_id TEXT UNIQUE
           )
         `);
 
@@ -64,16 +68,19 @@ module.exports = {
         return { success: false, error: "Email déjà utilisé" };
       }
 
+      // Générer un identifiant unique
+      const uniqueId = uuidv4();
+
       // Hasher le mot de passe
       const hashedPassword = await bcrypt.hash(password, 10);
 
-      // Insérer le nouvel utilisateur
+      // Insérer le nouvel utilisateur avec les informations supplémentaires
       await db.run(
-        "INSERT INTO Users (email, password) VALUES (?, ?)",
-        [email, hashedPassword]
+        "INSERT INTO Users (email, password, unique_id) VALUES (?, ?, ?)",
+        [email, hashedPassword, uniqueId]
       );
 
-      // Logger l'action
+      // Logger l'action (supprimer si nécessaire)
       await db.run(
         "INSERT INTO AuthLog (email, action, time) VALUES (?, ?, ?)",
         [email, "signup", new Date().toISOString()]
@@ -119,7 +126,7 @@ module.exports = {
         return { success: false, error: "Mot de passe incorrect" };
       }
 
-      // Logger la connexion réussie
+      // Logger la connexion réussie (supprimer si nécessaire)
       await db.run(
         "INSERT INTO AuthLog (email, action, time) VALUES (?, ?, ?)",
         [email, "login", new Date().toISOString()]
