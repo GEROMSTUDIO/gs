@@ -3,11 +3,12 @@ const forms = document.querySelector(".forms"),
   links = document.querySelectorAll(".link");
 
 // Ajouter un gestionnaire d'événement au clic sur chaque icône pour basculer la visibilité du mot de passe
-pwShowHide.forEach(eyeIcon => {
+pwShowHide.forEach((eyeIcon) => {
   eyeIcon.addEventListener("click", () => {
-    let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+    let pwFields =
+      eyeIcon.parentElement.parentElement.querySelectorAll(".password");
 
-    pwFields.forEach(password => {
+    pwFields.forEach((password) => {
       if (password.type === "password") {
         password.type = "text";
         eyeIcon.classList.replace("bx-hide", "bx-show");
@@ -20,8 +21,8 @@ pwShowHide.forEach(eyeIcon => {
 });
 
 // Ajouter un gestionnaire d'événement au clic sur chaque lien pour basculer entre les formulaires
-links.forEach(link => {
-  link.addEventListener("click", e => {
+links.forEach((link) => {
+  link.addEventListener("click", (e) => {
     e.preventDefault();
     forms.classList.toggle("show-signup");
   });
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorMessage = document.querySelector(".error-message");
 
   // Formulaire de login
-  loginForm.addEventListener("submit", async event => {
+  loginForm.addEventListener("submit", async (event) => {
     event.preventDefault(); // Empêche le rechargement de la page
 
     const email = emailInput.value;
@@ -56,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
 
       if (response.ok) {
-        // Rediriger l'utilisateur vers l'URL souhaitée avec unique_id
-        const redirectURL = `/index.html?uniqueId=${encodeURIComponent(result.unique_id)}`;
+        console.log("Résultat reçu :", result); // Vérifiez ici que unique_id est correct
+        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(result.user.unique_id)}`;
         window.location.href = redirectURL;
       } else {
         // Afficher un message d'erreur si les identifiants sont incorrects
@@ -73,9 +74,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Formulaire de signup
   const signupForm = document.querySelector(".form.signup form");
   const signupEmailInput = signupForm.querySelector('input[type="email"]');
-  const signupPasswordInput = signupForm.querySelectorAll('input[type="password"]');
+  const signupPasswordInput = signupForm.querySelectorAll(
+    'input[type="password"]'
+  );
 
-  signupForm.addEventListener("submit", async event => {
+  signupForm.addEventListener("submit", async (event) => {
     event.preventDefault(); // Empêche le rechargement de la page
 
     const signupEmail = signupEmailInput.value;
