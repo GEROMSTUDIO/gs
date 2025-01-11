@@ -1,39 +1,27 @@
 const express = require("express");
-const auth = require("./sqlite.js"); // Notre module modifié
+const auth = require("./sqlite.js");
 const bodyParser = require("body-parser");
+const path = require("path");
 
 const app = express();
 app.use(bodyParser.json());
 
-// Route d'inscription
-app.post("/signup", async (request, response) => {
-  const { email, password } = request.body;
-  
-  if (!email || !password) {
-    response.status(400).json({ error: "Email et mot de passe requis" });
-    return;
-  }
-
-  const result = await auth.createUser(email, password);
-  
-  if (result.success) {
-    response.status(201).json(result);
-  } else {
-    response.status(400).json(result);
-  }
+// Route pour servir le fichier login.html à la racine
+app.get("/", (request, response) => {
+  response.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-// Route de connexion
+// Route de connexion (traiter le formulaire)
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
-  
+
   if (!email || !password) {
     response.status(400).json({ error: "Email et mot de passe requis" });
     return;
   }
 
   const result = await auth.verifyUser(email, password);
-  
+
   if (result.success) {
     response.status(200).json(result);
   } else {
@@ -49,5 +37,5 @@ app.get("/logs", async (request, response) => {
 
 // Listen for requests
 const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Votre application écoute sur le port " + listener.address().port);
 });

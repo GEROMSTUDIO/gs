@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Login</title>
+</head>
+<body>
+    <h2>Connexion</h2>
+    <form id="loginForm" action="/login" method="POST">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="password">Mot de passe:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <button type="submit">Se connecter</button>
+    </form>
+
+    <script>
+        // Gestion du formulaire de login
+        const form = document.getElementById("loginForm");
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                // Si la connexion réussit, rediriger l'utilisateur vers une nouvelle page
+                window.location.href = "public/index.html";  // Remplacez par l'URL de destination
+            } else {
+                // Si la connexion échoue, afficher l'erreur
+                alert(data.error || "Erreur de connexion");
+            }
+        });
+    </script>
+</body>
+</html>
