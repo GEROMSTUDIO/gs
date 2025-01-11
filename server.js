@@ -54,26 +54,24 @@ app.get("/index.html", (req, res) => {
       return res.status(500).send("Erreur serveur");
     }
 
+    let modifiedHtml = data;
     if (connectParam) {
       const injectedScript = `
         <script>
           document.addEventListener("DOMContentLoaded", () => {
-            // Cacher le lien "Se connecter"
-            const loginLink = document.querySelector("a.login");
-            if (loginLink) {
-              loginLink.style.display = "none";
+            if (typeof onUserConnected === "function") {
+              onUserConnected();
             }
           });
         </script>
       `;
-
-      const modifiedHtml = data.replace("</body>", `${injectedScript}</body>`);
-      return res.send(modifiedHtml);
+      modifiedHtml = data.replace("</body>", `${injectedScript}</body>`);
     }
 
-    res.send(data);
+    res.send(modifiedHtml);
   });
 });
+
 
 // Listen for requests
 const listener = app.listen(process.env.PORT, () => {
