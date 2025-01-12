@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
-
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -14,12 +13,10 @@ app.get("/script.js", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
 
-
 // Route pour la page d'accueil
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
-
 
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
