@@ -18,6 +18,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Route pour la page d'accueil
+app.get("/login.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "login.js"));
+});
+
+app.use("/login.js", (req, res, next) => {
+  //res.status(404).send("File not found"); // Renvoie 404 pour empêcher l'accès direct
+  // Ou redirige vers une page d'erreur personnalisée
+  res.status(404).sendFile(path.join(__dirname, "public/404.html"));
+});
+
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) {
