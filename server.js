@@ -7,6 +7,18 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+
+app.get("/scripts/login.js", (req, res) => {
+  // Vérifie si la requête provient d'une page autorisée (ex. : `Referer` ou une autre méthode)
+  const referer = req.headers.referer || "";
+  if (referer.includes("/index.html") || referer.includes("/login.html")) {
+    res.sendFile(path.join(__dirname, "src/login.js"));
+  } else {
+    res.status(403).send("Accès interdit.");
+  }
+});
+
+
 // Modification pour servir le fichier script.js avec le paramètre de connexion
 app.get("/script.js", (req, res) => {
   res.setHeader('Content-Type', 'application/javascript');
