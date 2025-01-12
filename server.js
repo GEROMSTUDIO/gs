@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
+
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -12,6 +13,7 @@ app.get("/script.js", (req, res) => {
   res.setHeader('Content-Type', 'application/javascript');
   res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
+
 
 // Route pour la page d'accueil
 app.get("/", (req, res) => {
