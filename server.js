@@ -8,6 +8,12 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Modification pour servir le fichier script.js avec le paramètre de connexion
+app.get("/script.js", (req, res) => {
+  res.setHeader('Content-Type', 'application/javascript');
+  res.sendFile(path.join(__dirname, 'public', 'script.js'));
+});
+
 
 // Route pour la page d'accueil
 app.get("/", (req, res) => {
