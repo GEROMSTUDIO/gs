@@ -18,12 +18,8 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Route pour la page d'accueil
-app.get("/login.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "src", "login.js"));
-});
 
-app.use("/", (req, res, next) => {
+app.use("", (req, res, next) => {
   //res.status(404).send("File not found"); // Renvoie 404 pour empêcher l'accès direct
   // Ou redirige vers une page d'erreur personnalisée
   res.status(404).sendFile(path.join(__dirname, "public/404.html"));
