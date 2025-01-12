@@ -13,8 +13,9 @@ app.get("/script.js", (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
 
-app.use((req, res, next) => {
-  res.status(404).send("Erreur 404 : Page non trouvée");
+app.get('*', (req, res) => {
+  // Si la requête GET ne correspond à aucune route définie, rediriger vers 404.html
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 app.post("/login", async (request, response) => {
