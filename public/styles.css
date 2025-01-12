@@ -73,9 +73,9 @@ a:active {
   top: 0px;
   color: #ffffff;
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 .login:hover {
+  transition: color 0.3s ease;
   color: rgb(211, 211, 211);
 }
 .hidden {
@@ -248,7 +248,7 @@ a:active {
 }
 
 .social-icons a:hover {
-  color: #fff;
+  color: #ffffff;
 }
 
 .footer-content {
