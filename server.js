@@ -20,6 +20,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// Middleware pour gérer les erreurs 404
+app.use((req, res, next) => {
+  res.status(404).sendFile(path.join(__dirname, "public/404.html")); // Page 404 pour toutes les requêtes invalides
+});
+
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) {
