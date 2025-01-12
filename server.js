@@ -7,34 +7,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-
-app.get("/scripts/login.js", (req, res) => {
-  // Vérifie si la requête provient d'une page autorisée (ex. : `Referer` ou une autre méthode)
-  const referer = req.headers.referer || "";
-  if (referer.includes("/index.html") || referer.includes("/login.html")) {
-    res.sendFile(path.join(__dirname, "src/login.js"));
-  } else {
-    res.status(403).send("Accès interdit.");
-  }
-});
-
-
 // Modification pour servir le fichier script.js avec le paramètre de connexion
 app.get("/script.js", (req, res) => {
   res.setHeader('Content-Type', 'application/javascript');
   res.sendFile(path.join(__dirname, 'public', 'script.js'));
 });
 
-// Route pour la page d'accueil
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-
-app.use("", (req, res, next) => {
-  //res.status(404).send("File not found"); // Renvoie 404 pour empêcher l'accès direct
-  // Ou redirige vers une page d'erreur personnalisée
-  res.status(404).sendFile(path.join(__dirname, "public/404.html"));
+app.use((req, res, next) => {
+  res.status(404).send("Erreur 404 : Page non trouvée");
 });
 
 app.post("/login", async (request, response) => {
@@ -45,7 +25,6 @@ app.post("/login", async (request, response) => {
   }
   const result = await auth.verifyUser(email, password);
   if (result.success) {
-    // Redirection vers index.html avec le paramètre connect=true
     response.status(200).json({ ...result, redirectUrl: '/?connect=true' });
   } else {
     response.status(401).json(result);

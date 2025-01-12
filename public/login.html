@@ -1,113 +1,267 @@
 <!DOCTYPE html>
 <!-- Coding by CodingLab | www.codinglabweb.com-->
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Login</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="login.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+  </head>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="login.css">
-  <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+  <body>
+    <section class="container forms">
+      <div class="form login">
+        <div class="form-content">
+          <form action="#" method="post">
+            <div class="field input-field">
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                class="input"
+              />
+            </div>
 
-</head>
+            <div class="field input-field">
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                class="password"
+              />
+              <i class="bx bx-hide eye-icon"></i>
+            </div>
 
-<body>
-  <section class="container forms">
-    <div class="form login">
-      <div class="form-content">
-        <form action="#" method="post">
-          <div class="field input-field">
-              <input type="email" name="email" placeholder="Email" class="input">
-          </div>
-      
-          <div class="field input-field">
-              <input type="password" name="password" placeholder="Password" class="password">
-              <i class='bx bx-hide eye-icon'></i>
-          </div>
-      
-          <div class="field button-field">
+            <div class="field button-field">
               <button type="submit">Login</button>
-          </div>
-          <div class="error-message" style="color: red; display: none;">Identifiants incorrects. Veuillez réessayer.</div>
-      </form>
-      
+            </div>
+            <div class="error-message" style="color: red; display: none">
+              Identifiants incorrects. Veuillez réessayer.
+            </div>
+          </form>
 
-        <div class="form-link">
-          <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+          <div class="form-link">
+            <span
+              >Don't have an account?
+              <a href="#" class="link signup-link">Signup</a></span
+            >
+          </div>
+        </div>
+
+        <div class="line"></div>
+
+        <div class="media-options">
+          <a href="#" class="field facebook">
+            <i class="bx bxl-facebook facebook-icon"></i>
+            <span>Login with Facebook</span>
+          </a>
+        </div>
+
+        <div class="media-options">
+          <a href="#" class="field google">
+            <img
+              src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+              alt="Logo Google"
+              class="google-img"
+            />
+            <span>Login with Google</span>
+          </a>
         </div>
       </div>
 
-      <div class="line"></div>
+      <!-- Signup Form -->
 
-      <div class="media-options">
-        <a href="#" class="field facebook">
-          <i class='bx bxl-facebook facebook-icon'></i>
-          <span>Login with Facebook</span>
-        </a>
-      </div>
+      <div class="form signup">
+        <div class="form-content">
+          <header>Signup</header>
+          <form action="#">
+            <div class="field input-field">
+              <input type="email" placeholder="Email" class="input" />
+            </div>
 
-      <div class="media-options">
-        <a href="#" class="field google">
-          <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Logo Google" class="google-img">
-          <span>Login with Google</span>
-        </a>
-      </div>
+            <div class="field input-field">
+              <input
+                type="password"
+                placeholder="Create password"
+                class="password"
+              />
+            </div>
 
-    </div>
+            <div class="field input-field">
+              <input
+                type="password"
+                placeholder="Confirm password"
+                class="password"
+              />
+              <i class="bx bx-hide eye-icon"></i>
+            </div>
 
-    <!-- Signup Form -->
+            <div class="field button-field">
+              <button>Signup</button>
+            </div>
+          </form>
 
-    <div class="form signup">
-      <div class="form-content">
-        <header>Signup</header>
-        <form action="#">
-          <div class="field input-field">
-            <input type="email" placeholder="Email" class="input">
+          <div class="form-link">
+            <span
+              >Already have an account?
+              <a href="#" class="link login-link">Login</a></span
+            >
           </div>
+        </div>
 
-          <div class="field input-field">
-            <input type="password" placeholder="Create password" class="password">
-          </div>
+        <div class="line"></div>
 
-          <div class="field input-field">
-            <input type="password" placeholder="Confirm password" class="password">
-            <i class='bx bx-hide eye-icon'></i>
-          </div>
+        <div class="media-options">
+          <a href="#" class="field facebook">
+            <i class="bx bxl-facebook facebook-icon"></i>
+            <span>Login with Facebook</span>
+          </a>
+        </div>
 
-          <div class="field button-field">
-            <button>Signup</button>
-          </div>
-        </form>
-
-        <div class="form-link">
-          <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+        <div class="media-options">
+          <a href="#" class="field google">
+            <img
+              src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+              alt="Google"
+              class="google-img"
+            />
+            <span>Login with Google</span>
+          </a>
         </div>
       </div>
+    </section>
 
-      <div class="line"></div>
+    <script>
+      const forms = document.querySelector(".forms"),
+        pwShowHide = document.querySelectorAll(".eye-icon"),
+        links = document.querySelectorAll(".link");
 
-      <div class="media-options">
-        <a href="#" class="field facebook">
-          <i class='bx bxl-facebook facebook-icon'></i>
-          <span>Login with Facebook</span>
-        </a>
-      </div>
+      // Ajouter un gestionnaire d'événement au clic sur chaque icône pour basculer la visibilité du mot de passe
+      pwShowHide.forEach((eyeIcon) => {
+        eyeIcon.addEventListener("click", () => {
+          let pwFields =
+            eyeIcon.parentElement.parentElement.querySelectorAll(".password");
 
-      <div class="media-options">
-        <a href="#" class="field google">
-          <img src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA" alt="Google" class="google-img">
-          <span>Login with Google</span>
-        </a>
-      </div>
+          pwFields.forEach((password) => {
+            if (password.type === "password") {
+              password.type = "text";
+              eyeIcon.classList.replace("bx-hide", "bx-show");
+              return;
+            }
+            password.type = "password";
+            eyeIcon.classList.replace("bx-show", "bx-hide");
+          });
+        });
+      });
 
-    </div>
-  </section>
+      // Ajouter un gestionnaire d'événement au clic sur chaque lien pour basculer entre les formulaires
+      links.forEach((link) => {
+        link.addEventListener("click", (e) => {
+          e.preventDefault();
+          forms.classList.toggle("show-signup");
+        });
+      });
 
-  <script src="/scripts/login.js"></script>
-  
-</body>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginForm = document.querySelector(".form.login form");
+        const emailInput = loginForm.querySelector('input[type="email"]');
+        const passwordInput = loginForm.querySelector('input[type="password"]');
+        const errorMessage = document.querySelector(".error-message");
 
+        // Formulaire de login
+        loginForm.addEventListener("submit", async (event) => {
+          event.preventDefault(); // Empêche le rechargement de la page
+
+          const email = emailInput.value;
+          const password = passwordInput.value;
+
+          // Réinitialiser le message d'erreur avant chaque tentative
+          errorMessage.style.display = "none";
+
+          try {
+            // Envoyer les données de connexion au serveur
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              console.log("Résultat reçu :", result); // Vérifiez ici que unique_id est correct
+              const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
+                result.user.unique_id
+              )}`;
+              window.location.href = redirectURL;
+            } else {
+              // Afficher un message d'erreur si les identifiants sont incorrects
+              errorMessage.textContent = result.error || "Erreur de connexion.";
+              errorMessage.style.display = "block";
+            }
+          } catch (error) {
+            console.error("Erreur lors de la requête :", error);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+          }
+        });
+
+        // Formulaire de signup
+        const signupForm = document.querySelector(".form.signup form");
+        const signupEmailInput = signupForm.querySelector(
+          'input[type="email"]'
+        );
+        const signupPasswordInput = signupForm.querySelectorAll(
+          'input[type="password"]'
+        );
+
+        signupForm.addEventListener("submit", async (event) => {
+          event.preventDefault(); // Empêche le rechargement de la page
+
+          const signupEmail = signupEmailInput.value;
+          const signupPassword = signupPasswordInput[0].value; // Premier champ de mot de passe
+          const confirmPassword = signupPasswordInput[1].value; // Deuxième champ de mot de passe
+
+          if (signupPassword !== confirmPassword) {
+            alert("Les mots de passe ne correspondent pas");
+            return;
+          }
+
+          try {
+            // Envoyer les données d'inscription au serveur
+            const response = await fetch("/signup", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: signupEmail,
+                password: signupPassword,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              // Rediriger l'utilisateur ou afficher un message de succès
+              window.location.href = "/signup.html"; // Rediriger vers la page de connexion
+            } else {
+              alert(result.message || "Erreur lors de l'inscription.");
+            }
+          } catch (error) {
+            console.error("Erreur lors de la requête :", error);
+            alert("Une erreur est survenue. Veuillez réessayer.");
+          }
+        });
+      });
+    </script>
+  </body>
 </html>
