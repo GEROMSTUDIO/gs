@@ -58,7 +58,7 @@ header {
         display: flex;
     }
     .login {
-        top: 19px;
+        top: 0px;
         font-size: 2rem;
         margin: 0px;
         padding: 0px;
@@ -71,10 +71,13 @@ header {
         top: 0px;
         color: #ffffff;
         text-decoration: none;
-        transition: color 0.3s ease; 
     }
     .login:hover {
+              transition: color 0.3s ease; 
         color: rgb(211, 211, 211);
+    }
+    .login.hidden {
+        display: none;.
     }
 
     .film {
@@ -268,6 +271,7 @@ header {
         position: absolute; /* Permet de personnaliser la position avec `left` */
         right: 26px; /* Ajustez cette valeur pour régler la position horizontale */
         height: 40px;
+        bottom: 15px;
         width: 30px; /* Taille réduite avant clic */
         background-color: #696969; /* Rectangle de couleur modérée */
         border-radius: 15px; /* Bords arrondis modérés */
