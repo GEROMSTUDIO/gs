@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
           result.user.unique_id
         )}`;
+        document.cookie = `uniqueId=${result.user.unique_id}; path=/; max-age=86400; secure; samesite=strict`;
         window.location.href = redirectURL;
       } else {
         // Afficher un message d'erreur si les identifiants sont incorrects

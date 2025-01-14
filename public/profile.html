@@ -318,7 +318,7 @@
 
             try {
               // Send the resized image to the server
-              await fetch("http://localhost:3000/upload", {
+              await fetch("/upload", {
                 method: "POST",
                 body: formData,
               });
