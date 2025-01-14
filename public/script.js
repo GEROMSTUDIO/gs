@@ -37,8 +37,6 @@ function getUniqueIdFromCookie() {
         window.location.href = redirectURL;
     } else if (!uniqueId) {
         console.log('Non connecté');
-        // Optionnel : rediriger vers la page de connexion
-        // window.location.href = '/login.html';
     }
 })();
 
