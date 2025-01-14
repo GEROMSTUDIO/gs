@@ -100,7 +100,7 @@ header {
     .film:hover {
         color: rgb(211, 211, 211);
     }
-    .cinema {
+    .about {
         top: 19px;
         font-size: 2rem;
         margin: 0px;
@@ -116,7 +116,7 @@ header {
         text-decoration: none;
         transition: color 0.3s ease; 
     }
-    .cinema:hover {
+    .about:hover {
         color: rgb(211, 211, 211);
     }
     .contact {
