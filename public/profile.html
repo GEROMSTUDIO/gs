@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f0f0;
+      }
+
+      h1 {
+        margin: 102px;
+        text-align: center;
+      }
+
+      header {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        width: 100vw; /* Largeur de 100% de la largeur de la fenêtre */
+        height: 72px; /* Hauteur fixe, mais vous pouvez aussi utiliser 'em' si vous voulez une proportion à la taille du texte */
+        background-color: #000000;
+        color: rgb(255, 255, 255);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: top 0.4s ease;
+        z-index: 1000;
+      }
+      header.hidden {
+        top: -90px;
+        transition-property: top;
+        transition-duration: 500ms;
+      }
+      section {
+        height: 1000px;
+        padding: 20px;
+      }
+      header.bg {
+        /* background: linear-gradient(to top, #00000049, #000000bd); /* Dégradé horizontal */
+        background-color: #00000083;
+        box-shadow: 0px 0 60px #000000;
+        transition-property: background-color, font-size, transform, color;
+        transition-timing-function: ease-in-out;
+        transition-duration: 280ms;
+      }
+
+      a:focus,
+      a:active {
+        outline: none;
+        border: "";
+      }
+
+      .logo {
+        position: absolute;
+        bottom: -21.5px;
+        left: -10px;
+        width: 110px;
+        height: 110px;
+        clip-path: inset(0 0px 0 0);
+        object-fit: cover;
+      }
+
+      .left-nav,
+      .right-nav {
+        display: flex;
+      }
+      .film {
+        top: 19px;
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: 90px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .film:hover {
+        color: rgb(211, 211, 211);
+      }
+      .cinema {
+        top: 19px;
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: 280px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .cinema:hover {
+        color: rgb(211, 211, 211);
+      }
+      .contact {
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: -25px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .contact:hover {
+        color: rgb(211, 211, 211);
+      }
+
+      #profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 50px;
+      }
+
+      #profile-picture {
+        margin: -76px;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid #ccc;
+        cursor: pointer;
+        background-color: red; /* Fond rouge par défaut */
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 10px;
+      }
+
+      #file-input {
+        display: none;
+      }
+
+      /* Popup styles */
+      #popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #popup-content {
+        background-color: white;
+        padding: 20px 40px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+      }
+
+      #popup-preview {
+        width: 300px;
+        height: 300px;
+        background-color: red; /* Fond rouge par défaut dans la pop-up */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        border: 2px solid #ccc;
+      }
+
+      #popup-preview img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      #import-button,
+      #save-button {
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: rgb(64, 112, 244);
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      #import-button:hover,
+      #save-button:hover {
+        background-color: rgb(84, 142, 255);
+      }
+
+      #close-popup {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #666;
+        cursor: pointer;
+      }
+
+      #close-popup:hover {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Profile</h1>
+    <div id="profile-container">
+      <div id="profile-picture" title="Click to open profile settings"></div>
+
+      <header id="header">
+        <nav class="left-nav">
+          <a href="#" class="film">Films</a>
+          <a href="#" class="cinema">À propos</a>
+          <a href="#" class="contact">Contact</a>
+        </nav>
+        <nav>
+          <a href="/index.html" class="home">
+            <img
+              class="logo"
+              src="https://i.ibb.co/4s6sMj9/Logo-removebg-preview.png"
+              alt="Logo du site"
+            />
+          </a>
+        </nav>
+      </header>
+    </div>
+    <input type="file" id="file-input" accept="image/*" />
+
+    <!-- Popup for importing and saving image -->
+    <div id="popup">
+      <div id="popup-content">
+        <div id="close-popup">&times;</div>
+        <div id="popup-preview"></div>
+        <button id="import-button">Importer Image</button>
+        <button id="save-button">Enregistrer</button>
+      </div>
+    </div>
+
+    <script>
+      const profilePicture = document.getElementById("profile-picture");
+      const fileInput = document.getElementById("file-input");
+      const popup = document.getElementById("popup");
+      const popupPreview = document.getElementById("popup-preview");
+      const importButton = document.getElementById("import-button");
+      const saveButton = document.getElementById("save-button");
+      const closePopup = document.getElementById("close-popup");
+
+      let imgFile = null;
+
+      // Show the popup when the profile picture is clicked
+      profilePicture.addEventListener("click", () => {
+        popup.style.display = "flex";
+      });
+
+      // Open file picker when the "Importer Image" button is clicked
+      importButton.addEventListener("click", () => {
+        fileInput.click();
+      });
+
+      // Handle file selection and display it in the popup
+      fileInput.addEventListener("change", async () => {
+        const file = fileInput.files[0];
+        if (!file) return;
+
+        imgFile = file;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          popupPreview.innerHTML = `<img src="${reader.result}" alt="Preview">`;
+          profilePicture.style.backgroundImage = `url(${reader.result})`;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      // Save the resized image to the server
+      saveButton.addEventListener("click", async () => {
+        if (!imgFile) {
+          alert("Veuillez importer une image.");
+          return;
+        }
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        const img = new Image();
+
+        img.onload = async () => {
+          // Resize to 50x50 px
+          canvas.width = 50;
+          canvas.height = 50;
+          ctx.drawImage(img, 0, 0, 50, 50);
+
+          // Convert canvas to Blob
+          canvas.toBlob(async (blob) => {
+            const formData = new FormData();
+            formData.append("image", blob, imgFile.name);
+
+            try {
+              // Send the resized image to the server
+              await fetch("http://localhost:3000/upload", {
+                method: "POST",
+                body: formData,
+              });
+            } catch (error) {
+              alert("Une erreur est survenue lors de l’enregistrement.");
+            }
+          }, "image/jpeg");
+        };
+
+        img.src = popupPreview.querySelector("img")
+          ? popupPreview.querySelector("img").src
+          : "";
+        popup.style.display = "none"; // Close the popup
+      });
+
+      // Close the popup when clicking the close icon or outside the content
+      closePopup.addEventListener("click", () => {
+        popup.style.display = "none";
+      });
+
+      popup.addEventListener("click", (e) => {
+        if (e.target === popup) {
+          popup.style.display = "none";
+        }
+      });
+    </script>
+  </body>
+</html>
