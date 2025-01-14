@@ -17,6 +17,31 @@ function hideBanner() {
   }, 300);
 }
 
+// Fonction pour obtenir un cookie par son nom
+function getUniqueIdFromCookie() {
+    return document.cookie
+        .split('; ')
+        .find(row => row.startsWith('uniqueId='))
+        ?.split('=')[1];
+}
+
+// Vérifie l'authentification immédiatement
+(function checkAuth() {
+    const uniqueId = getUniqueIdFromCookie();
+    const currentUrl = window.location.href;
+
+    // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+    if (!currentUrl.includes('connect=true') && uniqueId) {
+        // Si le cookie existe, rediriger avec l'ID
+        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(uniqueId)}`;
+        window.location.href = redirectURL;
+    } else if (!uniqueId) {
+        console.log('Non connecté');
+        // Optionnel : rediriger vers la page de connexion
+        // window.location.href = '/login.html';
+    }
+})();
+
 window.addEventListener("load", function () {
   const banner = document.getElementById("cookieBanner");
   const cookieConsent = localStorage.getItem("cookieConsent");
@@ -82,18 +107,18 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-    console.log("L'utilisateur est connecté !");
-    // Cache le bouton de connexion en ajoutant une classe
-    const loginButton = document.querySelector('.right-nav .login');
-    if (loginButton) {
-        loginButton.classList.add('hidden');
-    }
+  console.log("L'utilisateur est connecté !");
+  // Cache le bouton de connexion en ajoutant une classe
+  const loginButton = document.querySelector(".right-nav .login");
+  if (loginButton) {
+    loginButton.classList.add("hidden");
+  }
 }
 
 // Cette partie doit rester en JavaScript
-document.addEventListener('DOMContentLoaded', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('connect') === 'true') {
-        onUserConnected();
-    }
+document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("connect") === "true") {
+    onUserConnected();
+  }
 });
