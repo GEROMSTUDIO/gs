@@ -89,20 +89,25 @@ let lastScrollY = window.scrollY;
 
 window.addEventListener("scroll", () => {
   if (window.scrollY > lastScrollY) {
-    // Si on descend, cacher le header
-    header.classList.add("hidden");
+    // Si on descend, cacher le header, sauf si on est déjà en haut
+    if (window.scrollY > 0) {
+      header.classList.add("hidden");
+    }
   } else {
     // Si on remonte, afficher le header
     header.classList.remove("hidden");
   }
+  
   lastScrollY = window.scrollY;
 
+  // Vérifie si on est vraiment en haut de la page
   if (window.scrollY === 0) {
     header.classList.add("bg");
   } else {
     header.classList.remove("bg");
   }
 });
+
 
 function onUserConnected() {
   console.log("L'utilisateur est connecté !");
