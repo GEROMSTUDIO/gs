@@ -64,28 +64,18 @@ app.post("/signup", async (req, res) => {
 
 // Route pour le téléchargement d'images et mise à jour de la photo de profil
 app.post("/upload", upload.single("image"), async (req, res) => {
-  console.log("\n=== Début du traitement de l'upload ===");
-  console.log("Email de l'utilisateur:", req.body.email);
-  console.log("Fichier reçu:", req.file ? req.file.originalname : "Aucun fichier");
-
   if (!req.file) {
-    console.log("❌ Erreur: Aucun fichier n'a été téléchargé.");
     return res.status(400).json({ message: "Aucun fichier n'a été téléchargé." });
   }
 
-  if (!req.body.email) {
-    console.log("❌ Erreur: Email manquant");
-    return res.status(400).json({ message: "Email de l'utilisateur requis." });
-  }
-
+  // Extraire l'unique_id du nom du fichier
+  const uniqueId = path.parse(req.file.originalname).name;
+  
   const filePath = req.file.path;
-  console.log("Chemin du fichier temporaire:", filePath);
-
   const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
   const imgbbUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
 
   try {
-    console.log("📤 Envoi de l'image vers ImgBB...");
     const imageBase64 = fs.readFileSync(filePath, { encoding: "base64" });
 
     const response = await fetch(imgbbUrl, {
@@ -99,35 +89,27 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     });
 
     const result = await response.json();
-    console.log("\n=== Réponse de l'API ImgBB ===");
-    console.log("Succès:", result.success);
-    
-    if (result.data) {
-      console.log("URL de l'image:", result.data.display_url);
-      console.log("URL de suppression:", result.data.delete_url);
-    }
 
     // Supprime le fichier temporaire
     fs.unlinkSync(filePath);
-    console.log("🗑️ Fichier temporaire supprimé");
 
     if (result.success) {
       const imageUrl = result.data.display_url;
-      console.log("\n🖼️ URL de l'image à enregistrer:", imageUrl);
+      console.log("\n=== Image uploadée avec succès ===");
+      console.log("URL de l'image:", imageUrl);
+      console.log("Unique ID:", uniqueId);
+      console.log("=====================================\n");
 
-      // Met à jour la base de données avec l'URL de l'image
-      console.log("💾 Mise à jour de la base de données...");
-      const updateResult = await auth.updateProfilePicture(req.body.email, imageUrl);
+      // Met à jour la base de données avec l'URL de l'image en utilisant unique_id
+      const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
 
       if (updateResult.success) {
-        console.log("✅ Mise à jour réussie!");
         res.status(200).json({
           success: true,
           message: "Photo de profil mise à jour avec succès !",
           imageUrl: imageUrl
         });
       } else {
-        console.log("❌ Erreur lors de la mise à jour:", updateResult.error);
         res.status(400).json({
           success: false,
           message: "Erreur lors de la mise à jour de la photo de profil.",
@@ -135,7 +117,6 @@ app.post("/upload", upload.single("image"), async (req, res) => {
         });
       }
     } else {
-      console.log("❌ Échec de l'upload sur ImgBB:", result.error);
       res.status(500).json({ 
         success: false,
         message: "Échec du téléchargement de l'image sur ImgBB.",
@@ -143,22 +124,16 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("❌ Erreur lors du traitement de l'image:", error);
-    
-    // Nettoie le fichier temporaire en cas d'erreur
+    console.error("Erreur lors du traitement de l'image :", error);
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
-      console.log("🗑️ Fichier temporaire supprimé après erreur");
     }
-    
     res.status(500).json({
       success: false,
       message: "Une erreur est survenue lors du traitement de l'image.",
       error: error.message
     });
   }
-  
-  console.log("=== Fin du traitement de l'upload ===\n");
 });
 
 // Route par défaut pour les 404
