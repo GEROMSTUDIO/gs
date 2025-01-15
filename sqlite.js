@@ -148,5 +148,33 @@ module.exports = {
       console.error("Erreur lors de la vérification de l'utilisateur :", dbError);
       return { success: false, error: "Erreur serveur" };
     }
+  },
+  
+  /**
+ * Met à jour l'URL de la photo de profil d'un utilisateur
+ * @param {string} email - Email de l'utilisateur
+ * @param {string} imageUrl - URL de la photo de profil
+ * @returns {Object} Résultat de l'opération
+ */
+  updateProfilePicture: async (email, imageUrl) => {
+  try {
+    // Mettre à jour la colonne profile_picture pour l'utilisateur donné
+    const result = await db.run(
+      "UPDATE Users SET profile_picture = ? WHERE email = ?",
+      [imageUrl, email]
+    );
+
+    if (result.changes === 1) {
+      return { success: true, message: "Photo de profil mise à jour avec succès" };
+    } else {
+      return { success: false, error: "Utilisateur non trouvé" };
+    }
+  } catch (dbError) {
+    console.error("Erreur lors de la mise à jour de la photo de profil :", dbError);
+    return { success: false, error: "Erreur serveur" };
   }
+}
+
+
 };
+

@@ -84,15 +84,20 @@ app.post("/upload", upload.single("image"), async (req, res) => {
         // Supposons que vous avez l'email ou un identifiant unique pour mettre à jour le bon utilisateur
         const userEmail = req.body.email; // ou un autre identifiant provenant de votre requête
 
-        // Mettre à jour la base de données
-        await db.run("UPDATE Users SET profile_picture = ? WHERE email = ?", [
-          imageUrl,
-          userEmail,
-        ]);
+        // Appel de la fonction updateProfilePicture définie dans votre fichier de base de données
+        const updateResponse = await updateProfilePicture(userEmail, imageUrl);
 
-        console.log(
-          "URL de l'image enregistrée dans la base de données avec succès !"
-        );
+        if (updateResponse.success) {
+          res.send(`
+            <h1>Upload Successful!</h1>
+            <p>Your image URL: <a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
+            <img src="${imageUrl}" alt="Profile Picture" />
+          `);
+        } else {
+          res
+            .status(500)
+            .send("Erreur lors de la mise à jour de la photo de profil.");
+        }
       } catch (error) {
         console.error(
           "Erreur lors de l'enregistrement de l'URL dans la base de données :",
