@@ -82,6 +82,29 @@ a:active {
   display: none;
 }
 
+.login {
+  top: 0px;
+  font-size: 2rem;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  position: relative;
+  right: 100px;
+  top: 0px;
+  color: #ffffff;
+  text-decoration: none;
+}
+.login:hover {
+  transition: color 0.3s ease;
+  color: rgb(211, 211, 211);
+}
+.login.hidden {
+  display: none;
+}
+
 .film {
   top: 19px;
   font-size: 2rem;

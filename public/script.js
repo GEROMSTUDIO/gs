@@ -19,25 +19,26 @@ function hideBanner() {
 
 // Fonction pour obtenir un cookie par son nom
 function getUniqueIdFromCookie() {
-    return document.cookie
-        .split('; ')
-        .find(row => row.startsWith('uniqueId='))
-        ?.split('=')[1];
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("uniqueId="))
+    ?.split("=")[1];
 }
 
 // Vérifie l'authentification immédiatement
 (function checkAuth() {
-    const uniqueId = getUniqueIdFromCookie();
-    const currentUrl = window.location.href;
+  const uniqueId = getUniqueIdFromCookie();
+  const currentUrl = window.location.href;
 
-    // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
-    if (!currentUrl.includes('connect=true') && uniqueId) {
-        // Si le cookie existe, rediriger avec l'ID
-        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(uniqueId)}`;
-        window.location.href = redirectURL;
-    } else if (!uniqueId) {
-        console.log('Non connecté');
-    }
+  // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+  if (!currentUrl.includes("connect=true") && uniqueId) {
+    const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
+      uniqueId
+    )}`;
+    window.location.href = redirectURL;
+  } else if (!uniqueId) {
+    console.log("Non connecté");
+  }
 })();
 
 window.addEventListener("load", function () {
@@ -97,7 +98,7 @@ window.addEventListener("scroll", () => {
     // Si on remonte, afficher le header
     header.classList.remove("hidden");
   }
-  
+
   lastScrollY = window.scrollY;
 
   // Vérifie si on est vraiment en haut de la page
@@ -108,13 +109,14 @@ window.addEventListener("scroll", () => {
   }
 });
 
-
 function onUserConnected() {
   console.log("L'utilisateur est connecté !");
   // Cache le bouton de connexion en ajoutant une classe
   const loginButton = document.querySelector(".right-nav .login");
+  const acount = document.querySelector(".right-nav .acount");
   if (loginButton) {
     loginButton.classList.add("hidden");
+    acount.classList.remove("hidden");
   }
 }
 
