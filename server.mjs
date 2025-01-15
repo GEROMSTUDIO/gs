@@ -56,7 +56,7 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Routes pour le téléchargement d'images
+// Route pour le téléchargement d'images et mise à jour de la photo de profil
 app.post("/upload", upload.single("image"), async (req, res) => {
   const filePath = req.file.path;
   const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
@@ -80,39 +80,34 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     if (result.success) {
       const imageUrl = result.data.url;
 
-      try {
-        // Supposons que vous avez l'email ou un identifiant unique pour mettre à jour le bon utilisateur
-        const userEmail = req.body.email; // ou un autre identifiant provenant de votre requête
+      // Supposons que vous avez l'email de l'utilisateur dans le corps de la requête
+      const userEmail = req.body.email;
 
-        // Appel de la fonction updateProfilePicture définie dans votre fichier de base de données
-        const updateResponse = await updateProfilePicture(userEmail, imageUrl);
+      // Appel de la fonction updateProfilePicture dans auth
+      const updateResult = await auth.updateProfilePicture(userEmail, imageUrl);
 
-        if (updateResponse.success) {
-          res.send(`
-            <h1>Upload Successful!</h1>
-            <p>Your image URL: <a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
-            <img src="${imageUrl}" alt="Profile Picture" />
-          `);
-        } else {
-          res
-            .status(500)
-            .send("Erreur lors de la mise à jour de la photo de profil.");
-        }
-      } catch (error) {
-        console.error(
-          "Erreur lors de l'enregistrement de l'URL dans la base de données :",
-          error
-        );
-        return res
-          .status(500)
-          .send("Erreur serveur lors de l'enregistrement de l'image.");
+      if (updateResult.success) {
+        res.status(200).json({
+          message: "Photo de profil mise à jour avec succès !",
+          imageUrl: imageUrl,
+        });
+      } else {
+        res
+          .status(400)
+          .json({
+            message: "Erreur lors de la mise à jour de la photo de profil.",
+          });
       }
     } else {
-      res.status(500).send("Failed to upload the image. Please try again.");
+      res.status(500).json({ message: "Échec du téléchargement de l'image." });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send("An error occurred while processing the image.");
+    console.error("Erreur lors du traitement de l'image :", error);
+    res
+      .status(500)
+      .json({
+        message: "Une erreur est survenue lors du traitement de l'image.",
+      });
   }
 });
 
