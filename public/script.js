@@ -129,32 +129,6 @@ function getCookie(name) {
   return null;
 }
 
-async function fetchProfilePicture() {
-  const uniqueId = getCookie("uniqueId");
-
-  if (!uniqueId) {
-    console.error("UniqueId introuvable dans les cookies.");
-    return;
-  }
-
-  try {
-    const response = await fetch(`/profile-picture/${uniqueId}`);
-    const data = await response.json();
-
-    if (data.success && data.imageUrl) {
-      const profilePicture = document.getElementById("profile-picture");
-      profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-      profilePicture.style.backgroundColor = "transparent";
-    } else {
-      throw new Error(data.message || "Image non disponible.");
-    }
-  } catch (error) {
-    console.error("Erreur lors de la récupération de l'image :", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", fetchProfilePicture);
-
 // Cette partie doit rester en JavaScript
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);

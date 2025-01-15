@@ -82,28 +82,18 @@ a:active {
   display: none;
 }
 
-.acount {
-  display: none;
-  top: 0px;
-  width: 200px;
-  position: relative;
-  right: 100px;
-  top: 0px;
-  color: #ffffff;
-  text-decoration: none;
-}
-.acount.show {
-  display: "";
-}
-
 .profile-picture {
-  width: 120px;
-  height: 120px;
+  display: "";
+  width: 12000px;
+  height: 12000px;
   border-radius: 50%;
   border: 2px solid #cccccc;
   background-color: #dddddd;
   background-size: cover;
   background-position: center;
+}
+.profile-picture.show {
+  display: "";
 }
 
 .film {
