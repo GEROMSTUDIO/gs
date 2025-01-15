@@ -269,17 +269,36 @@
 
       let imgFile = null;
 
-      // Show the popup when the profile picture is clicked
+      // Fonction pour lire les cookies
+      function getCookie(name) {
+        const cookieArray = document.cookie.split("; ");
+        for (const cookie of cookieArray) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
+      }
+
+      // Récupérer le unique_id de l'utilisateur à partir des cookies
+      const uniqueId = getCookie("uniqueId");
+
+      if (!uniqueId) {
+        alert(
+          "Connexion impossible... !"
+        );
+      }
+
+      // Afficher la popup lorsque l'utilisateur clique sur la photo de profil
       profilePicture.addEventListener("click", () => {
         popup.style.display = "flex";
       });
 
-      // Open file picker when the "Importer Image" button is clicked
+      // Ouvrir le sélecteur de fichier lorsque le bouton "Importer Image" est cliqué
       importButton.addEventListener("click", () => {
         fileInput.click();
       });
 
-      // Handle file selection and display it in the popup
+      // Gestion de la sélection de fichier et affichage dans la popup
       fileInput.addEventListener("change", async () => {
         const file = fileInput.files[0];
         if (!file) return;
@@ -294,10 +313,17 @@
         reader.readAsDataURL(file);
       });
 
-      // Save the resized image to the server
+      // Enregistrer l'image redimensionnée sur le serveur avec le nom de l'utilisateur
       saveButton.addEventListener("click", async () => {
         if (!imgFile) {
           alert("Veuillez importer une image.");
+          return;
+        }
+
+        if (!uniqueId) {
+          alert(
+            "Impossible d'enregistrer l'image : identifiant utilisateur introuvable."
+          );
           return;
         }
 
@@ -306,22 +332,29 @@
         const img = new Image();
 
         img.onload = async () => {
-          // Resize to 50x50 px
+          // Redimensionner à 50x50 px
           canvas.width = 50;
           canvas.height = 50;
           ctx.drawImage(img, 0, 0, 50, 50);
 
-          // Convert canvas to Blob
+          // Convertir le canvas en Blob
           canvas.toBlob(async (blob) => {
             const formData = new FormData();
-            formData.append("image", blob, imgFile.name);
+            // Utiliser le unique_id comme nom du fichier
+            formData.append("image", blob, `${uniqueId}.jpg`);
 
             try {
-              // Send the resized image to the server
-              await fetch("/upload", {
+              // Envoyer l'image redimensionnée au serveur
+              const response = await fetch("/upload", {
                 method: "POST",
                 body: formData,
               });
+
+              if (response.ok) {
+                
+              } else {
+                alert("Erreur lors de l'enregistrement de l'image.");
+              }
             } catch (error) {
               alert("Une erreur est survenue lors de l’enregistrement.");
             }
@@ -331,10 +364,10 @@
         img.src = popupPreview.querySelector("img")
           ? popupPreview.querySelector("img").src
           : "";
-        popup.style.display = "none"; // Close the popup
+        popup.style.display = "none"; // Fermer la popup
       });
 
-      // Close the popup when clicking the close icon or outside the content
+      // Fermer la popup
       closePopup.addEventListener("click", () => {
         popup.style.display = "none";
       });
