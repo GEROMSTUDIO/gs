@@ -81,22 +81,22 @@ a:active {
   display: none;
 }
 
-.profile-picture {
-  position: relative;
+#profile-picture {
+      position: relative;
   right: 100px;
-  top: -100px;
-  display: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #cccccc;
-  background-color: #dddddd;
-  background-size: cover;
-  background-position: center;
-  cursor: pointer;
+  top: 0px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    background-color: #ddd;
+    background-size: cover;
+    background-position: center;
+    display: none; /* Caché par défaut */
 }
-.profile-picture .hidden {
-  display: "";
+
+#profile-picture.show {
+    display: block; /* S'affichera quand la classe 'show' est ajoutée */
 }
 
 .film {

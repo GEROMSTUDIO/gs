@@ -110,14 +110,19 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-  console.log("L'utilisateur est connecté !");
-  // Cache le bouton de connexion en ajoutant une classe
-  const loginButton = document.querySelector(".right-nav .login");
-  const profilepicture = document.querySelector(".right-nav .profile-picture");
-  if (loginButton) {
-    loginButton.classList.add("hidden");
-    profilepicture.classList.add("hidden");
-  }
+    console.log("L'utilisateur est connecté !");
+    const loginButton = document.querySelector(".right-nav .login");
+    const profilePicture = document.getElementById("profile-picture");
+    
+    if (loginButton) {
+        loginButton.style.display = "none"; // Cache le bouton de connexion
+    }
+    if (profilePicture) {
+        profilePicture.classList.add("show"); // Affiche la photo de profil
+    }
+    
+    // Déclenche le chargement de la photo de profil
+    fetchProfilePicture();
 }
 
 function getCookie(name) {
@@ -130,24 +135,33 @@ function getCookie(name) {
 }
 
 async function fetchProfilePicture() {
-  const uniqueId = getCookie("uniqueId");
-  if (!uniqueId) {
-    console.error("UniqueId introuvable dans les cookies.");
-    return;
-  }
-  try {
-    const response = await fetch(`/profile-picture/${uniqueId}`);
-    const data = await response.json();
-    if (data.success && data.imageUrl) {
-      const profilePicture = document.getElementById("profile-picture");
-      profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-      profilePicture.style.backgroundColor = "transparent";
-    } else {
-      throw new Error(data.message || "Image non disponible.");
+    const uniqueId = getCookie("uniqueId");
+    const profilePicture = document.getElementById("profile-picture");
+    
+    if (!uniqueId) {
+        console.error("UniqueId introuvable dans les cookies.");
+        return;
     }
-  } catch (error) {
-    console.error("Erreur lors de la récupération de l'image :", error);
-  }
+    
+    try {
+        const response = await fetch(`/profile-picture/${uniqueId}`);
+        const data = await response.json();
+        
+        if (data.success && data.imageUrl) {
+            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+            profilePicture.style.backgroundColor = "transparent";
+            profilePicture.classList.add("show");
+        } else {
+            // En cas d'erreur, afficher une image par défaut
+            profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
+            profilePicture.classList.add("show");
+        }
+    } catch (error) {
+        console.error("Erreur lors de la récupération de l'image :", error);
+        // En cas d'erreur, afficher une image par défaut
+        profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
+        profilePicture.classList.add("show");
+    }
 }
 
 document.addEventListener("DOMContentLoaded", fetchProfilePicture);
