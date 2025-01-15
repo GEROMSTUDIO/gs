@@ -60,7 +60,6 @@ a:active {
   display: flex;
 }
 .login {
-  top: 0px;
   font-size: 2rem;
   margin: 0px;
   padding: 0px;
@@ -83,16 +82,20 @@ a:active {
 }
 
 .profile-picture {
-  display: "";
-  width: 12000px;
-  height: 12000px;
+  position: relative;
+  right: 100px;
+  top: -100px;
+  display: none;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid #cccccc;
   background-color: #dddddd;
   background-size: cover;
   background-position: center;
+  cursor: pointer;
 }
-.profile-picture.show {
+.profile-picture .hidden {
   display: "";
 }
 
