@@ -312,6 +312,45 @@
         reader.readAsDataURL(file);
       });
 
+      function getCookie(name) {
+        const cookieArray = document.cookie.split("; ");
+        for (const cookie of cookieArray) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
+      }
+
+      // Fonction pour récupérer et afficher l'image de profil
+      async function fetchProfilePicture() {
+        const uniqueId = getCookie("uniqueId");
+
+        if (!uniqueId) {
+          console.error("UniqueId introuvable dans les cookies.");
+          return;
+        }
+
+        try {
+          // Effectuer la requête pour récupérer l'image de profil
+          const response = await fetch(`/profile-picture/${uniqueId}`);
+          const data = await response.json();
+
+          if (data.success && data.imageUrl) {
+            // Mettre à jour le fond de la photo de profil avec l'image
+            const profilePicture = document.getElementById("profile-picture");
+            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+            profilePicture.style.backgroundColor = "transparent"; // Retirer le fond rouge
+          } else {
+            throw new Error(data.message || "Image non disponible.");
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération de l'image :", error);
+          // Fond rouge conservé en cas d'erreur
+        }
+      }
+
+      // Appeler la fonction au chargement de la page
+      document.addEventListener("DOMContentLoaded", fetchProfilePicture);
       // Enregistrer l'image redimensionnée sur le serveur avec le nom de l'utilisateur
       saveButton.addEventListener("click", async () => {
         if (!imgFile) {
