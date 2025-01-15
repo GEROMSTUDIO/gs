@@ -95,10 +95,6 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
     if (result.success) {
       const imageUrl = result.data.display_url;
-      console.log("\n=== Image uploadée avec succès ===");
-      console.log("URL de l'image:", imageUrl);
-      console.log("Unique ID:", uniqueId);
-      console.log("=====================================\n");
 
       // Met à jour la base de données avec l'URL de l'image en utilisant unique_id
       const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
@@ -112,14 +108,12 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       } else {
         res.status(400).json({
           success: false,
-          message: "Erreur lors de la mise à jour de la photo de profil.",
           error: updateResult.error
         });
       }
     } else {
       res.status(500).json({ 
         success: false,
-        message: "Échec du téléchargement de l'image sur ImgBB.",
         error: result.error
       });
     }
