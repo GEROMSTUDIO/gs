@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Picture</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #profile-picture {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      background-color: #ddd;
+      background-size: cover;
+      background-position: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="profile-picture"></div>
+
+  <script>
+    function getCookie(name) {
+      const cookies = document.cookie.split("; ");
+      for (const cookie of cookies) {
+        const [key, value] = cookie.split("=");
+        if (key === name) return value;
+      }
+      return null;
+    }
+
+    async function fetchProfilePicture() {
+      const uniqueId = getCookie("uniqueId");
+
+      if (!uniqueId) {
+        console.error("UniqueId introuvable dans les cookies.");
+        return;
+      }
+
+      try {
+        const response = await fetch(`/profile-picture/${uniqueId}`);
+        const data = await response.json();
+
+        if (data.success && data.imageUrl) {
+          const profilePicture = document.getElementById("profile-picture");
+          profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+          profilePicture.style.backgroundColor = "transparent";
+        } else {
+          throw new Error(data.message || "Image non disponible.");
+        }
+      } catch (error) {
+        console.error("Erreur lors de la récupération de l'image :", error);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchProfilePicture);
+  </script>
+</body>
+</html>
