@@ -283,9 +283,8 @@
       const uniqueId = getCookie("uniqueId");
 
       if (!uniqueId) {
-        alert(
-          "Connexion impossible... !"
-        );
+        const redirectURL = `/index.html`;
+        window.location.href = redirectURL;
       }
 
       // Afficher la popup lorsque l'utilisateur clique sur la photo de profil
@@ -351,7 +350,6 @@
               });
 
               if (response.ok) {
-                
               } else {
                 alert("Erreur lors de l'enregistrement de l'image.");
               }

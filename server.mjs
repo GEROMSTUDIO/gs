@@ -44,7 +44,9 @@ app.post("/login", async (request, response) => {
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ message: "Email et mot de passe sont requis" });
+    return res
+      .status(400)
+      .json({ message: "Email et mot de passe sont requis" });
   }
   const result = await auth.createUser(email, password);
   if (result.success) {
@@ -59,29 +61,47 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   const filePath = req.file.path;
   const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
   const imgbbUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
-  
+
   try {
     const imageBase64 = fs.readFileSync(filePath, { encoding: "base64" });
-    
+
     const response = await fetch(imgbbUrl, {
       method: "POST",
       body: new URLSearchParams({
         image: imageBase64,
-        name: req.file.originalname
+        name: req.file.originalname,
       }),
     });
-    
+
     const result = await response.json();
-    
+
     fs.unlinkSync(filePath);
-    
+
     if (result.success) {
       const imageUrl = result.data.url;
-      res.send(`
-        <h1>Upload Successful!</h1>
-        <p>Your image URL: <a href="${imageUrl}" target="_blank">${imageUrl}</a></p>
-        <img src="${imageUrl}" alt="Profile Picture" />
-      `);
+
+      try {
+        // Supposons que vous avez l'email ou un identifiant unique pour mettre à jour le bon utilisateur
+        const userEmail = req.body.email; // ou un autre identifiant provenant de votre requête
+
+        // Mettre à jour la base de données
+        await db.run("UPDATE Users SET profile_picture = ? WHERE email = ?", [
+          imageUrl,
+          userEmail,
+        ]);
+
+        console.log(
+          "URL de l'image enregistrée dans la base de données avec succès !"
+        );
+      } catch (error) {
+        console.error(
+          "Erreur lors de l'enregistrement de l'URL dans la base de données :",
+          error
+        );
+        return res
+          .status(500)
+          .send("Erreur serveur lors de l'enregistrement de l'image.");
+      }
     } else {
       res.status(500).send("Failed to upload the image. Please try again.");
     }
@@ -98,5 +118,7 @@ app.get("*", (req, res) => {
 
 // Démarrage du serveur
 const listener = app.listen(PORT, () => {
-  console.log("Votre application écoute sur le port " + listener.address().port);
+  console.log(
+    "Votre application écoute sur le port " + listener.address().port
+  );
 });
