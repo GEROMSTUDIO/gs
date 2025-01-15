@@ -195,4 +195,35 @@ module.exports = {
       return { success: false, error: "Erreur serveur" };
     }
   },
+
+  getProfilePictureByUniqueId: async (uniqueId) => {
+    try {
+      const user = await db.get(
+        "SELECT profile_picture FROM Users WHERE unique_id = ?",
+        uniqueId
+      );
+
+      if (user) {
+        return {
+          success: true,
+          profile_picture: user.profile_picture,
+        };
+      } else {
+        return {
+          success: false,
+          error: "Utilisateur non trouvé",
+        };
+      }
+    } catch (dbError) {
+      console.error(
+        "Erreur lors de la récupération de la photo de profil:",
+        dbError
+      );
+      return {
+        success: false,
+        error: "Erreur serveur",
+      };
+    }
+  },
+  
 };

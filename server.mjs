@@ -130,6 +130,43 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
+// Dans server.mjs, ajoutez cette nouvelle route :
+
+// Route pour récupérer la photo de profil
+app.get("/profile-picture/:uniqueId", async (req, res) => {
+  try {
+    const uniqueId = req.params.uniqueId;
+    
+    if (!uniqueId) {
+      return res.status(400).json({
+        success: false,
+        message: "L'identifiant unique est requis"
+      });
+    }
+
+    console.log("Recherche de la photo de profil pour uniqueId:", uniqueId);
+    const result = await auth.getProfilePictureByUniqueId(uniqueId);
+
+    if (result.success) {
+      res.status(200).json({
+        success: true,
+        imageUrl: result.profile_picture
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: result.error
+      });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la photo de profil:", error);
+    res.status(500).json({
+      success: false,
+      message: "Erreur serveur lors de la récupération de la photo de profil"
+    });
+  }
+});
+
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
