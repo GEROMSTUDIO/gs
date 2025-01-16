@@ -62,7 +62,6 @@ a:active {
   display: flex;
 }
 .login {
-  display: "";
   font-size: 2rem;
   margin: 0px;
   padding: 0px;
@@ -80,6 +79,10 @@ a:active {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
 }
+.login.hidden {
+  display: none;
+}
+
 .profile-container {
   display: flex;
   align-items: center;
@@ -130,6 +133,9 @@ a:active {
   text-align: center;
 }
 
+.hidden {
+  display: none;
+}
 
 .dropdown-menu a {
   display: block;

@@ -85,6 +85,7 @@ searchInput.addEventListener("keydown", function (event) {
 });
 
 const header = document.getElementById("header");
+const dropdownMenu = document.getElementById("right-nav .dropdown-menu");
 header.classList.add("bg");
 let lastScrollY = window.scrollY;
 
@@ -93,7 +94,7 @@ window.addEventListener("scroll", () => {
     // Si on descend, cacher le header, sauf si on est déjà en haut
     if (window.scrollY > 0) {
       header.classList.add("hidden");
-      
+      dropdownMenu.classList.add("hidden");
     }
   } else {
     // Si on remonte, afficher le header
@@ -116,7 +117,7 @@ function onUserConnected() {
   const profilePicture = document.getElementById("profile-picture");
 
   if (loginButton) {
-    loginButton.style.display = ""; //  bouton de connexion
+    loginButton.style.display = "none"; // Cache le bouton de connexion
   }
   if (profilePicture) {
     profilePicture.classList.add("show"); // Affiche la photo de profil
