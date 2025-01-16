@@ -98,6 +98,88 @@ a:active {
   display: block; /* S'affichera quand la classe 'show' est ajoutée */
 }
 
+.profile-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+
+    /* Style de la flèche */
+    .dropdown-arrow {
+      margin-left: 8px;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid #333333;
+    }
+
+    /* Conteneur du menu */
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 10px; /* Décalage du bord droit */
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      z-index: 1000;
+      width: 180px;
+      font-family: 'Roboto', Arial, sans-serif;
+      text-align: center;
+    }
+
+    /* Options du menu */
+    .dropdown-menu a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: background-color 0.3s ease;
+    }
+
+    .dropdown-menu a:first-child {
+      font-weight: 700; /* Gras pour "Mon compte" */
+      font-size: 16px;  /* Texte agrandi */
+    }
+
+    .dropdown-menu a:hover {
+      background-color: #f5f5f5;
+    }
+
+    /* Ligne de séparation */
+    .dropdown-divider {
+      height: 1px;
+      background-color: #ddd;
+      margin: 5px 0;
+    }
+
+    /* Bouton "Se déconnecter" */
+    .logout-button {
+      display: block;
+      margin: 10px auto;
+      padding: 8px 20px;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+      width: 120px;
+    }
+
+    .logout-button:hover {
+      box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
+      background-color: #f0f0f0;
+    }
+
+
 .film {
   top: 19px;
   font-size: 2rem;
