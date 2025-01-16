@@ -148,9 +148,9 @@ a:active {
   color: rgb(220, 220, 220);
 }
 
-. a:hover {
+.profile-button a:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(80, 80, 80);
+  background-color: rgb(120, 120, 120);
 }
 
 .dropdown-divider {
@@ -174,8 +174,10 @@ a:active {
 }
 
 .logout-button:hover {
-  background-color: rgb(120, 120, 120);
+  background-color: rgb(230, 230, 230);
+    color: rgb(0, 0, 0);
   box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
+  
 }
 
 .film {
