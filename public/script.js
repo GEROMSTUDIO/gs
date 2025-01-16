@@ -153,12 +153,11 @@ async function fetchProfilePicture() {
             profilePicture.classList.add("show");
         } else {
             // En cas d'erreur, afficher une image par défaut
-            profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
+            profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
             profilePicture.classList.add("show");
         }
     } catch (error) {
         console.error("Erreur lors de la récupération de l'image :", error);
-        // En cas d'erreur, afficher une image par défaut
         profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
         profilePicture.classList.add("show");
     }

@@ -82,21 +82,20 @@ a:active {
 }
 
 #profile-picture {
-      position: relative;
-  right: 100px;
-  top: 0px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    background-color: #ddd;
-    background-size: cover;
-    background-position: center;
-    display: none; /* Caché par défaut */
+  position: relative;
+  right: 106px;
+  top: 2.4px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 0cm solid #cccccc;
+  background-size: cover;
+  background-position: center;
+  display: none; /* Caché par défaut */
 }
 
 #profile-picture.show {
-    display: block; /* S'affichera quand la classe 'show' est ajoutée */
+  display: block; /* S'affichera quand la classe 'show' est ajoutée */
 }
 
 .film {
