@@ -92,7 +92,7 @@ a:active {
 
 #profile-picture {
   position: relative;
-  right: 110px;
+  right: 100px;
   top: 2.5px;
   width: 56px;
   height: 56px;
@@ -109,8 +109,9 @@ a:active {
 .dropdown-arrow {
   width: 0;
   height: 0;
+  margin: 2px;
   position: relative;
-  right: 110px;
+  right: 98px;
   border-left: 4px solid transparent;
   border-right: 5px solid transparent;
   border-top: 5px solid #767676;
@@ -132,7 +133,6 @@ a:active {
   text-align: center;
 }
 
-/* Options du menu */
 .dropdown-menu a {
   display: block;
   padding: 10px;
@@ -148,7 +148,7 @@ a:active {
   color: rgb(220, 220, 220);
 }
 
-.dropdown-menu a:hover {
+. a:hover {
   color: rgb(255, 255, 255);
   background-color: rgb(80, 80, 80);
 }
@@ -378,6 +378,7 @@ a:active {
   transition: width 0.4s ease, left 0.4s ease;
   padding-left: 10px;
   padding-right: 15px;
+  z-index: 1000;
 }
 
 .search-container.open {
