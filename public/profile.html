@@ -141,7 +141,7 @@
         border-radius: 50%;
         border: 2px solid #ccc;
         cursor: pointer;
-        background-color: red; /* Fond rouge par défaut */
+        background-color: white; /* Fond rouge par défaut */
         background-size: cover;
         background-position: center;
         margin-bottom: 10px;
@@ -179,7 +179,7 @@
       #popup-preview {
         width: 300px;
         height: 300px;
-        background-color: red; /* Fond rouge par défaut dans la pop-up */
+        background-color: white; /* Fond rouge par défaut dans la pop-up */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -339,6 +339,7 @@
             const popupPreview = document.getElementById("popup-preview");
             popupPreview.innerHTML = `<img src="${data.imageUrl}" alt="Preview">`;
           } else {
+            popupPreview.innerHTML = `<img src="https://img.icons8.com/fluency/48/test-account--v1.png" alt="Preview">`;
             throw new Error(data.message || "Image non disponible.");
           }
         } catch (error) {
@@ -365,7 +366,6 @@
         const img = new Image();
 
         img.onload = async () => {
-          // Redimensionner à 100x100 px
           canvas.width = 120;
           canvas.height = 120;
           ctx.drawImage(img, 0, 0, 120, 120);

@@ -110,19 +110,19 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-    console.log("L'utilisateur est connecté !");
-    const loginButton = document.querySelector(".right-nav .login");
-    const profilePicture = document.getElementById("profile-picture");
-    
-    if (loginButton) {
-        loginButton.style.display = "none"; // Cache le bouton de connexion
-    }
-    if (profilePicture) {
-        profilePicture.classList.add("show"); // Affiche la photo de profil
-    }
-    
-    // Déclenche le chargement de la photo de profil
-    fetchProfilePicture();
+  console.log("L'utilisateur est connecté !");
+  const loginButton = document.querySelector(".right-nav .login");
+  const profilePicture = document.getElementById("profile-picture");
+
+  if (loginButton) {
+    loginButton.style.display = "none"; // Cache le bouton de connexion
+  }
+  if (profilePicture) {
+    profilePicture.classList.add("show"); // Affiche la photo de profil
+  }
+
+  // Déclenche le chargement de la photo de profil
+  fetchProfilePicture();
 }
 
 function getCookie(name) {
@@ -135,35 +135,52 @@ function getCookie(name) {
 }
 
 async function fetchProfilePicture() {
-    const uniqueId = getCookie("uniqueId");
-    const profilePicture = document.getElementById("profile-picture");
-    
-    if (!uniqueId) {
-        console.error("UniqueId introuvable dans les cookies.");
-        return;
+  const uniqueId = getCookie("uniqueId");
+  const profilePicture = document.getElementById("profile-picture");
+
+  if (!uniqueId) {
+    console.error("UniqueId introuvable dans les cookies.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`/profile-picture/${uniqueId}`);
+    const data = await response.json();
+
+    if (data.success && data.imageUrl) {
+      profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+      profilePicture.style.backgroundColor = "transparent";
+      profilePicture.classList.add("show");
+    } else {
+      // En cas d'erreur, afficher une image par défaut
+      profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+      profilePicture.classList.add("show");
     }
-    
-    try {
-        const response = await fetch(`/profile-picture/${uniqueId}`);
-        const data = await response.json();
-        
-        if (data.success && data.imageUrl) {
-            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-            profilePicture.style.backgroundColor = "transparent";
-            profilePicture.classList.add("show");
-        } else {
-            // En cas d'erreur, afficher une image par défaut
-            profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
-            profilePicture.classList.add("show");
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération de l'image :", error);
-        profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
-        profilePicture.classList.add("show");
-    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'image :", error);
+    profilePicture.style.backgroundImage = `url('chemin/vers/image/par-defaut.png')`;
+    profilePicture.classList.add("show");
+  }
 }
 
 document.addEventListener("DOMContentLoaded", fetchProfilePicture);
+
+const profileContainer = document.getElementById("profile-container");
+const dropdownMenu = document.getElementById("dropdown-menu");
+
+profileContainer.addEventListener("click", () => {
+  const isMenuVisible = dropdownMenu.style.display === "block";
+  dropdownMenu.style.display = isMenuVisible ? "none" : "block";
+});
+
+document.addEventListener("click", (event) => {
+  if (
+    !profileContainer.contains(event.target) &&
+    !dropdownMenu.contains(event.target)
+  ) {
+    dropdownMenu.style.display = "none";
+  }
+});
 
 // Cette partie doit rester en JavaScript
 document.addEventListener("DOMContentLoaded", function () {
