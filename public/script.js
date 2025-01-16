@@ -85,7 +85,6 @@ searchInput.addEventListener("keydown", function (event) {
 });
 
 const header = document.getElementById("header");
-const dropdownMenu = document.getElementById("right-nav .dropdown-menu");
 header.classList.add("bg");
 let lastScrollY = window.scrollY;
 
@@ -94,7 +93,7 @@ window.addEventListener("scroll", () => {
     // Si on descend, cacher le header, sauf si on est déjà en haut
     if (window.scrollY > 0) {
       header.classList.add("hidden");
-      dropdownMenu.classList.add("hidden");
+      dropdownMenu.style.display = "none";
     }
   } else {
     // Si on remonte, afficher le header

@@ -79,7 +79,7 @@ a:active {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
 }
-.login.hidden {
+.login hidden {
   display: none;
 }
 
@@ -107,6 +107,7 @@ a:active {
   display: block; /* S'affichera quand la classe 'show' est ajoutée */
 }
 .dropdown-arrow {
+  display: none;
   width: 0;
   height: 0;
   margin: 2px;
@@ -131,10 +132,6 @@ a:active {
   width: 180px;
   font-family: "Roboto", Arial, sans-serif;
   text-align: center;
-}
-
-.hidden {
-  display: none;
 }
 
 .dropdown-menu a {
