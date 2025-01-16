@@ -142,6 +142,10 @@ a:active {
   transition: background-color 0.3s ease;
 }
 
+.dropdown-menu a:hidden {
+  display: none;
+}
+
 .dropdown-menu a:first-child {
   font-weight: 700; /* Gras pour "Mon compte" */
   font-size: 16px; /* Texte agrandi */
@@ -163,7 +167,7 @@ a:active {
   display: block;
   margin: 10px auto;
   padding: 8px 20px;
-  background-color: rgb(120, 120, 120);
+  background-color: rgb(100, 100, 100);
   text-align: center;
   text-decoration: none;
   font-size: 14px;
@@ -174,10 +178,9 @@ a:active {
 }
 
 .logout-button:hover {
-  background-color: rgb(230, 230, 230);
-    color: rgb(0, 0, 0);
+  background-color: rgb(220, 220, 220);
+  color: rgb(0, 0, 0);
   box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
-  
 }
 
 .film {
