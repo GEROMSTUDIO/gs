@@ -133,6 +133,7 @@ a:active {
   text-align: center;
 }
 
+
 .dropdown-menu a {
   display: block;
   padding: 10px;
@@ -140,10 +141,6 @@ a:active {
   color: rgb(255, 255, 255);
   font-size: 14px;
   transition: background-color 0.3s ease;
-}
-
-.dropdown-menu a:hidden {
-  display: none;
 }
 
 .dropdown-menu a:first-child {
@@ -178,6 +175,12 @@ a:active {
 }
 
 .logout-button:hover {
+  background-color: rgb(220, 220, 220);
+  color: rgb(0, 0, 0);
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
+}
+
+.profile-button:hover {
   background-color: rgb(220, 220, 220);
   color: rgb(0, 0, 0);
   box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
