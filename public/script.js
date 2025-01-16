@@ -120,6 +120,7 @@ function onUserConnected() {
   }
   if (profilePicture) {
     profilePicture.classList.add("show"); // Affiche la photo de profil
+    dropdownMenu.style.display = "";
   }
 
   // Déclenche le chargement de la photo de profil
