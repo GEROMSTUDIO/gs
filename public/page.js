@@ -123,7 +123,6 @@ function onUserConnected() {
     dropdownMenu.style.display = "";
   }
 
-  // Déclenche le chargement de la photo de profil
   fetchProfilePicture();
 }
 
@@ -184,7 +183,6 @@ document.addEventListener("click", (event) => {
   }
 });
 
-// Cette partie doit rester en JavaScript
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {

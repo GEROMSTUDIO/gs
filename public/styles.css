@@ -604,7 +604,11 @@ article p {
 }
 @media screen and (max-width: 820px) {
   .right-nav {
-    display: none; /* Masquer "Se connecter" */
+    display: none;
+  }
+
+  .menu {
+    display: "";
   }
 
   .contact {
