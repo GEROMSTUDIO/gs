@@ -17,8 +17,8 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 24px; /* Taille augmentée du rond */
-      height: 24px;
+      width: 42px; /* Taille augmentée du rond */
+      height: 42px;
       background-color: #333;
       border-radius: 50%;
       display: flex;
@@ -45,12 +45,12 @@
     /* Styles du menu */
     .menu {
       position: fixed;
-      bottom: 80px; /* Positionner plus près du bouton rond */
-      right: 20px;
+      bottom: 64px; /* Positionner plus près du bouton rond */
+      right: 10px;
       background-color: #444;
       color: white;
       border-radius: 8px;
-      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
       display: none; /* Cacher par défaut */
       padding: 6px 10px; /* Moins de padding */
       transition: background-color 0.2s, width 0.2s; /* Transition de taille */
@@ -129,9 +129,7 @@
 </head>
 <body>
 
-  <!-- Balise centrale qui regroupe le menu et le bouton rond -->
   <div class="central-container">
-    <!-- Bouton rond avec trois points -->
     <div id="menu-toggle" class="menu-toggle">
       <div class="dot"></div>
       <div class="dot"></div>
