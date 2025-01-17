@@ -183,15 +183,37 @@ document.addEventListener("click", (event) => {
   }
 });
 
-const menuToggle = document.getElementById("menu-toggle");
-const menu = document.getElementById("menu");
-menuToggle.addEventListener("click", () => {
-  // Bascule l'affichage du menu
-  menu.style.display =
-    menu.style.display === "none" || menu.style.display === ""
-      ? "block"
-      : "none";
-});
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    const menuList = document.getElementById('menu-list');
+
+    menuToggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+        menu.style.display = 'none';
+      }
+    });
+
+    const uniqueId = getCookie('uniqueId');
+
+    if (uniqueId) {
+      // Si unique_id existe, afficher "Mon compte" et "Se déconnecter"
+      menuList.innerHTML = `
+        <li><a href="/profile.html" class="profile">Mon compte</a></li>
+        <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
+      `;
+      menu.style.width = '170px'; // Agrandir légèrement le menu pour les options supplémentaires
+    } else {
+      // Sinon, afficher "Se connecter"
+      menuList.innerHTML = `
+        <li><a href="/login.html" class="login">Se connecter</a></li>
+      `;
+      menu.style.width = '150px'; // Taille réduite pour "Se connecter"
+    }
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);

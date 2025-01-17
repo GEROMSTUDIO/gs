@@ -520,11 +520,13 @@ article p {
   display: block;
 }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+.central-container {
+  position: relative;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
 .menu-toggle {
   position: fixed;
@@ -534,7 +536,7 @@ article p {
   height: 42px;
   background-color: #333333;
   border-radius: 50%;
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -723,7 +725,17 @@ article p {
   .menu-toggle {
     display: flex;
   }
+  
+    .central-container {
+    display: flex;
+  }
 
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
   .contact {
     position: absolute;
     top: 50%; /* Centrer verticalement */
