@@ -588,106 +588,6 @@ article p {
   color: #f0f0f0;
 }
 
-.profile-menu {
-  display: flex;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-}
-
-#menu-picture {
-  position: relative;
-  right: 100px;
-  top: 2.5px;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 0cm solid #cccccc;
-  background-size: cover;
-  background-position: center;
-  display: none; /* Caché par défaut */
-}
-
-#menu-picture.show {
-  display: block; /* S'affichera quand la classe 'show' est ajoutée */
-}
-.menu-arrow {
-  display: none;
-  width: 0;
-  height: 0;
-  margin: 2px;
-  position: relative;
-  right: 98px;
-  border-left: 4px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #767676;
-}
-
-/* Conteneur du menu */
-.down-menu {
-  display: none;
-  position: absolute;
-  top: 70px;
-  right: 30px; /* Décalage du bord droit */
-  background-color: rgb(40, 40, 40);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-  z-index: 1000;
-  width: 180px;
-  font-family: "Roboto", Arial, sans-serif;
-  text-align: center;
-}
-
-.down-menu a {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  color: rgb(255, 255, 255);
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.down-menu a:first-child {
-  font-weight: 700; /* Gras pour "Mon compte" */
-  font-size: 16px; /* Texte agrandi */
-  color: rgb(220, 220, 220);
-}
-
-.down-divider {
-  height: 1px;
-  background-color: rgb(100, 100, 100);
-  margin: 5px 0;
-}
-
-.logout-menu {
-  display: block;
-  margin: 10px auto;
-  padding: 8px 20px;
-  background-color: rgb(100, 100, 100);
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
-  border-radius: 5px;
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
-  width: 120px;
-}
-
-.logout-menu:hover {
-  background-color: rgb(220, 220, 220);
-  color: rgb(0, 0, 0);
-  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
-}
-
-.profile-button {
-  color: rgb(220, 220, 220);
-}
-.profile-button:hover {
-  background-color: rgb(80, 80, 80);
-  color: rgb(255, 255, 255);
-}
-
-
 @media screen and (max-width: 359px) {
   .cookie-banner {
     padding: 10px 0;
@@ -778,7 +678,7 @@ article p {
   .menu-toggle {
     display: flex;
   }
-
+    
   .contact {
     position: absolute;
     top: 50%; /* Centrer verticalement */
