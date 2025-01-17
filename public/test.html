@@ -52,8 +52,9 @@
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       display: none; /* Cacher par défaut */
-      padding: 10px;
+      padding: 15px;
       transition: background-color 0.3s;
+      width: 200px; /* Augmenter la largeur du menu */
     }
 
     .menu:hover {
@@ -78,23 +79,34 @@
       transition: color 0.3s;
     }
 
-    /* Hover générique */
+    /* Hover générique sur le menu */
     .menu ul li a:hover {
       color: #f0f0f0;
     }
 
-    /* Styles spécifiques pour le bouton "Se déconnecter" */
-    .menu ul li a.logout:hover {
-      background-color: white;
-      color: red;
-      border: 2px solid red;
-      box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
-    }
-
     /* Hover spécifique pour "Mon compte" */
     .menu ul li a.profile:hover {
-      color: #f0f0f0;
+      background-color: #555; /* Hover avec un fond plus clair autour de "Mon compte" sur toute la largeur */
     }
+
+    /* Styles pour le bouton "Se déconnecter" */
+    .menu ul li a.logout {
+      display: block;
+      margin: 10px auto;
+      padding: 8px 20px;
+      background-color: rgb(100, 100, 100);
+      text-align: center;
+      text-decoration: none;
+      font-size: 14px;
+      border-radius: 5px;
+      width: 120px;
+      transition: background-color 0.3s;
+    }
+
+    .menu ul li a.logout:hover {
+      background-color: rgb(180, 180, 180); /* Changer le fond en gris clair au survol */
+    }
+
   </style>
 </head>
 <body>
@@ -131,6 +143,7 @@
       menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
     });
 
+    // Vérification du cookie "unique_id"
     const uniqueId = getCookie('uniqueId');
 
     if (uniqueId) {
