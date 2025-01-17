@@ -1,69 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profile Picture</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Flottant</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+    /* Réinitialisation des marges et du padding pour éviter les interférences */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Styles du bouton rond avec trois points */
+    .menu-toggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #333;
+      border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
     }
 
-    #profile-picture {
-      width: 50px;
-      height: 50px;
+    .menu-toggle:hover {
+      background-color: #444;
+    }
+
+    /* Trois petits points dans le rond */
+    .menu-toggle .dot {
+      width: 8px;
+      height: 8px;
+      background-color: white;
       border-radius: 50%;
-      border: 2px solid #ccc;
-      background-color: #ddd;
-      background-size: cover;
-      background-position: center;
+      margin: 2px;
+    }
+
+    /* Styles du menu */
+    .menu {
+      position: fixed;
+      bottom: 75px; /* Rapprocher le menu du rond */
+      right: 20px;
+      background-color: #333;
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      display: none; /* Cacher par défaut */
+      padding: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .menu:hover {
+      background-color: #444; /* Changer la couleur de fond au survol */
+    }
+
+    .menu ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu ul li {
+      margin: 10px 0;
+    }
+
+    .menu ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      font-family: 'Arial', sans-serif;
+      transition: color 0.3s;
+    }
+
+    /* Hover générique */
+    .menu ul li a:hover {
+      color: #f0f0f0;
+    }
+
+    /* Styles spécifiques pour le bouton "Se déconnecter" */
+    .menu ul li a.logout:hover {
+      background-color: white;
+      color: red;
+      border: 2px solid red;
+      box-shadow: 0 0 8px rgba(255, 0, 0, 0.6);
+    }
+
+    /* Hover spécifique pour "Mon compte" */
+    .menu ul li a.profile:hover {
+      color: #f0f0f0;
     }
   </style>
 </head>
 <body>
-  <div id="profile-picture"></div>
+
+  <!-- Bouton rond avec trois points -->
+  <div id="menu-toggle" class="menu-toggle">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- Menu caché qui apparaît lors du clic -->
+  <div id="menu" class="menu">
+    <ul id="menu-list">
+      <!-- Le menu sera dynamisé en fonction du cookie -->
+    </ul>
+  </div>
 
   <script>
+    // Fonction pour obtenir un cookie par son nom
     function getCookie(name) {
-      const cookies = document.cookie.split("; ");
-      for (const cookie of cookies) {
-        const [key, value] = cookie.split("=");
-        if (key === name) return value;
-      }
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
       return null;
     }
 
-    async function fetchProfilePicture() {
-      const uniqueId = getCookie("uniqueId");
+    // Fonction pour afficher ou cacher le menu
+    const menuToggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+    const menuList = document.getElementById('menu-list');
 
-      if (!uniqueId) {
-        console.error("UniqueId introuvable dans les cookies.");
-        return;
-      }
+    menuToggle.addEventListener('click', () => {
+      menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+    });
 
-      try {
-        const response = await fetch(`/profile-picture/${uniqueId}`);
-        const data = await response.json();
+    const uniqueId = getCookie('uniqueId');
 
-        if (data.success && data.imageUrl) {
-          const profilePicture = document.getElementById("profile-picture");
-          profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-          profilePicture.style.backgroundColor = "transparent";
-        } else {
-          throw new Error(data.message || "Image non disponible.");
-        }
-      } catch (error) {
-        console.error("Erreur lors de la récupération de l'image :", error);
-      }
+    if (uniqueId) {
+      // Si unique_id existe, afficher "Mon compte" et "Se déconnecter"
+      menuList.innerHTML = `
+        <li><a href="/profile.html" class="profile">Mon compte</a></li>
+        <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
+      `;
+    } else {
+      // Sinon, afficher "Se connecter"
+      menuList.innerHTML = `
+        <li><a href="/login.html">Se connecter</a></li>
+      `;
     }
-
-    document.addEventListener("DOMContentLoaded", fetchProfilePicture);
   </script>
+
 </body>
 </html>
