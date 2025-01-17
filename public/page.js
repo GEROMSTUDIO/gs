@@ -201,18 +201,17 @@ document.addEventListener("click", (event) => {
     const uniqueId = getCookie('uniqueId');
 
     if (uniqueId) {
-      // Si unique_id existe, afficher "Mon compte" et "Se déconnecter"
       menuList.innerHTML = `
         <li><a href="/profile.html" class="profile">Mon compte</a></li>
         <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
       `;
-      menu.style.width = '170px'; // Agrandir légèrement le menu pour les options supplémentaires
+      menu.style.width = '170px';
     } else {
-      // Sinon, afficher "Se connecter"
+
       menuList.innerHTML = `
         <li><a href="/login.html" class="login">Se connecter</a></li>
       `;
-      menu.style.width = '150px'; // Taille réduite pour "Se connecter"
+      menu.style.width = '150px'; 
     }
 
 document.addEventListener("DOMContentLoaded", function () {
