@@ -520,6 +520,74 @@ article p {
   display: block;
 }
 
+.menu-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 14px;
+  width: 50px;
+  height: 50px;
+  background-color: #333;
+  border-radius: 50%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.menu-toggle:hover {
+  background-color: #444;
+}
+
+.menu-toggle .dot {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  margin: 2px;
+}
+
+/* Styles du menu */
+.menu {
+  position: fixed;
+  bottom: 76px;
+  right: 20px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: none;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.menu:hover {
+  background-color: #444;
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu ul li {
+  margin: 10px 0;
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  transition: color 0.3s;
+}
+
+.menu ul li a:hover {
+  color: #f0f0f0;
+}
+
 @media screen and (max-width: 359px) {
   .cookie-banner {
     padding: 10px 0;
@@ -607,8 +675,8 @@ article p {
     display: none;
   }
 
-  .menu {
-    display: "";
+  .menu-toggle {
+    display: flex;
   }
 
   .contact {
