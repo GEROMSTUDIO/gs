@@ -47,18 +47,18 @@
       position: fixed;
       bottom: 75px; /* Rapprocher le menu du rond */
       right: 20px;
-      background-color: #333;
+      background-color: #444;
       color: white;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
       display: none; /* Cacher par défaut */
-      padding: 15px;
+      padding: 20px;
       transition: background-color 0.3s;
-      width: 200px; /* Augmenter la largeur du menu */
+      width: 250px; /* Largeur plus grande pour un menu plus agréable */
     }
 
     .menu:hover {
-      background-color: #444; /* Changer la couleur de fond au survol */
+      background-color: #555; /* Changer la couleur de fond au survol */
     }
 
     .menu ul {
@@ -68,7 +68,7 @@
     }
 
     .menu ul li {
-      margin: 10px 0;
+      margin: 15px 0;
     }
 
     .menu ul li a {
@@ -76,30 +76,31 @@
       text-decoration: none;
       font-size: 16px;
       font-family: 'Arial', sans-serif;
-      transition: color 0.3s;
+      display: block;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
     }
 
-    /* Hover générique sur le menu */
+    /* Hover sur l'ensemble du menu */
     .menu ul li a:hover {
+      background-color: #666;
       color: #f0f0f0;
     }
 
-    /* Hover spécifique pour "Mon compte" */
-    .menu ul li a.profile:hover {
-      background-color: #555; /* Hover avec un fond plus clair autour de "Mon compte" sur toute la largeur */
+    /* Centrer "Mon compte" */
+    .menu ul li a.profile {
+      text-align: center;
     }
 
     /* Styles pour le bouton "Se déconnecter" */
     .menu ul li a.logout {
-      display: block;
-      margin: 10px auto;
-      padding: 8px 20px;
       background-color: rgb(100, 100, 100);
+      padding: 10px 20px;
       text-align: center;
-      text-decoration: none;
       font-size: 14px;
       border-radius: 5px;
-      width: 120px;
+      width: 100%;
       transition: background-color 0.3s;
     }
 
@@ -107,22 +108,34 @@
       background-color: rgb(180, 180, 180); /* Changer le fond en gris clair au survol */
     }
 
+    /* Balise centrale pour regrouper les éléments */
+    .central-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- Bouton rond avec trois points -->
-  <div id="menu-toggle" class="menu-toggle">
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-  </div>
+  <!-- Balise centrale qui regroupe le menu et le bouton rond -->
+  <div class="central-container">
+    <!-- Bouton rond avec trois points -->
+    <div id="menu-toggle" class="menu-toggle">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
 
-  <!-- Menu caché qui apparaît lors du clic -->
-  <div id="menu" class="menu">
-    <ul id="menu-list">
-      <!-- Le menu sera dynamisé en fonction du cookie -->
-    </ul>
+    <!-- Menu caché qui apparaît lors du clic -->
+    <div id="menu" class="menu">
+      <ul id="menu-list">
+        <!-- Le menu sera dynamisé en fonction du cookie -->
+      </ul>
+    </div>
   </div>
 
   <script>
@@ -139,8 +152,18 @@
     const menu = document.getElementById('menu');
     const menuList = document.getElementById('menu-list');
 
-    menuToggle.addEventListener('click', () => {
+    // Ouvrir/fermer le menu
+    menuToggle.addEventListener('click', (event) => {
+      // Empêcher la propagation de l'événement pour éviter la fermeture immédiate
+      event.stopPropagation();
       menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+    });
+
+    // Fermer le menu si on clique ailleurs
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+        menu.style.display = 'none';
+      }
     });
 
     // Vérification du cookie "unique_id"
