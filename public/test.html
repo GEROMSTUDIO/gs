@@ -17,8 +17,8 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 24px; /* Taille augmentée du rond */
+      height: 24px;
       background-color: #333;
       border-radius: 50%;
       display: flex;
@@ -35,8 +35,8 @@
 
     /* Trois petits points dans le rond */
     .menu-toggle .dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       background-color: white;
       border-radius: 50%;
       margin: 2px;
@@ -45,20 +45,21 @@
     /* Styles du menu */
     .menu {
       position: fixed;
-      bottom: 75px; /* Rapprocher le menu du rond */
+      bottom: 80px; /* Positionner plus près du bouton rond */
       right: 20px;
       background-color: #444;
       color: white;
       border-radius: 8px;
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
       display: none; /* Cacher par défaut */
-      padding: 20px;
-      transition: background-color 0.3s;
-      width: 250px; /* Largeur plus grande pour un menu plus agréable */
+      padding: 6px 10px; /* Moins de padding */
+      transition: background-color 0.2s, width 0.2s; /* Transition de taille */
+      width: 150px; /* Taille réduite pour "Se connecter" */
+      height: auto; /* Ajuste la hauteur en fonction du contenu */
     }
 
     .menu:hover {
-      background-color: #555; /* Changer la couleur de fond au survol */
+      background-color: #4a4a4a; /* Moins de différence de couleur au hover */
     }
 
     .menu ul {
@@ -68,16 +69,16 @@
     }
 
     .menu ul li {
-      margin: 15px 0;
+      margin: 4px 0; /* Espacement plus petit */
     }
 
     .menu ul li a {
       color: white;
       text-decoration: none;
-      font-size: 16px;
+      font-size: 14px;
       font-family: 'Arial', sans-serif;
       display: block;
-      padding: 10px;
+      padding: 4px 8px; /* Ajustement du padding */
       border-radius: 5px;
       transition: background-color 0.3s, color 0.3s;
     }
@@ -96,16 +97,23 @@
     /* Styles pour le bouton "Se déconnecter" */
     .menu ul li a.logout {
       background-color: rgb(100, 100, 100);
-      padding: 10px 20px;
+      padding: 4px 12px; /* Ajuster la taille du padding */
       text-align: center;
       font-size: 14px;
       border-radius: 5px;
       width: 100%;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     .menu ul li a.logout:hover {
       background-color: rgb(180, 180, 180); /* Changer le fond en gris clair au survol */
+      color: #333; /* Rendre le texte plus foncé */
+    }
+
+    /* Style spécifique pour "Se connecter" : centrer et mettre en gras */
+    .menu ul li a.login {
+      font-weight: bold; /* Mettre le texte en gras */
+      text-align: center; /* Centrer le texte */
     }
 
     /* Balise centrale pour regrouper les éléments */
@@ -133,7 +141,7 @@
     <!-- Menu caché qui apparaît lors du clic -->
     <div id="menu" class="menu">
       <ul id="menu-list">
-        <!-- Le menu sera dynamisé en fonction du cookie -->
+        <!-- Les éléments du menu seront insérés dynamiquement -->
       </ul>
     </div>
   </div>
@@ -175,11 +183,13 @@
         <li><a href="/profile.html" class="profile">Mon compte</a></li>
         <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
       `;
+      menu.style.width = '170px'; // Agrandir légèrement le menu pour les options supplémentaires
     } else {
       // Sinon, afficher "Se connecter"
       menuList.innerHTML = `
-        <li><a href="/login.html">Se connecter</a></li>
+        <li><a href="/login.html" class="login">Se connecter</a></li>
       `;
+      menu.style.width = '150px'; // Taille réduite pour "Se connecter"
     }
   </script>
 
