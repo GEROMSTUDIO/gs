@@ -289,14 +289,22 @@ a:active {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.container2 {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
+.titre {
+  position: absolute;
+  top: 326px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  font-size: clamp(80px, 12.8vw, 160px);
+  text-align: center;
+  z-index: 1;
+  margin: 0;
+  padding: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .carousel-container {
-  positon: relative;
+  position: relative;
   top: 340px;
   width: 90%;
   max-width: 1400px;
@@ -322,18 +330,19 @@ a:active {
   height: 460px;
   border-radius: 15px;
   overflow: hidden;
-  transition: all 0.4s ease;
+  transition: all 0.8s ease;
 }
 
 .carousel-item img {
-  width: 440px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
   object-fit: cover;
-  transition: transform 3s ease;
+  transition: transform 0.4s ease;
 }
 
 .carousel-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .movie-title {
@@ -353,7 +362,7 @@ a:active {
   position: absolute;
   top: 45%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(200, 200, 200, 0.3);
   color: white;
   border: none;
   padding: 20px;
@@ -364,7 +373,7 @@ a:active {
 }
 
 .controls button:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(40, 40, 40, 1);
 }
 
 #prev {
