@@ -575,6 +575,7 @@ article p {
   transition: background-color 0.2s, width 0.2s; /* Transition de taille */
   width: 150px; /* Taille réduite pour "Se connecter" */
   height: auto; /* Ajuste la hauteur en fonction du contenu */
+  z-index: 900;
 }
 
 .menu:hover {
@@ -594,7 +595,7 @@ article p {
 .menu ul li a {
   color: white;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
   font-family: "Arial", sans-serif;
   display: block;
   padding: 4px 8px; /* Ajustement du padding */
@@ -635,11 +636,11 @@ article p {
 
 /* Style spécifique pour "Se connecter" : centrer et mettre en gras */
 .menu ul li a.login {
+  font-size: 14px;
   left: 0px;
   font-weight: bold; /* Mettre le texte en gras */
   text-align: center; /* Centrer le texte */
 }
-
 
 @media screen and (max-width: 359px) {
   .cookie-banner {
@@ -731,8 +732,8 @@ article p {
   .menu-toggle {
     display: flex;
   }
-  
-    .central-container {
+
+  .central-container {
     display: flex;
   }
 

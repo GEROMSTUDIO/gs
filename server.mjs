@@ -16,6 +16,10 @@ app.use((req, res, next) => {
   }
 });
 
+if (location.protocol !== 'https:') {
+    location.replace(`https:${location.href.substring(location.protocol.length)}`);
+}
+
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
