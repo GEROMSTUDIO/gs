@@ -150,11 +150,23 @@ function getCookie(name) {
 
 async function fetchProfilePicture() {
   const uniqueId = getCookie("uniqueId");
+  const profilePicture = document.getElementById("profile-picture");
 
-    // Si l'image n'est pas dans le localStorage, la récupérer depuis le backend
+  if (!uniqueId) {
+    console.error("UniqueId introuvable dans les cookies.");
+    return;
+  }
+
+  try {
     const response = await fetch(`/profile-picture/${uniqueId}`);
     const data = await response.json();
 
+    if (data.success && data.imageUrl) {
+      profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+      profilePicture.style.backgroundColor = "transparent";
+      profilePicture.classList.add("show");
+    } else {
+      // En cas d'erreur, afficher une image par défaut
       profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
       profilePicture.classList.add("show");
     }
