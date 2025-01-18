@@ -33,6 +33,12 @@ app.get("/script.js", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "script.js"));
 });
 
+// Routes pour l'authentification
+app.get("/", (req, res) => {
+  res.setHeader("Content-Type", "application/html");
+  res.sendFile(path.join(__dirname, "public", "index.html?connect=true"));
+});
+
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) {

@@ -183,40 +183,40 @@ document.addEventListener("click", (event) => {
   }
 });
 
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+const menuList = document.getElementById("menu-list");
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const menuList = document.getElementById('menu-list');
+menuToggle.addEventListener("click", (event) => {
+  event.stopPropagation();
+  menu.style.display =
+    menu.style.display === "none" || menu.style.display === ""
+      ? "block"
+      : "none";
+});
 
-    menuToggle.addEventListener('click', (event) => {
-      
-      event.stopPropagation();
-      menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-    });
+// Fermer le menu si on clique ailleurs
+document.addEventListener("click", (event) => {
+  if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
 
-    // Fermer le menu si on clique ailleurs
-    document.addEventListener('click', (event) => {
-      if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
-        menu.style.display = 'none';
-      }
-    });
+// Vérification du cookie "unique_id"
+const uniqueId = getCookie("uniqueId");
 
-    // Vérification du cookie "unique_id"
-    const uniqueId = getCookie('uniqueId');
-
-    if (uniqueId) {
-      menuList.innerHTML = `
+if (uniqueId) {
+  menuList.innerHTML = `
         <li><a href="/profile.html" class="profile">Mon compte</a></li>
         <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
       `;
-      menu.style.width = '170px'; 
-    } else {
-
-      menuList.innerHTML = `
+  menu.style.width = "170px";
+} else {
+  menuList.innerHTML = `
         <li><a href="/login.html" class="login">Se connecter</a></li>
       `;
-      menu.style.width = '150px'; 
-    }
+  menu.style.width = "150px";
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
