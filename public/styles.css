@@ -631,6 +631,7 @@ article p {
 
 /* Style spécifique pour "Se connecter" : centrer et mettre en gras */
 .menu ul li a.login {
+  left: 0px;
   font-weight: bold; /* Mettre le texte en gras */
   text-align: center; /* Centrer le texte */
 }
@@ -725,8 +726,8 @@ article p {
   .menu-toggle {
     display: flex;
   }
-  
-    .central-container {
+
+  .central-container {
     display: flex;
   }
 
@@ -735,7 +736,7 @@ article p {
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   .contact {
     position: absolute;
     top: 50%; /* Centrer verticalement */
