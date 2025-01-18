@@ -61,9 +61,7 @@ a:active {
 .right-nav {
   display: flex;
 }
-
 .login {
-  display: none;
   font-size: 2rem;
   margin: 0px;
   padding: 0px;
@@ -77,14 +75,12 @@ a:active {
   color: #ffffff;
   text-decoration: none;
 }
-
-.show-login {
-  display: inline-block !important;
-}
-
 .login:hover {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
+}
+.login hidden {
+  display: none;
 }
 
 .profile-container {
@@ -524,21 +520,13 @@ article p {
   display: block;
 }
 
-.central-container {
-  position: relative;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .menu-toggle {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 42px; /* Taille augmentée du rond */
-  height: 42px;
-  background-color: #333333;
+  bottom: 24px;
+  right: 14px;
+  width: 50px;
+  height: 50px;
+  background-color: #333;
   border-radius: 50%;
   display: none;
   justify-content: center;
@@ -549,13 +537,12 @@ article p {
 }
 
 .menu-toggle:hover {
-  background-color: #444444;
+  background-color: #444;
 }
 
-/* Trois petits points dans le rond */
 .menu-toggle .dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   background-color: white;
   border-radius: 50%;
   margin: 2px;
@@ -564,22 +551,19 @@ article p {
 /* Styles du menu */
 .menu {
   position: fixed;
-  bottom: 64px; /* Positionner plus près du bouton rond */
-  right: 10px;
-  background-color: #444444;
+  bottom: 76px;
+  right: 20px;
+  background-color: #333;
   color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  display: none; /* Cacher par défaut */
-  padding: 6px 10px; /* Moins de padding */
-  transition: background-color 0.2s, width 0.2s; /* Transition de taille */
-  width: 150px; /* Taille réduite pour "Se connecter" */
-  height: auto; /* Ajuste la hauteur en fonction du contenu */
-  z-index: 900;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: none;
+  padding: 10px;
+  transition: background-color 0.3s;
 }
 
 .menu:hover {
-  background-color: #4a4a4a; /* Moins de différence de couleur au hover */
+  background-color: #444;
 }
 
 .menu ul {
@@ -589,7 +573,7 @@ article p {
 }
 
 .menu ul li {
-  margin: 4px 0; /* Espacement plus petit */
+  margin: 10px 0;
 }
 
 .menu ul li a {
@@ -597,49 +581,11 @@ article p {
   text-decoration: none;
   font-size: 16px;
   font-family: "Arial", sans-serif;
-  display: block;
-  padding: 4px 8px; /* Ajustement du padding */
-  border-radius: 5px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: color 0.3s;
 }
 
-/* Hover sur l'ensemble du menu */
 .menu ul li a:hover {
-  background-color: #666666;
   color: #f0f0f0;
-}
-
-/* Centrer "Mon compte" */
-.menu ul li a.profile {
-  text-align: center;
-}
-
-/* Styles pour le bouton "Se déconnecter" */
-.menu ul li a.logout {
-  background-color: rgb(100, 100, 100);
-  padding: 4px 12px; /* Ajuster la taille du padding */
-  text-align: center;
-  font-size: 14px;
-  border-radius: 5px;
-  width: 100%;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.menu ul li a.logout:hover {
-  background-color: rgb(
-    180,
-    180,
-    180
-  ); /* Changer le fond en gris clair au survol */
-  color: #333333; /* Rendre le texte plus foncé */
-}
-
-/* Style spécifique pour "Se connecter" : centrer et mettre en gras */
-.menu ul li a.login {
-  font-size: 14px;
-  left: 0px;
-  font-weight: bold; /* Mettre le texte en gras */
-  text-align: center; /* Centrer le texte */
 }
 
 @media screen and (max-width: 359px) {
@@ -731,16 +677,6 @@ article p {
 
   .menu-toggle {
     display: flex;
-  }
-
-  .central-container {
-    display: flex;
-  }
-
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
   }
 
   .contact {

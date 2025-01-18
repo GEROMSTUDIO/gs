@@ -111,33 +111,19 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-
+  console.log("L'utilisateur est connecté !");
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
   if (loginButton) {
-    loginButton.classList.remove("show-login");
+    loginButton.style.display = "none"; // Cache le bouton de connexion
   }
-
   if (profilePicture) {
-    profilePicture.classList.add("show");
-    const dropdownMenu = document.querySelector(".dropdown-menu");
-    if (dropdownMenu) {
-      dropdownMenu.style.display = ""; 
-    }
+    profilePicture.classList.add("show"); // Affiche la photo de profil
+    dropdownMenu.style.display = "";
   }
 
   fetchProfilePicture();
-}
-
-function onUserDisconnected() {
-  console.log("L'utilisateur n'est pas connecté !");
-  
-  const loginButton = document.querySelector(".right-nav .login");
-
-  if (loginButton) {
-    loginButton.classList.add("show-login");
-  }
 }
 
 function getCookie(name) {
@@ -158,29 +144,16 @@ async function fetchProfilePicture() {
     return;
   }
 
-  // Vérifier si l'URL de l'image est déjà stockée dans le localStorage
-  const storedImageUrl = localStorage.getItem("profilePictureUrl");
-
-  if (storedImageUrl) {
-    // Si l'image est déjà dans le localStorage, l'utiliser directement
-    profilePicture.style.backgroundImage = `url(${storedImageUrl})`;
-    profilePicture.style.backgroundColor = "transparent";
-    profilePicture.classList.add("show");
-    return;
-  }
-
   try {
-    // Si l'image n'est pas dans le localStorage, la récupérer depuis le backend
     const response = await fetch(`/profile-picture/${uniqueId}`);
     const data = await response.json();
 
     if (data.success && data.imageUrl) {
-      // Stocker l'URL de l'image dans le localStorage pour les futurs chargements
-      localStorage.setItem("profilePictureUrl", data.imageUrl);
       profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
       profilePicture.style.backgroundColor = "transparent";
       profilePicture.classList.add("show");
     } else {
+      // En cas d'erreur, afficher une image par défaut
       profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
       profilePicture.classList.add("show");
     }
@@ -210,42 +183,19 @@ document.addEventListener("click", (event) => {
   }
 });
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const menuList = document.getElementById('menu-list');
-
-    menuToggle.addEventListener('click', (event) => {
-      event.stopPropagation();
-      menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-    });
-
-    document.addEventListener('click', (event) => {
-      if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
-        menu.style.display = 'none';
-      }
-    });
-
-    const uniqueId = getCookie('uniqueId');
-
-    if (uniqueId) {
-      menuList.innerHTML = `
-        <li><a href="/profile.html" class="profile">Mon compte</a></li>
-        <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
-      `;
-      menu.style.width = '170px';
-    } else {
-
-      menuList.innerHTML = `
-        <li><a href="/login.html" class="login">Se connecter</a></li>
-      `;
-      menu.style.width = '150px'; 
-    }
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+menuToggle.addEventListener("click", () => {
+  // Bascule l'affichage du menu
+  menu.style.display =
+    menu.style.display === "none" || menu.style.display === ""
+      ? "block"
+      : "none";
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
     onUserConnected();
-  }else {
-    onUserDisconnected();
   }
 });
