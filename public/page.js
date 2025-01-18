@@ -111,19 +111,33 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-  console.log("L'utilisateur est connecté !");
+
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
   if (loginButton) {
-    loginButton.style.display = "none"; // Cache le bouton de connexion
+    loginButton.classList.remove("show-login");
   }
+
   if (profilePicture) {
-    profilePicture.classList.add("show"); // Affiche la photo de profil
-    dropdownMenu.style.display = "";
+    profilePicture.classList.add("show");
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    if (dropdownMenu) {
+      dropdownMenu.style.display = ""; 
+    }
   }
 
   fetchProfilePicture();
+}
+
+function onUserDisconnected() {
+  console.log("L'utilisateur n'est pas connecté !");
+  
+  const loginButton = document.querySelector(".right-nav .login");
+
+  if (loginButton) {
+    loginButton.classList.add("show-login");
+  }
 }
 
 function getCookie(name) {
@@ -218,5 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
     onUserConnected();
+  }else {
+    onUserDisconnected();
   }
 });
