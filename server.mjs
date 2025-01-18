@@ -2,17 +2,11 @@ import express from "express";
 import multer from "multer";
 import fetch from "node-fetch";
 import path from "path";
+import https from "https";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
 import bodyParser from "body-parser";
-
-
-// Ensuite vos autres middlewares
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
-
 
 // Configuration ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +15,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const privateKey = fs.readFileSync("key.pem", "utf8");
+const certificate = fs.readFileSync("cert.pem", "utf8");
+const credentials = { key: privateKey, cert: certificate };
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -29,6 +26,14 @@ const upload = multer({
     fileSize: 5 * 1024 * 1024 // Limite à 5MB
   }
 });
+
+
+
+// Ensuite vos autres middlewares
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+
 
 // Routes pour l'authentification
 app.get("/script.js", (req, res) => {
