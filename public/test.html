@@ -1,124 +1,177 @@
-
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Carrousel flexible</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500&amp;display=swap"
-    />
-    <link rel="stylesheet" href="./test.css" />
-  </head>
-  <body>
-    <main id="app">
-      <section class="carousel">
-        <ul class="carousel__list">
-          <li class="carousel__item" tabindex="0">
-            <div class="carousel__box">
-              <div class="carousel__image">
-                <img
-                  src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  width="600"
-                  height="600"
-                />
-              </div>
-              <div class="carousel__contents">
-                <h2 class="user__name">Jon Snow</h2>
-                <h3 class="user__title">Commandant de la Garde de Nuit</h3>
-              </div>
-            </div>
-          </li>
-          
-          
-          
-          
-          <li class="carousel__item" tabindex="0">
-            <div class="carousel__box">
-              <div class="carousel__image">
-                <img
-                  src="https://i.ibb.co/c381cXL/Capture-d-cran-2024-07-10-140112.png"
-                  width="600"
-                  height="600"
-                />
-              </div>
-              <div class="carousel__contents">
-                <h2 class="user__name">Daenerys Targaryen</h2>
-                <h3 class="user__title">Mère des Dragons</h3>
-              </div>
-            </div>
-          </li>
-          
-          
-          
-          <li class="carousel__item" tabindex="0">
-            <div class="carousel__box">
-              <div class="carousel__image">
-                <img
-                  src="https://i.ibb.co/M7Dtchd/Capture-d-cran-2024-07-10-140045.png"
-                  width="600"
-                  height="600"
-                />
-              </div>
-              <div class="carousel__contents">
-                <h2 class="user__name">Arya Stark</h2>
-                <h3 class="user__title">Sans-Visage</h3>
-              </div>
-            </div>
-          </li>
-          
-          
-          
-          <li class="carousel__item" tabindex="0">
-            <div class="carousel__box">
-              <div class="carousel__image">
-                <img
-                  src="https://i.ibb.co/Ht4Rgd3/Capture-d-cran-2024-07-10-140013.png"
-                  width="600"
-                  height="600"
-                />
-              </div>
-              <div class="carousel__contents">
-                <h2 class="user__name">Tyrion Lannister</h2>
-                <h3 class="user__title">Main de la Reine</h3>
-              </div>
-            </div>
-          </li>
-          
-          
-          
-          
-          <li class="carousel__item" tabindex="0" data-active="data-active">
-            <div class="carousel__box">
-              <div class="carousel__image">
-                <img
-                  src="https://i.ibb.co/kXP07CW/Capture-d-cran-2024-07-10-135945.png"
-                  width="600"
-                  height="600"
-                />
-              </div>
-              <div class="carousel__contents">
-                <h2 class="user__name">Cersei Lannister</h2>
-                <h3 class="user__title">Reine des Sept Couronnes</h3>
-              </div>
-            </div>
-          </li>
-          
-          
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrousel de Films</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        </ul>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+        }
 
-        <div class="carousel__nav">
-          <button class="prev"><i></i><span>précédent</span></button>
-          <button class="next">
-            <span>suivant</span>
-            <i></i>
-          </button>
+        .carousel-container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 2rem auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel {
+            display: flex;
+            gap: 30px;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-item {
+            min-width: 300px;
+            text-decoration: none;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .image-container {
+            height: 460px;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .carousel-item img {
+            width: 440px;
+            height: 460px;
+            object-fit: cover;
+            transition: transform 3s ease;
+        }
+
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .movie-title {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            margin-top: 10px;
+            padding-left: 5px;
+            transition: all 0.4s ease;
+        }
+
+        .carousel-item:hover .movie-title {
+            color: rgba(255, 255, 255, 0.95);
+            transform: translateX(5px);
+        }
+
+        .controls button {
+            position: absolute;
+            top: 45%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            padding: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.4s ease;
+            z-index: 10;
+        }
+
+        .controls button:hover {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        #prev { left: 10px; }
+        #next { right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <div class="carousel">
+            <a href="#" class="carousel-item">
+                <div class="image-container">
+                    <img src="https://i.ibb.co/kXP07CW/Capture-d-cran-2024-07-10-135945.png" alt="Inception">
+                </div>
+                <div class="movie-title">Inception</div>
+            </a>
+            <a href="#" class="carousel-item">
+                <div class="image-container">
+                    <img src="https://i.ibb.co/Ht4Rgd3/Capture-d-cran-2024-07-10-140013.png" alt="Matrix">
+                </div>
+                <div class="movie-title">Matrix</div>
+            </a>
+            <a href="#" class="carousel-item">
+                <div class="image-container">
+                    <img src="https://i.ibb.co/M7Dtchd/Capture-d-cran-2024-07-10-140045.png" alt="Interstellar">
+                </div>
+                <div class="movie-title">Interstellar</div>
+            </a>
+            <a href="#" class="carousel-item">
+                <div class="image-container">
+                    <img src="https://i.ibb.co/c381cXL/Capture-d-cran-2024-07-10-140112.png" alt="The Dark Knight">
+                </div>
+                <div class="movie-title">The Dark Knight</div>
+            </a>
+            <a href="#" class="carousel-item">
+                <div class="image-container">
+                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Forrest Gump">
+                </div>
+                <div class="movie-title">Forrest Gump</div>
+            </a>
         </div>
-      </section>
-    </main>
+        <div class="controls">
+            <button id="prev">←</button>
+            <button id="next">→</button>
+        </div>
+    </div>
 
-    <script src="./test.js"></script>
-  </body>
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const items = document.querySelectorAll('.carousel-item');
+        const itemWidth = items[0].offsetWidth + 30;
+
+        function moveNext() {
+            carousel.style.transition = 'none';
+            const firstItem = carousel.firstElementChild;
+            carousel.appendChild(firstItem);
+            carousel.style.transform = 'translateX(0)';
+            carousel.offsetHeight;
+            carousel.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+            carousel.style.transform = `translateX(-${itemWidth}px)`;
+        }
+
+        function movePrev() {
+            carousel.style.transition = 'none';
+            const lastItem = carousel.lastElementChild;
+            carousel.prepend(lastItem);
+            carousel.style.transform = `translateX(-${itemWidth}px)`;
+            carousel.offsetHeight;
+            carousel.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+            carousel.style.transform = 'translateX(0)';
+        }
+
+        // Auto scroll toutes les 12 secondes
+        let autoScroll = setInterval(moveNext, 12000);
+
+        document.getElementById('next').addEventListener('click', () => {
+            clearInterval(autoScroll);
+            moveNext();
+            autoScroll = setInterval(moveNext, 12000);
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            clearInterval(autoScroll);
+            movePrev();
+            autoScroll = setInterval(moveNext, 12000);
+        });
+    </script>
+</body>
 </html>

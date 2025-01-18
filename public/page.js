@@ -111,7 +111,6 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
@@ -123,7 +122,7 @@ function onUserConnected() {
     profilePicture.classList.add("show");
     const dropdownMenu = document.querySelector(".dropdown-menu");
     if (dropdownMenu) {
-      dropdownMenu.style.display = ""; 
+      dropdownMenu.style.display = "";
     }
   }
 
@@ -132,7 +131,7 @@ function onUserConnected() {
 
 function onUserDisconnected() {
   console.log("L'utilisateur n'est pas connecté !");
-  
+
   const loginButton = document.querySelector(".right-nav .login");
 
   if (loginButton) {
@@ -178,7 +177,6 @@ async function fetchProfilePicture() {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", fetchProfilePicture);
 
 const profileContainer = document.getElementById("profile-container");
@@ -198,42 +196,83 @@ document.addEventListener("click", (event) => {
   }
 });
 
-    const menuToggle = document.getElementById('menu-toggle');
-    const menu = document.getElementById('menu');
-    const menuList = document.getElementById('menu-list');
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+const menuList = document.getElementById("menu-list");
 
-    menuToggle.addEventListener('click', (event) => {
-      event.stopPropagation();
-      menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
-    });
+menuToggle.addEventListener("click", (event) => {
+  event.stopPropagation();
+  menu.style.display =
+    menu.style.display === "none" || menu.style.display === ""
+      ? "block"
+      : "none";
+});
 
-    document.addEventListener('click', (event) => {
-      if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
-        menu.style.display = 'none';
-      }
-    });
+document.addEventListener("click", (event) => {
+  if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
 
-    const uniqueId = getCookie('uniqueId');
+const uniqueId = getCookie("uniqueId");
 
-    if (uniqueId) {
-      menuList.innerHTML = `
+if (uniqueId) {
+  menuList.innerHTML = `
         <li><a href="/profile.html" class="profile">Mon compte</a></li>
         <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
       `;
-      menu.style.width = '170px';
-    } else {
-
-      menuList.innerHTML = `
+  menu.style.width = "170px";
+} else {
+  menuList.innerHTML = `
         <li><a href="/login.html" class="login">Se connecter</a></li>
       `;
-      menu.style.width = '150px'; 
-    }
+  menu.style.width = "150px";
+}
+
+const carousel = document.querySelector(".carousel");
+const items = document.querySelectorAll(".carousel-item");
+const itemWidth = items[0].offsetWidth + 30;
+
+function moveNext() {
+  carousel.style.transition = "none";
+  const firstItem = carousel.firstElementChild;
+  carousel.appendChild(firstItem);
+  carousel.style.transform = "translateX(0)";
+  carousel.offsetHeight;
+  carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+  carousel.style.transform = `translateX(-${itemWidth}px)`;
+}
+
+function movePrev() {
+  carousel.style.transition = "none";
+  const lastItem = carousel.lastElementChild;
+  carousel.prepend(lastItem);
+  carousel.style.transform = `translateX(-${itemWidth}px)`;
+  carousel.offsetHeight;
+  carousel.style.transition = "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+  carousel.style.transform = "translateX(0)";
+}
+
+// Auto scroll toutes les 12 secondes
+let autoScroll = setInterval(moveNext, 12000);
+
+document.getElementById("next").addEventListener("click", () => {
+  clearInterval(autoScroll);
+  moveNext();
+  autoScroll = setInterval(moveNext, 12000);
+});
+
+document.getElementById("prev").addEventListener("click", () => {
+  clearInterval(autoScroll);
+  movePrev();
+  autoScroll = setInterval(moveNext, 12000);
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
     onUserConnected();
-  }else {
+  } else {
     onUserDisconnected();
   }
 });
