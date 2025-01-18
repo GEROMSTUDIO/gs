@@ -1,5 +1,6 @@
-if (window.location.protocol === 'http:')
+if (window.location.protocol === 'http:') {
   window.location.replace('https'+window.location.href.slice(4))
+}
 
 function acceptCookies() {
   localStorage.setItem("cookieConsent", "accepted");

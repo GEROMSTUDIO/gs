@@ -149,7 +149,6 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
       });
     }
 
-    console.log("Recherche de la photo de profil pour uniqueId:", uniqueId);
     const result = await auth.getProfilePictureByUniqueId(uniqueId);
 
     if (result.success) {
