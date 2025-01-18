@@ -61,9 +61,7 @@ a:active {
 .right-nav {
   display: flex;
 }
-
 .login {
-  display: none;
   font-size: 2rem;
   margin: 0px;
   padding: 0px;
@@ -77,14 +75,12 @@ a:active {
   color: #ffffff;
   text-decoration: none;
 }
-
-.show-login {
-  display: inline-block !important;
-}
-
 .login:hover {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
+}
+.login hidden {
+  display: none;
 }
 
 .profile-container {
@@ -575,7 +571,6 @@ article p {
   transition: background-color 0.2s, width 0.2s; /* Transition de taille */
   width: 150px; /* Taille réduite pour "Se connecter" */
   height: auto; /* Ajuste la hauteur en fonction du contenu */
-  z-index: 900;
 }
 
 .menu:hover {
@@ -595,7 +590,7 @@ article p {
 .menu ul li a {
   color: white;
   text-decoration: none;
-  font-size: 16px;
+  font-size: 14px;
   font-family: "Arial", sans-serif;
   display: block;
   padding: 4px 8px; /* Ajustement du padding */
@@ -636,11 +631,10 @@ article p {
 
 /* Style spécifique pour "Se connecter" : centrer et mettre en gras */
 .menu ul li a.login {
-  font-size: 14px;
-  left: 0px;
   font-weight: bold; /* Mettre le texte en gras */
   text-align: center; /* Centrer le texte */
 }
+
 
 @media screen and (max-width: 359px) {
   .cookie-banner {
@@ -732,8 +726,8 @@ article p {
   .menu-toggle {
     display: flex;
   }
-
-  .central-container {
+  
+    .central-container {
     display: flex;
   }
 
