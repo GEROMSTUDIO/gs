@@ -1,23 +1,3 @@
-function getUniqueIdFromCookie() {
-  return document.cookie
-    .split("; ")
-    .find((row) => row.startsWith("uniqueId="))
-    ?.split("=")[1];
-}
-
-// Vérifie l'authentification immédiatement
-(function checkAuth() {
-  const uniqueId = getUniqueIdFromCookie();
-  const currentUrl = window.location.href;
-
-  // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
-  if (!currentUrl.includes("connect=true") && uniqueId) {
-    const redirectURL = `/profile.html`;
-    window.location.href = redirectURL;
-  } else if (!uniqueId) {
-  }
-})();
-
 const forms = document.querySelector(".forms"),
   pwShowHide = document.querySelectorAll(".eye-icon"),
   links = document.querySelectorAll(".link");

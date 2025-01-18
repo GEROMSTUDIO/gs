@@ -120,9 +120,9 @@ function onUserConnected() {
   }
   if (profilePicture) {
     profilePicture.classList.add("show"); // Affiche la photo de profil
-    dropdownMenu.style.display = "";
   }
 
+  // Déclenche le chargement de la photo de profil
   fetchProfilePicture();
 }
 
@@ -183,16 +183,7 @@ document.addEventListener("click", (event) => {
   }
 });
 
-const menuToggle = document.getElementById("menu-toggle");
-const menu = document.getElementById("menu");
-menuToggle.addEventListener("click", () => {
-  // Bascule l'affichage du menu
-  menu.style.display =
-    menu.style.display === "none" || menu.style.display === ""
-      ? "block"
-      : "none";
-});
-
+// Cette partie doit rester en JavaScript
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
