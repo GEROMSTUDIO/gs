@@ -10,8 +10,7 @@ function getUniqueIdFromCookie() {
   const uniqueId = getUniqueIdFromCookie();
   const currentUrl = window.location.href;
 
-  // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
-  if (!currentUrl.includes("connect=true") && uniqueId) {
+  // Vérifie si l'URL<link rel="icon" href="https://i.ibb.co/jg1z28S/logo.png" type="image/x-icon">ect=true") && uniqueId) {
     const redirectURL = `/profile.html`;
     window.location.href = redirectURL;
   } else if (!uniqueId) {
