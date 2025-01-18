@@ -7,6 +7,21 @@ import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
 import bodyParser from "body-parser";
 
+app.use((req, res, next) => {
+  const isDev = req.hostname.includes('localhost') || req.hostname.includes('127.0.0.1');
+  if (!isDev && req.headers['x-forwarded-proto'] !== 'https') {
+    res.redirect(`https://${req.headers.host}${req.url}`);
+  } else {
+    next();
+  }
+});
+
+// Ensuite vos autres middlewares
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+
+
 // Configuration ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,10 +29,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
 
 // Configure multer for file uploads
 const upload = multer({ 

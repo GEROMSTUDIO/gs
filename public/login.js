@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         console.log("Résultat reçu :", result); // Vérifiez ici que unique_id est correct
-        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
+        const redirectURL = `https://geromstudio.glitch.me/index.html?connect=true&uniqueId=${encodeURIComponent(
           result.user.unique_id
         )}`;
         const date = new Date();
