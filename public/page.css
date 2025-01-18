@@ -5,7 +5,7 @@ body {
   padding: 0;
   font-family: Arial, sans-serif;
   min-height: 260vh;
-  background: #1a1a1a;
+  background: #212121;
 }
 
 header {
@@ -277,7 +277,7 @@ a:active {
 
 .titre {
   position: absolute;
-  top: 320px;
+  top: 326px;
   left: 50%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
@@ -327,7 +327,7 @@ a:active {
 
 .carousel-item img {
   width: 440px;
-  height: 460px;
+  height: 300px;
   object-fit: cover;
   transition: transform 3s ease;
 }
@@ -848,7 +848,7 @@ article p {
   }
   .fit-picture {
      height: 800px;
-    top: 14px;
+    top: -52px;
   }
 }
 
