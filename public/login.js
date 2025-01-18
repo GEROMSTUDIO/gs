@@ -78,10 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         console.log("Résultat reçu :", result); // Vérifiez ici que unique_id est correct
-        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
+        const redirectURL = `https://geromstudio.glitch.me/index.html?connect=true&uniqueId=${encodeURIComponent(
           result.user.unique_id
         )}`;
-        document.cookie = `uniqueId=${result.user.unique_id}; path=/; max-age=86400; secure; samesite=strict`;
+        const date = new Date();
+        date.setTime(date.getTime() + 86400 * 1000); // 24 heures en millisecondes
+        document.cookie = `uniqueId=${
+          result.user.unique_id
+        }; path=/; expires=${date.toUTCString()}; max-age=86400; secure; samesite=strict`;
         window.location.href = redirectURL;
       } else {
         // Afficher un message d'erreur si les identifiants sont incorrects
