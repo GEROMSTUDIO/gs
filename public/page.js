@@ -158,29 +158,16 @@ async function fetchProfilePicture() {
     return;
   }
 
-  // Vérifier si l'URL de l'image est déjà stockée dans le localStorage
-  const storedImageUrl = localStorage.getItem("profilePictureUrl");
-
-  if (storedImageUrl) {
-    // Si l'image est déjà dans le localStorage, l'utiliser directement
-    profilePicture.style.backgroundImage = `url(${storedImageUrl})`;
-    profilePicture.style.backgroundColor = "transparent";
-    profilePicture.classList.add("show");
-    return;
-  }
-
   try {
-    // Si l'image n'est pas dans le localStorage, la récupérer depuis le backend
     const response = await fetch(`/profile-picture/${uniqueId}`);
     const data = await response.json();
 
     if (data.success && data.imageUrl) {
-      // Stocker l'URL de l'image dans le localStorage pour les futurs chargements
-      localStorage.setItem("profilePictureUrl", data.imageUrl);
       profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
       profilePicture.style.backgroundColor = "transparent";
       profilePicture.classList.add("show");
     } else {
+      // En cas d'erreur, afficher une image par défaut
       profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
       profilePicture.classList.add("show");
     }
@@ -190,6 +177,7 @@ async function fetchProfilePicture() {
     profilePicture.classList.add("show");
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", fetchProfilePicture);
 
