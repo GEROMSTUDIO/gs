@@ -7,18 +7,6 @@ import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
 import bodyParser from "body-parser";
 
-app.use((req, res, next) => {
-  const isDev = req.hostname.includes('localhost') || req.hostname.includes('127.0.0.1');
-  if (!isDev && req.headers['x-forwarded-proto'] !== 'https') {
-    res.redirect(`https://${req.headers.host}${req.url}`);
-  } else {
-    next();
-  }
-});
-
-if (location.protocol !== 'https:') {
-    location.replace(`https:${location.href.substring(location.protocol.length)}`);
-}
 
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
