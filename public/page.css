@@ -276,7 +276,7 @@ a:active {
 
 .titre {
   position: absolute;
-  top: 30%;
+  top: 336px;
   left: 50%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
@@ -295,6 +295,8 @@ a:active {
 }
 
 .carousel-container {
+  positon: relative;
+  top: 340px;
   width: 90%;
   max-width: 1400px;
   margin: 2rem auto;
@@ -837,8 +839,11 @@ article p {
   .logo {
     left: -23px;
   }
-  .titre {
-    top: 24%;
+    .container {
+      height: 460px;
+  }
+      .titre {
+      top: 240px;
   }
 }
 
