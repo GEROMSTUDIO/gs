@@ -1,3 +1,6 @@
+if (window.location.protocol === 'http:')
+  window.location.replace('https'+window.location.href.slice(4))
+
 function acceptCookies() {
   localStorage.setItem("cookieConsent", "accepted");
   hideBanner();
@@ -62,9 +65,9 @@ searchBox.addEventListener("click", function (event) {
     ? "none"
     : "inline-block";
   if (searchBox.classList.contains("open")) {
-    searchInput.focus(); 
+    searchInput.focus();
   }
-  event.stopPropagation(); 
+  event.stopPropagation();
 });
 
 document.addEventListener("click", function (event) {
@@ -118,7 +121,7 @@ function onUserConnected() {
     profilePicture.classList.add("show");
     const dropdownMenu = document.querySelector(".dropdown-menu");
     if (dropdownMenu) {
-      dropdownMenu.style.display = ""; 
+      dropdownMenu.style.display = "";
     }
   }
 
@@ -127,14 +130,13 @@ function onUserConnected() {
 
 function onUserDisconnected() {
   console.log("L'utilisateur n'est pas connecté !");
-  
+
   const loginButton = document.querySelector(".right-nav .login");
 
   if (loginButton) {
     loginButton.classList.add("show-login");
   }
 }
-
 
 function getCookie(name) {
   const cookies = document.cookie.split("; ");
@@ -229,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
     onUserConnected();
-  }else {
+  } else {
     onUserDisconnected();
   }
 });
