@@ -112,15 +112,20 @@ window.addEventListener("scroll", () => {
 
 function onUserConnected() {
   console.log("L'utilisateur est connecté !");
+  
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
   if (loginButton) {
-    loginButton.style.display = "none"; // Cache le bouton de connexion
+    loginButton.classList.add("hidden"); 
   }
+  
   if (profilePicture) {
-    profilePicture.classList.add("show"); // Affiche la photo de profil
-    dropdownMenu.style.display = "";
+    profilePicture.classList.add("show");
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    if (dropdownMenu) {
+      dropdownMenu.style.display = ""; 
+    }
   }
 
   fetchProfilePicture();

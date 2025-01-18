@@ -79,9 +79,10 @@ a:active {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
 }
-.login hidden {
-  display: none;
+.hidden {
+  display: none !important;
 }
+
 
 .profile-container {
   display: flex;
