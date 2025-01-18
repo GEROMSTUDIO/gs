@@ -56,19 +56,17 @@ const searchBox = document.getElementById("searchBox");
 const searchIcon = document.getElementById("searchIcon");
 const searchInput = document.getElementById("searchInput");
 
-// Afficher ou masquer le champ de recherche
 searchBox.addEventListener("click", function (event) {
   searchBox.classList.toggle("open");
   searchIcon.style.display = searchBox.classList.contains("open")
     ? "none"
     : "inline-block";
   if (searchBox.classList.contains("open")) {
-    searchInput.focus(); // Focus sur le champ de texte quand il apparaît
+    searchInput.focus(); 
   }
-  event.stopPropagation(); // Empêche la propagation de l'événement au document
+  event.stopPropagation(); 
 });
 
-// Fermer le champ de recherche si l'utilisateur clique ailleurs
 document.addEventListener("click", function (event) {
   if (!searchBox.contains(event.target)) {
     searchBox.classList.remove("open");
@@ -76,7 +74,6 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Fermer le champ de recherche si l'utilisateur appuie sur Entrée
 searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     searchBox.classList.remove("open");
@@ -90,19 +87,16 @@ let lastScrollY = window.scrollY;
 
 window.addEventListener("scroll", () => {
   if (window.scrollY > lastScrollY) {
-    // Si on descend, cacher le header, sauf si on est déjà en haut
     if (window.scrollY > 0) {
       header.classList.add("hidden");
       dropdownMenu.style.display = "none";
     }
   } else {
-    // Si on remonte, afficher le header
     header.classList.remove("hidden");
   }
 
   lastScrollY = window.scrollY;
 
-  // Vérifie si on est vraiment en haut de la page
   if (window.scrollY === 0) {
     header.classList.add("bg");
   } else {
@@ -112,14 +106,14 @@ window.addEventListener("scroll", () => {
 
 function onUserConnected() {
   console.log("L'utilisateur est connecté !");
-  
+
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
   if (loginButton) {
-    loginButton.classList.add("hidden"); 
+    loginButton.classList.remove("show-login");
   }
-  
+
   if (profilePicture) {
     profilePicture.classList.add("show");
     const dropdownMenu = document.querySelector(".dropdown-menu");
@@ -130,6 +124,17 @@ function onUserConnected() {
 
   fetchProfilePicture();
 }
+
+function onUserDisconnected() {
+  console.log("L'utilisateur n'est pas connecté !");
+  
+  const loginButton = document.querySelector(".right-nav .login");
+
+  if (loginButton) {
+    loginButton.classList.add("show-login");
+  }
+}
+
 
 function getCookie(name) {
   const cookies = document.cookie.split("; ");
@@ -158,7 +163,6 @@ async function fetchProfilePicture() {
       profilePicture.style.backgroundColor = "transparent";
       profilePicture.classList.add("show");
     } else {
-      // En cas d'erreur, afficher une image par défaut
       profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
       profilePicture.classList.add("show");
     }
@@ -200,14 +204,12 @@ menuToggle.addEventListener("click", (event) => {
       : "none";
 });
 
-// Fermer le menu si on clique ailleurs
 document.addEventListener("click", (event) => {
   if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
     menu.style.display = "none";
   }
 });
 
-// Vérification du cookie "unique_id"
 const uniqueId = getCookie("uniqueId");
 
 if (uniqueId) {
@@ -227,5 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {
     onUserConnected();
+  }else {
+    onUserDisconnected();
   }
 });

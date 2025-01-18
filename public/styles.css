@@ -61,7 +61,9 @@ a:active {
 .right-nav {
   display: flex;
 }
+
 .login {
+  display: none;
   font-size: 2rem;
   margin: 0px;
   padding: 0px;
@@ -75,12 +77,14 @@ a:active {
   color: #ffffff;
   text-decoration: none;
 }
+
+.show-login {
+  display: inline-block !important;
+}
+
 .login:hover {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
-}
-.hidden {
-  display: none !important;
 }
 
 
