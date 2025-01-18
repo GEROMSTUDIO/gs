@@ -14,10 +14,6 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
 
 // Configure multer for file uploads
 const upload = multer({ 
@@ -27,11 +23,20 @@ const upload = multer({
   }
 });
 
+
+
+// Ensuite vos autres middlewares
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+
+
 // Routes pour l'authentification
 app.get("/script.js", (req, res) => {
   res.setHeader("Content-Type", "application/javascript");
   res.sendFile(path.join(__dirname, "public", "script.js"));
 });
+
 
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
@@ -144,7 +149,6 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
       });
     }
 
-    console.log("Recherche de la photo de profil pour uniqueId:", uniqueId);
     const result = await auth.getProfilePictureByUniqueId(uniqueId);
 
     if (result.success) {

@@ -1,3 +1,23 @@
+function getUniqueIdFromCookie() {
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("uniqueId="))
+    ?.split("=")[1];
+}
+
+// Vérifie l'authentification immédiatement
+(function checkAuth() {
+  const uniqueId = getUniqueIdFromCookie();
+  const currentUrl = window.location.href;
+
+  // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+  if (!currentUrl.includes("connect=true") && uniqueId) {
+    const redirectURL = `/profile.html`;
+    window.location.href = redirectURL;
+  } else if (!uniqueId) {
+  }
+})();
+
 const forms = document.querySelector(".forms"),
   pwShowHide = document.querySelectorAll(".eye-icon"),
   links = document.querySelectorAll(".link");
@@ -58,10 +78,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         console.log("Résultat reçu :", result); // Vérifiez ici que unique_id est correct
-        const redirectURL = `/index.html?connect=true&uniqueId=${encodeURIComponent(
+        const redirectURL = `https://geromstudio.glitch.me/index.html?connect=true&uniqueId=${encodeURIComponent(
           result.user.unique_id
         )}`;
-        document.cookie = `uniqueId=${result.user.unique_id}; path=/; max-age=86400; secure; samesite=strict`;
+        const date = new Date();
+        date.setTime(date.getTime() + 86400 * 1000); // 24 heures en millisecondes
+        document.cookie = `uniqueId=${
+          result.user.unique_id
+        }; path=/; expires=${date.toUTCString()}; max-age=86400; secure; samesite=strict`;
         window.location.href = redirectURL;
       } else {
         // Afficher un message d'erreur si les identifiants sont incorrects
