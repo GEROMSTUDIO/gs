@@ -4,7 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Account</title>
-    <link rel="icon" href="https://i.ibb.co/jg1z28S/logo.png" type="image/x-icon">
+    <link
+      rel="icon"
+      href="https://i.ibb.co/jg1z28S/logo.png"
+      type="image/x-icon"
+    />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -225,6 +229,38 @@
         color: red;
       }
 
+      .logout-button {
+        position: relative;
+        top: 12px;
+        display: block;
+        margin: 20px auto;
+        padding: 14px 20px;
+        background-color: #3498db; /* Bleu par défaut */
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 200px;
+      }
+
+      .logout-button:hover {
+        background-color: #e74c3c; /* Rouge lors du survol */
+        transform: translateY(-1px);
+      }
+
+      .logout-button:active {
+        background-color: #c0392b; /* Rouge plus foncé lors du clic */
+        transform: translateY(0);
+      }
+
+      .logout-button:focus {
+        outline: none;
+      }
+
       @media screen and (max-width: 359px) {
         .cookie-banner {
           padding: 10px 0;
@@ -366,7 +402,6 @@
           transform: translate(51%, -50%);
         }
       }
-
     </style>
   </head>
   <body>
@@ -403,6 +438,13 @@
       </div>
     </div>
 
+    <button
+      class="logout-button"
+      onclick="window.location.href='disconnect.html'"
+    >
+      Se Déconnecter
+    </button>
+
     <script>
       const profilePicture = document.getElementById("profile-picture");
       const fileInput = document.getElementById("file-input");
@@ -426,7 +468,6 @@
 
       const uniqueId = getCookie("uniqueId");
 
-      
       if (!uniqueId) {
         const redirectURL = `/index.html`;
         window.location.href = redirectURL;
