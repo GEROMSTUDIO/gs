@@ -631,8 +631,8 @@ article p {
 
 /* Style spécifique pour "Se connecter" : centrer et mettre en gras */
 .menu ul li a.login {
+  padding: 4px;
   font-weight: bold; /* Mettre le texte en gras */
-  text-align: center; /* Centrer le texte */
 }
 
 
