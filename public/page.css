@@ -304,7 +304,6 @@ a:active {
 }
 
 .titrefilm {
-  position: relative;
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
   font-weight: 501;
@@ -312,20 +311,14 @@ a:active {
   font-size: 50px;
   font-variation-settings: "wdth" 100;
   letter-spacing: 1px;
-  top: 30px;
-  left: 14%;
-  transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
   text-align: center;
-  z-index: 1;
-  margin: 0;
-  padding: 20px;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .carousel-container {
   position: relative;
-  bottom: 152px;
+  bottom: 156px;
   width: 86%;
   max-width: 1400px;
   margin: 2rem auto;
@@ -880,7 +873,6 @@ article p {
   }
   .titrefilm {
     font-size: 40px;
-    left: 13%;
   }
 }
 
