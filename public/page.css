@@ -312,8 +312,8 @@ a:active {
   font-size: 50px;
   font-variation-settings: "wdth" 100;
   letter-spacing: 1px;
-  top: 64px;
-  right: 24%;
+  top: 30px;
+  left: 14%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
   text-align: center;
@@ -877,6 +877,10 @@ article p {
   .fit-picture {
     height: 800px;
     top: -52px;
+  }
+  .titrefilm {
+    font-size: 40px;
+    left: 13%;
   }
 }
 
