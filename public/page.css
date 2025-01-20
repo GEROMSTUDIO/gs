@@ -293,14 +293,13 @@ a:active {
   position: relative;
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
-  font-weight: 450;
+  font-weight: 501;
   font-style: normal;
   font-size: 50px;
-  font-variation-settings:
-    "wdth" 100;
+  font-variation-settings: "wdth" 100;
   letter-spacing: 1px;
-  top: 360px;
-  left: 26%;
+  top: 400px;
+  left: 20%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
   text-align: center;
@@ -863,7 +862,7 @@ article p {
     top: 240px;
   }
   .fit-picture {
-     height: 800px;
+    height: 800px;
     top: -52px;
   }
 }
