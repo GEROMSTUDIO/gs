@@ -9,7 +9,7 @@ body {
 }
 
 .bandeau-noir {
-  background-color: #161616;
+  background-color: #131313;
   height: 220px;
   display: flex; /* Pour organiser les éléments */
   justify-content: center; /* Centrer horizontalement */
@@ -19,7 +19,7 @@ body {
 
 .bandeau-fondu {
   height: 100px;
-  background: linear-gradient(#161616, #212121);
+  background: linear-gradient(#131313, #212121);
 }
 
 header {
