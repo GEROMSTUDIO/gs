@@ -303,9 +303,21 @@ a:active {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
+.carousel-container {
+  position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
+  width: 86%;
+   bottom: 156px;
+  max-width: 1400px;
+  margin: 2rem auto;
+  overflow: hidden;
+}
+
 .titrefilm {
+  position: absolute; /* Position absolue par rapport à .carousel-container */
+  top: 0px; /* Ajuste verticalement pour être au-dessus du carrousel */
+  left: 50%; /* Centre horizontalement par rapport au conteneur */
+  transform: translateX(-50%); /* Centre précisément */
   font-family: "Roboto", serif;
-  font-optical-sizing: auto;
   font-weight: 501;
   font-style: normal;
   font-size: 50px;
@@ -314,17 +326,10 @@ a:active {
   color: rgb(255, 255, 255);
   text-align: center;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 10; /* S'assure que le titre est visible au-dessus des autres éléments */
 }
 
-.carousel-container {
-  position: relative;
-  bottom: 156px;
-  width: 86%;
-  max-width: 1400px;
-  margin: 2rem auto;
-  overflow: hidden;
-  position: relative;
-}
+
 
 .carousel {
   display: flex;
