@@ -291,12 +291,14 @@ a:active {
 
 .titrefilm {
   position: relative;
-  font-family: "Roboto", sans-serif;
-  font-weight: 600;
-  /* font-size: clamp(80px, 8vw, 160px); */
-  font-size: 50px;
+  font-family: "Roboto", serif;
+  font-optical-sizing: auto;
+  font-weight: 450;
   font-style: normal;
-  letter-spacing: 2px;
+  font-size: 50px;
+  font-variation-settings:
+    "wdth" 100;
+  letter-spacing: 1px;
   top: 360px;
   left: 26%;
   transform: translate(-50%, -50%);
