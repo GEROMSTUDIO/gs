@@ -9,8 +9,8 @@ body {
 }
 
 .bandeau-noir {
-  background-color: #151515;
-  height: 200px;
+  background-color: #161616;
+  height: 220px;
   display: flex; /* Pour organiser les éléments */
   justify-content: center; /* Centrer horizontalement */
   align-items: center; /* Centrer verticalement */
@@ -19,7 +19,7 @@ body {
 
 .bandeau-fondu {
   height: 100px;
-  background: linear-gradient(#151515, #212121);
+  background: linear-gradient(#161616, #212121);
 }
 
 header {
@@ -312,7 +312,7 @@ a:active {
   font-size: 50px;
   font-variation-settings: "wdth" 100;
   letter-spacing: 1px;
-  top: 302px;
+  top: 64px;
   right: 24%;
   transform: translate(-50%, -50%);
   color: rgb(255, 255, 255);
@@ -325,7 +325,7 @@ a:active {
 
 .carousel-container {
   position: relative;
-  top: 260px;
+  bottom: 152px;
   width: 90%;
   max-width: 1400px;
   margin: 2rem auto;
