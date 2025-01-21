@@ -5,7 +5,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  min-height: 200vh; /* Assure que le body prend toute la hauteur de la fenêtre */
+  min-height: 100vh; /* Assure que le body prend toute la hauteur de la fenêtre */
   display: flex; /* Active le modèle flexbox */
   flex-direction: column; /* Aligne les enfants en colonne */
   background-color: rgb(255, 255, 255);

@@ -10,6 +10,11 @@ body {
   background: #212121;
 }
 
+/* Conteneur principal pour le contenu */
+main {
+  flex: 1; /* Permet au contenu de s'étendre pour occuper tout l'espace disponible */
+}
+
 .bandeau-noir {
   background-color: #131313;
   height: 220px;
@@ -400,6 +405,13 @@ a:active {
   right: 10px;
 }
 
+.container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 700px;
+}
+
 .footer-dark {
   background-color: rgb(26, 26, 26);
   color: #ffffff;
@@ -464,7 +476,7 @@ a:active {
 .footer-content > div {
   flex: 1;
   padding: 10px;
-  min-width: 200px;
+  min-width: 280px;
   box-sizing: border-box;
 }
 
@@ -514,10 +526,6 @@ a:active {
 
 .search-container.open .search-input:focus {
   background-color: #919191; /* Couleur légèrement plus claire au focus */
-}
-
-main {
-  padding-top: 80px; /* Laisse de l'espace sous le header */
 }
 
 .content {
