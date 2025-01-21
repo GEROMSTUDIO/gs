@@ -4,10 +4,21 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  min-height: 100vh; /* Assure que le body prend toute la hauteur de la fenêtre */
-  display: flex; /* Active le modèle flexbox */
-  flex-direction: column; /* Aligne les enfants en colonne */
+  position: relative;
+  top: 1000px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
   background: #212121;
+}
+
+/* Ajout d'un conteneur principal qui prendra tout l'espace disponible */
+.main-content {
+  flex: 1 0 auto; /* Cette propriété est cruciale pour pousser le footer vers le bas */
+  width: 100%;
+    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .bandeau-noir {
@@ -401,6 +412,7 @@ a:active {
 }
 
 .footer-dark {
+  flex-shrink: 0;
   background-color: rgb(26, 26, 26);
   color: #ffffff;
   padding: 50px 0;
