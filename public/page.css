@@ -4,9 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  position: relative;
-  top: 1000px;
-  height: 100vh;
+  height: 270vh;
   display: flex;
   flex-direction: column;
   background: #212121;

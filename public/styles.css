@@ -1,14 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
-
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  min-height: 100vh; /* Assure que le body prend toute la hauteur de la fenêtre */
-  display: flex; /* Active le modèle flexbox */
-  flex-direction: column; /* Aligne les enfants en colonne */
+  height: 380vh;
+  display: flex;
+  flex-direction: column;
   background-color: rgb(255, 255, 255);
+}
+
+/* Ajout d'un conteneur principal qui prendra tout l'espace disponible */
+.main-content {
+  flex: 1 0 auto; /* Cette propriété est cruciale pour pousser le footer vers le bas */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -428,7 +436,7 @@ main {
 article {
   text-align: center;
   position: relative;
-  top: 80px;
+  bottom: 1810px;
   line-height: 1.6;
   max-width: 1060px;
   margin: auto;
