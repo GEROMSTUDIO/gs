@@ -10,11 +10,9 @@ body {
   background-color: rgb(255, 255, 255);
 }
 
-/* Ajout d'un conteneur principal qui prendra tout l'espace disponible */
 .main-content {
   flex: 1 0 auto; /* Cette propriété est cruciale pour pousser le footer vers le bas */
   width: 100%;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -298,11 +296,6 @@ a:active {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.container2 {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
 .content {
   flex: 1; /* Remplir l'espace disponible */
@@ -313,6 +306,7 @@ a:active {
   color: #ffffff;
   padding: 50px 0;
   width: 100%;
+  align-items: center;
   text-align: center;
 }
 
@@ -339,10 +333,33 @@ a:active {
   color: #ffffff;
 }
 
-.footer-dark .copyright {
+.footer-dark {
+  flex-shrink: 0;
+  background-color: rgb(26, 26, 26);
+  color: #ffffff;
+  padding: 50px 0;
+  width: 100%;
   text-align: center;
-  margin-top: 20px;
-  color: #aaaaaa;
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 0 20px; /* Ajoute un peu d'espace sur les côtés */
+  box-sizing: border-box;
+}
+
+.footer-content > div {
+  flex: 1;
+  padding: 10px;
+  min-width: 280px;
+  box-sizing: border-box;
+  text-align: center; /* Centre le contenu de chaque div */
 }
 
 .footer-dark p {
@@ -358,22 +375,6 @@ a:active {
 
 .social-icons a:hover {
   color: #ffffff;
-}
-
-.footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
-  width: 100%;
-}
-
-.footer-content > div {
-  flex: 1;
-  padding: 10px;
-  min-width: 200px;
-  box-sizing: border-box;
 }
 
 .search-container {
@@ -435,8 +436,9 @@ main {
 
 article {
   text-align: center;
-  position: relative;
-  bottom: 1810px;
+  position: absolute;
+  bottom: -284px;
+  left: 250px;
   line-height: 1.6;
   max-width: 1060px;
   margin: auto;
