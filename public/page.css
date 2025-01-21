@@ -306,8 +306,8 @@ a:active {
 .carousel-container {
   position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
   width: 86%;
-  bottom: 156px;
-  max-width: 1400px;
+  bottom: 192px;
+  max-width: 1420px;
   margin: 2rem auto;
   overflow: hidden;
     padding-top: 100px; /* Espace au-dessus pour inclure le texte */
@@ -315,7 +315,7 @@ a:active {
 
 .titrefilm {
   position: absolute; /* Positionnement par rapport à .carousel-container */
-  top: -8px; /* Ajuste la position verticale par rapport au carrousel */
+  top: 4px; /* Ajuste la position verticale par rapport au carrousel */
   left: 0px; /* Positionne à gauche du carrousel */
   font-family: "Roboto", serif;
   font-weight: 501;
@@ -376,7 +376,7 @@ a:active {
 
 .controls button {
   position: absolute;
-  top: 45%;
+  top: 54%;
   transform: translateY(-50%);
   background: rgba(200, 200, 200, 0.3);
   color: white;
