@@ -313,10 +313,9 @@ a:active {
 }
 
 .titrefilm {
-  position: absolute; /* Position absolue par rapport à .carousel-container */
-  top: 0px; /* Ajuste verticalement pour être au-dessus du carrousel */
-  left: 50%; /* Centre horizontalement par rapport au conteneur */
-  transform: translateX(-50%); /* Centre précisément */
+  position: absolute; /* Positionnement par rapport à .carousel-container */
+  top: 20%; /* Ajuste la position verticale par rapport au carrousel */
+  left: -200px; /* Positionne à gauche du carrousel */
   font-family: "Roboto", serif;
   font-weight: 501;
   font-style: normal;
@@ -324,9 +323,10 @@ a:active {
   font-variation-settings: "wdth" 100;
   letter-spacing: 1px;
   color: rgb(255, 255, 255);
-  text-align: center;
+  text-align: left;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  z-index: 10; /* S'assure que le titre est visible au-dessus des autres éléments */
+  z-index: 10; /* S'assure que le texte est visible au-dessus des autres éléments */
+  white-space: nowrap; /* Évite que le texte passe à la ligne */
 }
 
 
