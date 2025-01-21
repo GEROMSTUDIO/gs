@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
@@ -7,6 +8,7 @@
   display: flex; /* Active le modèle flexbox */
   flex-direction: column; /* Aligne les enfants en colonne */
   background: #212121;
+}
 
 .bandeau-noir {
   background-color: #131313;
@@ -402,12 +404,7 @@ a:active {
   background-color: rgb(26, 26, 26);
   color: #ffffff;
   padding: 50px 0;
-  position: relative;
-  top: 260vh;
   width: 100%;
-  display: flex;
-  justify-content: center; /* Centrer le contenu horizontalement */
-  align-items: center; /* Centrer le contenu verticalement */
   text-align: center;
 }
 

@@ -1,10 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+
 body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  min-height: 260vh;
+  min-height: 200vh; /* Assure que le body prend toute la hauteur de la fenêtre */
+  display: flex; /* Active le modèle flexbox */
+  flex-direction: column; /* Aligne les enfants en colonne */
   background-color: rgb(255, 255, 255);
 }
 
@@ -29,7 +32,6 @@ header.hidden {
   transition-duration: 500ms;
 }
 section {
-  height: 1000px;
   padding: 20px;
 }
 header.bg {
@@ -86,7 +88,6 @@ a:active {
   transition: color 0.3s ease;
   color: rgb(211, 211, 211);
 }
-
 
 .profile-container {
   display: flex;
@@ -303,12 +304,7 @@ a:active {
   background-color: rgb(26, 26, 26);
   color: #ffffff;
   padding: 50px 0;
-  position: relative;
-  top: 260vh;
   width: 100%;
-  display: flex;
-  justify-content: center; /* Centrer le contenu horizontalement */
-  align-items: center; /* Centrer le contenu verticalement */
   text-align: center;
 }
 
