@@ -10,11 +10,6 @@ body {
   background: #212121;
 }
 
-/* Conteneur principal pour le contenu */
-main {
-  flex: 1; /* Permet au contenu de s'étendre pour occuper tout l'espace disponible */
-}
-
 .bandeau-noir {
   background-color: #131313;
   height: 220px;
@@ -403,13 +398,6 @@ a:active {
 }
 #next {
   right: 10px;
-}
-
-.container {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  height: 700px;
 }
 
 .footer-dark {
