@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
-body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  min-height: 260vh;
+  min-height: 100vh; /* Assure que le body prend toute la hauteur de la fenêtre */
+  display: flex; /* Active le modèle flexbox */
+  flex-direction: column; /* Aligne les enfants en colonne */
   background: #212121;
-}
 
 .bandeau-noir {
   background-color: #131313;
@@ -43,7 +43,6 @@ header.hidden {
   transition-duration: 500ms;
 }
 section {
-  height: 1000px;
   padding: 20px;
 }
 header.bg {
@@ -307,7 +306,7 @@ a:active {
   position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
   width: 86%;
   bottom: 192px;
-  max-width: 1420px;
+  max-width: 1800px;
   margin: 2rem auto;
   overflow: hidden;
     padding-top: 100px; /* Espace au-dessus pour inclure le texte */
