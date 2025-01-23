@@ -32,7 +32,7 @@ function getUniqueIdFromCookie() {
 
   // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
   if (!currentUrl.includes("connect=true") && uniqueId) {
-    const redirectURL = `/hidden?connect=true&uniqueId=${encodeURIComponent(
+    const redirectURL = `/page.html?connect=true&uniqueId=${encodeURIComponent(
       uniqueId
     )}`;
     window.location.href = redirectURL;
