@@ -451,7 +451,7 @@ main {
   color: #2c3e50;
   font-size: 2.2em;
   margin-bottom: 20px;
-  border-bottom: 3px solid rgb(0,0,0);
+  border-bottom: 3px solid rgb(0, 0, 0);
   padding-bottom: 10px;
 }
 .article-content {
@@ -758,6 +758,13 @@ main {
     padding: 0;
     box-sizing: border-box;
   }
+  .central-container {
+    display: flex;
+  }
+  .container2 {
+    bottom: 934px;
+    margin: 30px;
+  }
 
   .contact {
     position: absolute;
@@ -799,9 +806,9 @@ main {
     transform: translate(51%, -50%);
   }
   .container2 {
-  bottom: 8px;
-  margin: 30px;
-}
+    bottom: 8px;
+    margin: 30px;
+  }
 }
 
 /* Responsive pour les écrans de plus petite taille */
