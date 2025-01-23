@@ -14,7 +14,7 @@ body {
 .main-content {
   flex: 1 0 auto; /* Cette propriété est cruciale pour pousser le footer vers le bas */
   width: 100%;
-    min-height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -38,7 +38,7 @@ header {
   top: 0px;
   left: 0;
   right: 0;
-  width: 100vw; /* Largeur de 100% de la largeur de la fenêtre */
+  width: 100vw;
   height: 72px; /* Hauteur fixe, mais vous pouvez aussi utiliser 'em' si vous voulez une proportion à la taille du texte */
   background-color: #000000;
   color: rgb(255, 255, 255);
@@ -57,7 +57,6 @@ section {
   padding: 20px;
 }
 header.bg {
-  /* background: linear-gradient(to top, #00000049, #000000bd); /* Dégradé horizontal */
   background-color: #00000083;
   box-shadow: 0px 0 60px #000000;
   transition-property: background-color, font-size, transform, color;
@@ -315,12 +314,12 @@ a:active {
 
 .carousel-container {
   position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
-  width: 86%;
+  width: 100%;
   bottom: 192px;
   max-width: 1800px;
   margin: 2rem auto;
   overflow: hidden;
-    padding-top: 100px; /* Espace au-dessus pour inclure le texte */
+  padding-top: 100px; /* Espace au-dessus pour inclure le texte */
 }
 
 .titrefilm {
