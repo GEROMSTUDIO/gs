@@ -2,176 +2,71 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carrousel de Films</title>
+    <title>Page Privée</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
-            background: #1a1a1a;
-            min-height: 100vh;
-            display: grid;
-            place-items: center;
-        }
-
-        .carousel-container {
-            width: 90%;
-            max-width: 1400px;
-            margin: 2rem auto;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .carousel {
-            display: flex;
-            gap: 30px;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .carousel-item {
-            min-width: 300px;
-            text-decoration: none;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-        }
-
-        .image-container {
-            height: 460px;
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-
-        .carousel-item img {
-            width: 440px;
-            height: 460px;
-            object-fit: cover;
-            transition: transform 3s ease;
-        }
-
-        .carousel-item:hover img {
-            transform: scale(1.05);
-        }
-
-        .movie-title {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-            margin-top: 10px;
-            padding-left: 5px;
-            transition: all 0.4s ease;
-        }
-
-        .carousel-item:hover .movie-title {
-            color: rgba(255, 255, 255, 0.95);
-            transform: translateX(5px);
-        }
-
-        .controls button {
-            position: absolute;
-            top: 45%;
-            transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: none;
+            max-width: 600px;
+            margin: 0 auto;
             padding: 20px;
-            cursor: pointer;
-            border-radius: 50%;
-            transition: background 0.4s ease;
-            z-index: 10;
+            text-align: center;
         }
-
-        .controls button:hover {
-            background: rgba(255, 255, 255, 0.4);
+        #errorMessage {
+            color: red;
+            font-weight: bold;
         }
-
-        #prev { left: 10px; }
-        #next { right: 10px; }
+        #protectedContent {
+            display: none;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
-    <div class="carousel-container">
-        <div class="carousel">
-            <a href="#" class="carousel-item">
-                <div class="image-container">
-                    <img src="https://i.ibb.co/kXP07CW/Capture-d-cran-2024-07-10-135945.png" alt="Inception">
-                </div>
-                <div class="movie-title">Inception</div>
-            </a>
-            <a href="#" class="carousel-item">
-                <div class="image-container">
-                    <img src="https://i.ibb.co/Ht4Rgd3/Capture-d-cran-2024-07-10-140013.png" alt="Matrix">
-                </div>
-                <div class="movie-title">Matrix</div>
-            </a>
-            <a href="#" class="carousel-item">
-                <div class="image-container">
-                    <img src="https://i.ibb.co/M7Dtchd/Capture-d-cran-2024-07-10-140045.png" alt="Interstellar">
-                </div>
-                <div class="movie-title">Interstellar</div>
-            </a>
-            <a href="#" class="carousel-item">
-                <div class="image-container">
-                    <img src="https://i.ibb.co/c381cXL/Capture-d-cran-2024-07-10-140112.png" alt="The Dark Knight">
-                </div>
-                <div class="movie-title">The Dark Knight</div>
-            </a>
-            <a href="#" class="carousel-item">
-                <div class="image-container">
-                    <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Forrest Gump">
-                </div>
-                <div class="movie-title">Forrest Gump</div>
-            </a>
-        </div>
-        <div class="controls">
-            <button id="prev">←</button>
-            <button id="next">→</button>
-        </div>
+    <div id="errorMessage"></div>
+    
+    <div id="protectedContent">
+        <h1>Contenu Privé</h1>
+        <p>Bienvenue sur la page sécurisée. Seuls les utilisateurs autorisés peuvent voir ce contenu.</p>
     </div>
 
     <script>
-        const carousel = document.querySelector('.carousel');
-        const items = document.querySelectorAll('.carousel-item');
-        const itemWidth = items[0].offsetWidth + 30;
-
-        function moveNext() {
-            carousel.style.transition = 'none';
-            const firstItem = carousel.firstElementChild;
-            carousel.appendChild(firstItem);
-            carousel.style.transform = 'translateX(0)';
-            carousel.offsetHeight;
-            carousel.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-            carousel.style.transform = `translateX(-${itemWidth}px)`;
+        // Fonction pour récupérer la valeur d'un cookie
+        function getCookie(name) {
+            const cookieName = name + "=";
+            const decodedCookie = decodeURIComponent(document.cookie);
+            const cookieArray = decodedCookie.split(';');
+            
+            for(let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
+                while (cookie.charAt(0) === ' ') {
+                    cookie = cookie.substring(1);
+                }
+                if (cookie.indexOf(cookieName) === 0) {
+                    return cookie.substring(cookieName.length, cookie.length);
+                }
+            }
+            return null;
         }
 
-        function movePrev() {
-            carousel.style.transition = 'none';
-            const lastItem = carousel.lastElementChild;
-            carousel.prepend(lastItem);
-            carousel.style.transform = `translateX(-${itemWidth}px)`;
-            carousel.offsetHeight;
-            carousel.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
-            carousel.style.transform = 'translateX(0)';
+        // Fonction pour vérifier l'accès
+        function checkAccess() {
+            const uniqueId = getCookie('uniqueId');
+            const errorMessageEl = document.getElementById('errorMessage');
+            const protectedContentEl = document.getElementById('protectedContent');
+
+            if (uniqueId === 'autorisation_secrete') {
+                protectedContentEl.style.display = 'block';
+                errorMessageEl.innerHTML = '';
+            } else {
+                protectedContentEl.style.display = 'none';
+                errorMessageEl.innerHTML = 'Accès non autorisé. Vous n\'avez pas la permission de voir ce contenu.';
+            }
         }
 
-        // Auto scroll toutes les 12 secondes
-        let autoScroll = setInterval(moveNext, 12000);
-
-        document.getElementById('next').addEventListener('click', () => {
-            clearInterval(autoScroll);
-            moveNext();
-            autoScroll = setInterval(moveNext, 12000);
-        });
-
-        document.getElementById('prev').addEventListener('click', () => {
-            clearInterval(autoScroll);
-            movePrev();
-            autoScroll = setInterval(moveNext, 12000);
-        });
+        // Vérifier l'accès au chargement de la page
+        window.onload = checkAccess;
     </script>
 </body>
 </html>
