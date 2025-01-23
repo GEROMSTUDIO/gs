@@ -48,6 +48,13 @@ links.forEach((link) => {
   });
 });
 
+modifyLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  forms.classList.toggle("show-forgot");
+});
+
+const modifyLink = document.querySelector(".modify-link");
+
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.querySelector(".form.login form");
   const emailInput = loginForm.querySelector('input[type="email"]');
