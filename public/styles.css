@@ -753,11 +753,6 @@ main {
   .menu-toggle {
     display: flex;
   }
-
-  .central-container {
-    display: flex;
-  }
-
   * {
     margin: 0;
     padding: 0;
@@ -803,6 +798,10 @@ main {
     font-size: 1.6rem;
     transform: translate(51%, -50%);
   }
+  .container2 {
+  bottom: 8px;
+  margin: 30px;
+}
 }
 
 /* Responsive pour les écrans de plus petite taille */
