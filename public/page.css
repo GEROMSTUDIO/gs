@@ -314,7 +314,7 @@ a:active {
 
 .carousel-container {
   position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
-  width: 100%;
+  width: 90%;
   bottom: 192px;
   max-width: 1800px;
   margin: 2rem auto;
@@ -364,6 +364,11 @@ a:active {
   height: 100%;
   object-fit: cover;
   transition: transform 0.4s ease;
+}
+@media (max-width: 820px) {
+  .image-container {
+    width: 320px; /* Permet à la hauteur de s'adapter sur les petits écrans */
+  }
 }
 
 .carousel-item:hover img {
