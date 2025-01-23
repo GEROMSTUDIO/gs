@@ -434,25 +434,6 @@ main {
   text-align: center;
 }
 
-article {
-  text-align: center;
-  position: absolute;
-  bottom: -284px;
-  left: 250px;
-  line-height: 1.6;
-  max-width: 1060px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #dddddd;
-  border-radius: 14px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-article h1 {
-  color: #333333;
-}
-article p {
-  color: #000000;
-}
 
 .cookie-banner {
   position: fixed;
