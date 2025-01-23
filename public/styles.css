@@ -7,7 +7,7 @@ body {
   height: 380vh;
   display: flex;
   flex-direction: column;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(250, 250, 250);
 }
 
 .main-content {
@@ -296,7 +296,6 @@ a:active {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-
 .content {
   flex: 1; /* Remplir l'espace disponible */
 }
@@ -434,6 +433,47 @@ main {
   text-align: center;
 }
 
+.container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: #f0f4f8;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.article-card {
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.article-card:hover {
+  transform: scale(1.02);
+}
+.article-title {
+  color: #2c3e50;
+  font-size: 2.2em;
+  margin-bottom: 20px;
+  border-bottom: 3px solid #3498db;
+  padding-bottom: 15px;
+}
+.article-content {
+  color: #34495e;
+  line-height: 1.7;
+  text-align: justify;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+}
+.article-meta {
+  color: #7f8c8d;
+  font-style: italic;
+  text-align: right;
+  font-size: 0.9em;
+}
 
 .cookie-banner {
   position: fixed;
