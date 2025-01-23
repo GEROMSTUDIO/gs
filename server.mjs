@@ -1,182 +1,70 @@
 import express from "express";
-import multer from "multer";
-import fetch from "node-fetch";
-import path from "path";
-import fs from "fs";
-import { fileURLToPath } from "url";
-import auth from "./sqlite.js";
 import bodyParser from "body-parser";
-
-// Configuration ES Modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import session from "express-session";
+import path from "path";
+import fs from "fs";  // Module pour lire les fichiers
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
-
-// Configure multer for file uploads
-const upload = multer({ 
-  dest: "uploads/",
-  limits: {
-    fileSize: 5 * 1024 * 1024 // Limite à 5MB
-  }
-});
-
-
-
-// Ensuite vos autres middlewares
+// Middleware
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "monSecretSuperSecurise",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false },
+  })
+);
 
+// Servir les fichiers statiques (login.html, etc.)
+app.use(express.static(path.join(process.cwd(), "public")));
 
-// Routes pour l'authentification
-app.get("/script.js", (req, res) => {
-  res.setHeader("Content-Type", "application/javascript");
-  res.sendFile(path.join(__dirname, "public", "script.js"));
+// Base de données simulée pour les tokens valides
+const VALID_TOKENS = ["12345", "abcdef", "securetoken"];
+
+// Route principale pour rediriger vers la page de connexion
+app.get("/", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "login.html"));
 });
 
+// Endpoint pour valider le token
+app.post("/api/login", (req, res) => {
+  const { token } = req.body;
 
-app.post("/login", async (request, response) => {
-  const { email, password } = request.body;
-  if (!email || !password) {
-    response.status(400).json({ error: "Email et mot de passe requis" });
-    return;
-  }
-  
-  const result = await auth.verifyUser(email, password);
-  if (result.success) {
-    response.status(200).json({ ...result, redirectUrl: "/?connect=true" });
+  if (VALID_TOKENS.includes(token)) {
+    req.session.isAuthenticated = true; // Marquer l'utilisateur comme authentifié
+    res.json({ success: true });
   } else {
-    response.status(401).json(result);
+    res.status(401).json({ success: false, message: "Token invalide !" });
   }
 });
 
-app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    return res.status(400).json({ message: "Email et mot de passe sont requis" });
-  }
-  
-  const result = await auth.createUser(email, password);
-  if (result.success) {
-    res.status(200).json({ message: "Inscription réussie !" });
+// Middleware pour vérifier l'authentification
+function isAuthenticated(req, res, next) {
+  if (req.session.isAuthenticated) {
+    next();
   } else {
-    res.status(400).json({ message: result.error });
+    res.redirect("/"); // Rediriger vers la page de connexion
   }
+}
+
+// Route protégée pour envoyer la page cachée depuis un fichier externe
+app.get("/hidden", isAuthenticated, (req, res) => {
+  // Lire le fichier HTML depuis le dossier 'views'
+  fs.readFile(path.join(process.cwd(), "views", "hidden.html"), "utf-8", (err, data) => {
+    if (err) {
+      console.error("Erreur lors de la lecture du fichier :", err);
+      res.status(500).send("Erreur serveur");
+      return;
+    }
+    // Envoyer le contenu du fichier HTML au client
+    res.send(data);
+  });
 });
 
-// Route pour le téléchargement d'images et mise à jour de la photo de profil
-app.post("/upload", upload.single("image"), async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ message: "Aucun fichier n'a été téléchargé." });
-  }
-
-  // Extraire l'unique_id du nom du fichier
-  const uniqueId = path.parse(req.file.originalname).name;
-  
-  const filePath = req.file.path;
-  const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
-  const imgbbUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
-
-  try {
-    const imageBase64 = fs.readFileSync(filePath, { encoding: "base64" });
-
-    const response = await fetch(imgbbUrl, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        image: imageBase64,
-      }),
-    });
-
-    const result = await response.json();
-
-    // Supprime le fichier temporaire
-    fs.unlinkSync(filePath);
-
-    if (result.success) {
-      const imageUrl = result.data.display_url;
-
-      // Met à jour la base de données avec l'URL de l'image en utilisant unique_id
-      const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
-
-      if (updateResult.success) {
-        res.status(200).json({
-          success: true,
-          message: "Photo de profil mise à jour avec succès !",
-          imageUrl: imageUrl
-        });
-      } else {
-        res.status(400).json({
-          success: false,
-          error: updateResult.error
-        });
-      }
-    } else {
-      res.status(500).json({ 
-        success: false,
-        error: result.error
-      });
-    }
-  } catch (error) {
-    console.error("Erreur lors du traitement de l'image :", error);
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-    }
-    res.status(500).json({
-      success: false,
-      message: "Une erreur est survenue lors du traitement de l'image.",
-      error: error.message
-    });
-  }
-});
-
-// Dans server.mjs, ajoutez cette nouvelle route :
-
-// Route pour récupérer la photo de profil
-app.get("/profile-picture/:uniqueId", async (req, res) => {
-  try {
-    const uniqueId = req.params.uniqueId;
-    
-    if (!uniqueId) {
-      return res.status(400).json({
-        success: false,
-        message: "L'identifiant unique est requis"
-      });
-    }
-
-    const result = await auth.getProfilePictureByUniqueId(uniqueId);
-
-    if (result.success) {
-      res.status(200).json({
-        success: true,
-        imageUrl: result.profile_picture
-      });
-    } else {
-      res.status(404).json({
-        success: false,
-        message: result.error
-      });
-    }
-  } catch (error) {
-    console.error("Erreur lors de la récupération de la photo de profil:", error);
-    res.status(500).json({
-      success: false,
-      message: "Erreur serveur lors de la récupération de la photo de profil"
-    });
-  }
-});
-
-// Route par défaut pour les 404
-app.get("*", (req, res) => {
-  res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
-});
-
-// Démarrage du serveur
-const listener = app.listen(PORT, () => {
-  console.log("Votre application écoute sur le port " + listener.address().port);
+// Lancement du serveur
+app.listen(PORT, () => {
+  console.log(`Serveur lancé sur http://localhost:${PORT}`);
 });
