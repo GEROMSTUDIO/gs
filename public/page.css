@@ -4,7 +4,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  height: 270vh;
+  height: 2600px;
   display: flex;
   flex-direction: column;
   background: #212121;
@@ -414,11 +414,11 @@ a:active {
 }
 
 .footer-dark {
-  flex-shrink: 0;
   background-color: rgb(26, 26, 26);
   color: #ffffff;
   padding: 50px 0;
   width: 100%;
+  align-items: center;
   text-align: center;
 }
 
@@ -445,10 +445,33 @@ a:active {
   color: #ffffff;
 }
 
-.footer-dark .copyright {
+.footer-dark {
+  flex-shrink: 0;
+  background-color: rgb(26, 26, 26);
+  color: #ffffff;
+  padding: 50px 0;
+  width: 100%;
   text-align: center;
-  margin-top: 20px;
-  color: #aaaaaa;
+  margin-top: auto;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 0 20px; /* Ajoute un peu d'espace sur les côtés */
+  box-sizing: border-box;
+}
+
+.footer-content > div {
+  flex: 1;
+  padding: 10px;
+  min-width: 280px;
+  box-sizing: border-box;
+  text-align: center; /* Centre le contenu de chaque div */
 }
 
 .footer-dark p {
@@ -464,22 +487,6 @@ a:active {
 
 .social-icons a:hover {
   color: #ffffff;
-}
-
-.footer-content {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
-  width: 100%;
-}
-
-.footer-content > div {
-  flex: 1;
-  padding: 10px;
-  min-width: 280px;
-  box-sizing: border-box;
 }
 
 .search-container {
