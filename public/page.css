@@ -894,6 +894,14 @@ article p {
 }
 
 @media screen and (max-width: 500px) {
+  .carousel-container {
+    width: 90%;
+    bottom: 192px;
+    max-width: 1800px;
+    margin: 2rem auto;
+    overflow: hidden;
+    padding-top: 100px; /* Espace au-dessus pour inclure le texte */
+  }
   .contact {
     font-size: 1.6rem;
     transform: translate(-50%, -50%);
