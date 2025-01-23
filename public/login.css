@@ -1,11 +1,11 @@
 /* Google Fonts - Poppins */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container {
@@ -24,7 +24,7 @@
   width: 100%;
   padding: 30px;
   border-radius: 6px;
-  background: #FFF;
+  background: #fff;
 }
 
 .form.signup {
@@ -109,6 +109,18 @@ form {
   background-color: #016dcb;
 }
 
+.forgot-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-link span,
+.forgot-link a {
+  font-size: 14px;
+  font-weight: 400;
+  color: #232836;
+}
+
 .form-link {
   text-align: center;
   margin-top: 10px;
@@ -139,12 +151,12 @@ form {
 }
 
 .line::before {
-  content: 'Or';
+  content: "Or";
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #FFF;
+  background-color: #fff;
   color: #8b8b8b;
   padding: 0 15px;
 }
@@ -162,15 +174,13 @@ form {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #FFF;
+  background-color: #fff;
   color: #8b8b8b;
   padding: 0 15px;
 }
-
 
 @media screen and (max-width: 400px) {
   .form {
     padding: 20px 10px;
   }
-
 }

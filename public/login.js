@@ -40,6 +40,7 @@ pwShowHide.forEach((eyeIcon) => {
   });
 });
 
+
 // Ajouter un gestionnaire d'événement au clic sur chaque lien pour basculer entre les formulaires
 links.forEach((link) => {
   link.addEventListener("click", (e) => {
@@ -48,12 +49,7 @@ links.forEach((link) => {
   });
 });
 
-modifyLink.addEventListener("click", (e) => {
-  e.preventDefault();
-  forms.classList.toggle("show-forgot");
-});
 
-const modifyLink = document.querySelector(".modify-link");
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.querySelector(".form.login form");
