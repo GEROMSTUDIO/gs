@@ -753,6 +753,7 @@ main {
   .menu-toggle {
     display: flex;
   }
+  
   * {
     margin: 0;
     padding: 0;
@@ -762,7 +763,7 @@ main {
     display: flex;
   }
   .container2 {
-    bottom: 934px;
+    bottom: 980px;
     margin: 30px;
   }
 
@@ -804,10 +805,6 @@ main {
   .about {
     font-size: 1.6rem;
     transform: translate(51%, -50%);
-  }
-  .container2 {
-    bottom: 8px;
-    margin: 30px;
   }
 }
 
