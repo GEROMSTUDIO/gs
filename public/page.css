@@ -441,19 +441,6 @@ a:active {
   text-decoration: none;
 }
 
-.footer-dark ul li a:hover {
-  color: #ffffff;
-}
-
-.footer-dark {
-  flex-shrink: 0;
-  background-color: rgb(26, 26, 26);
-  color: #ffffff;
-  padding: 50px 0;
-  width: 100%;
-  text-align: center;
-  margin-top: auto;
-}
 
 .footer-content {
   display: flex;
@@ -851,10 +838,9 @@ article p {
     display: flex;
   }
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  .footer-dark {
+    position: relative;
+    bottom: 800px;
   }
 
   .contact {

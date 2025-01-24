@@ -720,10 +720,6 @@ main {
     padding: 10px;
     font-size: 14px;
   }
-    .footer-dark {
-    position: relative;
-    top: 400px;
-  }
 }
 
 @media screen and (min-width: 768px) {
