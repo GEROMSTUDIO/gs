@@ -812,20 +812,20 @@ main {
 }
 
 @media (max-width: 1024px) {
-    body {
-    height: 3555px;
-  }
+
   .footer-content > div:nth-child(3),
   .footer-content > div:nth-child(4) {
     flex: 0 0 48%; /* Changer la largeur pour passer à 2 éléments */
   }
+  
+     .footer-dark {
+   position: relative;
+  top: 100px;
+}
 }
 
 @media (max-width: 768px) {
-  body {
-    height: 3550px;
-  }
-
+  
   .footer-content > div {
     flex: 0 0 100%; /* Changer la largeur pour prendre 100% */
   }
@@ -843,4 +843,9 @@ main {
   .social-icons {
     margin-top: 20px;
   }
+  
+     .footer-dark {
+   position: relative;
+  top: 10px;
+}
 }
