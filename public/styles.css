@@ -748,6 +748,7 @@ main {
     padding: 8px 20px;
   }
 }
+
 @media screen and (max-width: 820px) {
   .right-nav {
     display: none;
@@ -755,10 +756,6 @@ main {
 
   .menu-toggle {
     display: flex;
-  }
-
-  body {
-    height: 3400px;
   }
 
   * {
@@ -773,7 +770,6 @@ main {
     margin: 30px;
     top: 880px;
   }
-
   .contact {
     position: absolute;
     top: 50%; /* Centrer verticalement */
@@ -816,6 +812,9 @@ main {
 }
 
 @media (max-width: 1024px) {
+    body {
+    height: 3555px;
+  }
   .footer-content > div:nth-child(3),
   .footer-content > div:nth-child(4) {
     flex: 0 0 48%; /* Changer la largeur pour passer à 2 éléments */
@@ -824,7 +823,7 @@ main {
 
 @media (max-width: 768px) {
   body {
-    height: 3400px;
+    height: 3550px;
   }
 
   .footer-content > div {
