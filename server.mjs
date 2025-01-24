@@ -171,6 +171,26 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
   }
 });
 
+app.get("/private-page", async (req, res) => {
+  try {
+    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
+
+    if (!uniqueId) {
+      return res.status(403).json({ error: "Accès interdit : identifiant unique manquant" });
+    }
+
+    const result = await auth.verifyAccess(uniqueId);  // Vérifier l'accès en fonction du uniqueId
+    if (result.success && result.user.access === 1) {
+      res.status(200).send("<h1>Bienvenue sur la page privée</h1>");
+    } else {
+      res.status(403).json({ error: "Accès interdit : droits insuffisants" });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification d'accès:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));

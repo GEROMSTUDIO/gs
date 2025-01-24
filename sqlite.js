@@ -226,4 +226,19 @@ module.exports = {
     }
   },
   
+    verifyAccess: async (uniqueId) => {
+    try {
+      const user = await db.get("SELECT * FROM Users WHERE unique_id = ?", uniqueId);
+      if (!user) {
+        return { success: false, error: "Utilisateur non trouvé" };
+      }
+      
+      // Retourner le statut d'accès
+      return { success: true, user };
+    } catch (error) {
+      console.error("Erreur lors de la vérification de l'accès :", error);
+      return { success: false, error: "Erreur serveur" };
+    }
+  },
+  
 };
