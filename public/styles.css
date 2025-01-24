@@ -551,6 +551,7 @@ main {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  z-index: 100;
 }
 
 .menu-toggle {
@@ -763,9 +764,12 @@ main {
     display: flex;
   }
   .container2 {
-    bottom: 980px;
     margin: 30px;
   }
+  .article-card {
+    position: relative;
+    bottom: 762px;
+}
 
   .contact {
     position: absolute;
