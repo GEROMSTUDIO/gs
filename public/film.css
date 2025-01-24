@@ -441,7 +441,6 @@ a:active {
   text-decoration: none;
 }
 
-
 .footer-content {
   display: flex;
   flex-wrap: wrap;
@@ -631,6 +630,7 @@ article p {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  z-index: 100;
 }
 
 .menu-toggle {
@@ -837,10 +837,17 @@ article p {
   .central-container {
     display: flex;
   }
+    
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
   .footer-dark {
     position: relative;
-    bottom: 800px;
+    bottom: 600px;
+    padding: 20px;
   }
 
   .contact {
@@ -907,16 +914,13 @@ article p {
   /* Passer à 1 élément par ligne pour les écrans plus petits */
   .footer-content > div {
     flex: 0 0 100%; /* Changer la largeur pour prendre 100% */
+    width: 100%;
+    text-align: center;
+    padding: 15px;
   }
 
   .footer-content {
     flex-direction: column;
-  }
-
-  .footer-content > div {
-    width: 100%;
-    text-align: center;
-    padding: 15px;
   }
 
   .social-icons {
