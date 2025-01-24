@@ -31,7 +31,7 @@ function getUniqueIdFromCookie() {
   const currentUrl = window.location.href;
 
   // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
-  if (!currentUrl.includes("connect=true") && uniqueId) {
+  if (!currentUrl.includes("connect=true") && uniqueId) { 
   } else if (!uniqueId) {
     console.log("Non connecté");
   }
