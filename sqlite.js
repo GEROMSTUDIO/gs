@@ -226,4 +226,61 @@ module.exports = {
     }
   },
   
+   grantAccessByEmail: async (email) => {
+    try {
+      // Mettre à jour la colonne access à 1 pour l'utilisateur avec l'email donné
+      const result = await db.run(
+        "UPDATE Users SET access = 1 WHERE email = ?", 
+        [email]
+      );
+
+      // Vérifier si une ligne a été modifiée
+      if (result.changes === 1) {
+        return {
+          success: true,
+          message: `Accès accordé pour l'utilisateur avec l'email ${email}`
+        };
+      } else {
+        return {
+          success: false,
+          error: "Aucun utilisateur trouvé avec cet email"
+        };
+      }
+    } catch (dbError) {
+      console.error("Erreur lors de la modification de l'accès :", dbError);
+      return {
+        success: false,
+        error: "Erreur serveur lors de la modification de l'accès"
+      };
+    }
+  },
+  
+  verifyAccess: async (uniqueId) => {
+    try {
+      // Rechercher l'utilisateur avec le uniqueId
+      const user = await db.get(
+        "SELECT access FROM Users WHERE unique_id = ?", 
+        [uniqueId]
+      );
+
+      if (!user) {
+        return { 
+          success: false, 
+          error: "Utilisateur non trouvé" 
+        };
+      }
+
+      return {
+        success: true,
+        access: user.access
+      };
+    } catch (dbError) {
+      console.error("Erreur lors de la vérification de l'accès :", dbError);
+      return { 
+        success: false, 
+        error: "Erreur serveur" 
+      };
+    }
+  },
+  
 };

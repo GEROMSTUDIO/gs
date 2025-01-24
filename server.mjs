@@ -191,6 +191,58 @@ app.get("/private-page", async (req, res) => {
   }
 });
 
+app.get("/check-access", async (req, res) => {
+  try {
+    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
+
+    if (!uniqueId) {
+      return res.status(400).json({ error: "Identifiant unique manquant" });
+    }
+
+    // Déléguer la vérification à la base de données
+    const result = await auth.verifyAccess(uniqueId);
+
+    if (result.success && result.access === 1) {
+      // Si l'accès est autorisé, envoyer le contenu de hidden.html
+      res.sendFile(path.join(__dirname, "views", "hidden.html"));
+    } else {
+      res.status(403).json({ error: "Accès interdit : droits insuffisants" });
+    }
+  } catch (error) {
+    console.error("Erreur lors de la vérification d'accès:", error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+});
+
+// Ajouter cette route dans server.mjs
+app.post("/grant-access", async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "L'email est requis" 
+      });
+    }
+
+    // Utiliser la nouvelle fonction du module sqlite
+    const result = await auth.grantAccessByEmail(email);
+
+    if (result.success) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json(result);
+    }
+  } catch (error) {
+    console.error("Erreur lors de l'attribution de l'accès :", error);
+    res.status(500).json({ 
+      success: false, 
+      error: "Erreur serveur" 
+    });
+  }
+});
+
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));

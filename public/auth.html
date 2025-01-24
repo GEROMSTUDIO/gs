@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Accès Utilisateur</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #message {
+            margin-top: 20px;
+            padding: 10px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Accorder l'Accès Utilisateur</h1>
+    <form id="accessForm">
+        <input 
+            type="email" 
+            id="emailInput" 
+            placeholder="Entrez l'email de l'utilisateur" 
+            required
+        >
+        <button type="submit">Accorder l'Accès</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('accessForm').addEventListener('submit', function(e) {
+            // Empêcher l'envoi standard du formulaire
+            e.preventDefault();
+            
+            // Récupérer l'email
+            const email = document.getElementById('emailInput').value;
+            const messageDiv = document.getElementById('message');
+
+            // Effacer le message précédent
+            messageDiv.textContent = '';
+            messageDiv.className = '';
+
+            // Envoyer la requête au serveur
+            fetch(`/grant-access?email=${encodeURIComponent(email)}`, {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.textContent = data.message;
+                    messageDiv.className = 'success';
+                    // Optionnel : vider le champ email après succès
+                    document.getElementById('emailInput').value = '';
+                } else {
+                    messageDiv.textContent = data.error;
+                    messageDiv.className = 'error';
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Erreur de connexion au serveur';
+                messageDiv.className = 'error';
+                console.error('Erreur:', error);
+            });
+        });
+    </script>
+</body>
+</html>
