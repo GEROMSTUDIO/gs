@@ -16,15 +16,29 @@
             padding: 10px;
             margin: 10px 0;
         }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
         button {
+            flex-grow: 1;
             padding: 10px 20px;
-            background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
         }
-        button:hover {
+        #grantButton {
+            background-color: #4CAF50;
+        }
+        #grantButton:hover {
             background-color: #45a049;
+        }
+        #revokeButton {
+            background-color: #f44336;
+        }
+        #revokeButton:hover {
+            background-color: #d32f2f;
         }
         #message {
             margin-top: 20px;
@@ -39,7 +53,7 @@
     </style>
 </head>
 <body>
-    <h1>Accorder l'Accès Utilisateur</h1>
+    <h1>Gestion des Accès Utilisateur</h1>
     <form id="accessForm">
         <input 
             type="email" 
@@ -47,15 +61,27 @@
             placeholder="Entrez l'email de l'utilisateur" 
             required
         >
-        <button type="submit">Accorder l'Accès</button>
+        <div class="button-container">
+            <button 
+                type="button" 
+                id="grantButton" 
+                onclick="handleAccessAction('grant')"
+            >
+                Accorder l'Accès
+            </button>
+            <button 
+                type="button" 
+                id="revokeButton" 
+                onclick="handleAccessAction('revoke')"
+            >
+                Supprimer l'Accès
+            </button>
+        </div>
     </form>
     <div id="message"></div>
 
     <script>
-        document.getElementById('accessForm').addEventListener('submit', function(e) {
-            // Empêcher l'envoi standard du formulaire
-            e.preventDefault();
-            
+        function handleAccessAction(action) {
             // Récupérer l'email
             const email = document.getElementById('emailInput').value;
             const messageDiv = document.getElementById('message');
@@ -64,8 +90,11 @@
             messageDiv.textContent = '';
             messageDiv.className = '';
 
+            // Déterminer l'URL de la requête basée sur l'action
+            const url = action === 'grant' ? '/grant-access' : '/revoke-access';
+
             // Envoyer la requête au serveur
-            fetch(`/grant-access?email=${encodeURIComponent(email)}`, {
+            fetch(`${url}?email=${encodeURIComponent(email)}`, {
                 method: 'POST'
             })
             .then(response => response.json())
@@ -73,7 +102,7 @@
                 if (data.success) {
                     messageDiv.textContent = data.message;
                     messageDiv.className = 'success';
-                    // Optionnel : vider le champ email après succès
+                    // Vider le champ email après succès
                     document.getElementById('emailInput').value = '';
                 } else {
                     messageDiv.textContent = data.error;
@@ -85,7 +114,7 @@
                 messageDiv.className = 'error';
                 console.error('Erreur:', error);
             });
-        });
+        }
     </script>
 </body>
 </html>

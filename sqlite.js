@@ -225,12 +225,12 @@ module.exports = {
       };
     }
   },
-  
-   grantAccessByEmail: async (email) => {
+
+  grantAccessByEmail: async (email) => {
     try {
       // Mettre à jour la colonne access à 1 pour l'utilisateur avec l'email donné
       const result = await db.run(
-        "UPDATE Users SET access = 1 WHERE email = ?", 
+        "UPDATE Users SET access = 1 WHERE email = ?",
         [email]
       );
 
@@ -238,49 +238,76 @@ module.exports = {
       if (result.changes === 1) {
         return {
           success: true,
-          message: `Accès accordé pour l'utilisateur avec l'email ${email}`
+          message: `Accès accordé pour l'utilisateur avec l'email ${email}`,
         };
       } else {
         return {
           success: false,
-          error: "Aucun utilisateur trouvé avec cet email"
+          error: "Aucun utilisateur trouvé avec cet email",
         };
       }
     } catch (dbError) {
       console.error("Erreur lors de la modification de l'accès :", dbError);
       return {
         success: false,
-        error: "Erreur serveur lors de la modification de l'accès"
+        error: "Erreur serveur lors de la modification de l'accès",
       };
     }
   },
-  
+  revokeAccessByEmail: async (email) => {
+    try {
+      // Mettre à jour la colonne access à 0 pour l'utilisateur avec l'email donné
+      const result = await db.run(
+        "UPDATE Users SET access = 0 WHERE email = ?",
+        [email]
+      );
+
+      // Vérifier si une ligne a été modifiée
+      if (result.changes === 1) {
+        return {
+          success: true,
+          message: `Accès révoqué pour l'utilisateur avec l'email ${email}`,
+        };
+      } else {
+        return {
+          success: false,
+          error: "Aucun utilisateur trouvé avec cet email",
+        };
+      }
+    } catch (dbError) {
+      console.error("Erreur lors de la révocation de l'accès :", dbError);
+      return {
+        success: false,
+        error: "Erreur serveur lors de la révocation de l'accès",
+      };
+    }
+  },
+
   verifyAccess: async (uniqueId) => {
     try {
       // Rechercher l'utilisateur avec le uniqueId
       const user = await db.get(
-        "SELECT access FROM Users WHERE unique_id = ?", 
+        "SELECT access FROM Users WHERE unique_id = ?",
         [uniqueId]
       );
 
       if (!user) {
-        return { 
-          success: false, 
-          error: "Utilisateur non trouvé" 
+        return {
+          success: false,
+          error: "Utilisateur non trouvé",
         };
       }
 
       return {
         success: true,
-        access: user.access
+        access: user.access,
       };
     } catch (dbError) {
       console.error("Erreur lors de la vérification de l'accès :", dbError);
-      return { 
-        success: false, 
-        error: "Erreur serveur" 
+      return {
+        success: false,
+        error: "Erreur serveur",
       };
     }
   },
-  
 };

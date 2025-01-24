@@ -14,19 +14,22 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+
 // Configure multer for file uploads
-const upload = multer({
+const upload = multer({ 
   dest: "uploads/",
   limits: {
-    fileSize: 5 * 1024 * 1024, // Limite à 5MB
-  },
+    fileSize: 5 * 1024 * 1024 // Limite à 5MB
+  }
 });
+
+
 
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.static(path.join(process.cwd(), "public")));
 app.use(express.urlencoded({ extended: true }));
+
 
 // Routes pour l'authentification
 app.get("/script.js", (req, res) => {
@@ -34,13 +37,14 @@ app.get("/script.js", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "script.js"));
 });
 
+
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
   if (!email || !password) {
     response.status(400).json({ error: "Email et mot de passe requis" });
     return;
   }
-
+  
   const result = await auth.verifyUser(email, password);
   if (result.success) {
     response.status(200).json({ ...result, redirectUrl: "/?connect=true" });
@@ -52,11 +56,9 @@ app.post("/login", async (request, response) => {
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Email et mot de passe sont requis" });
+    return res.status(400).json({ message: "Email et mot de passe sont requis" });
   }
-
+  
   const result = await auth.createUser(email, password);
   if (result.success) {
     res.status(200).json({ message: "Inscription réussie !" });
@@ -68,14 +70,12 @@ app.post("/signup", async (req, res) => {
 // Route pour le téléchargement d'images et mise à jour de la photo de profil
 app.post("/upload", upload.single("image"), async (req, res) => {
   if (!req.file) {
-    return res
-      .status(400)
-      .json({ message: "Aucun fichier n'a été téléchargé." });
+    return res.status(400).json({ message: "Aucun fichier n'a été téléchargé." });
   }
 
   // Extraire l'unique_id du nom du fichier
   const uniqueId = path.parse(req.file.originalname).name;
-
+  
   const filePath = req.file.path;
   const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
   const imgbbUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
@@ -86,7 +86,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     const response = await fetch(imgbbUrl, {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: new URLSearchParams({
         image: imageBase64,
@@ -102,27 +102,24 @@ app.post("/upload", upload.single("image"), async (req, res) => {
       const imageUrl = result.data.display_url;
 
       // Met à jour la base de données avec l'URL de l'image en utilisant unique_id
-      const updateResult = await auth.updateProfilePictureByUniqueId(
-        uniqueId,
-        imageUrl
-      );
+      const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
 
       if (updateResult.success) {
         res.status(200).json({
           success: true,
           message: "Photo de profil mise à jour avec succès !",
-          imageUrl: imageUrl,
+          imageUrl: imageUrl
         });
       } else {
         res.status(400).json({
           success: false,
-          error: updateResult.error,
+          error: updateResult.error
         });
       }
     } else {
-      res.status(500).json({
+      res.status(500).json({ 
         success: false,
-        error: result.error,
+        error: result.error
       });
     }
   } catch (error) {
@@ -133,7 +130,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Une erreur est survenue lors du traitement de l'image.",
-      error: error.message,
+      error: error.message
     });
   }
 });
@@ -144,11 +141,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
     const uniqueId = req.params.uniqueId;
-
+    
     if (!uniqueId) {
       return res.status(400).json({
         success: false,
-        message: "L'identifiant unique est requis",
+        message: "L'identifiant unique est requis"
       });
     }
 
@@ -157,37 +154,32 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
     if (result.success) {
       res.status(200).json({
         success: true,
-        imageUrl: result.profile_picture,
+        imageUrl: result.profile_picture
       });
     } else {
       res.status(404).json({
         success: false,
-        message: result.error,
+        message: result.error
       });
     }
   } catch (error) {
-    console.error(
-      "Erreur lors de la récupération de la photo de profil:",
-      error
-    );
+    console.error("Erreur lors de la récupération de la photo de profil:", error);
     res.status(500).json({
       success: false,
-      message: "Erreur serveur lors de la récupération de la photo de profil",
+      message: "Erreur serveur lors de la récupération de la photo de profil"
     });
   }
 });
 
 app.get("/private-page", async (req, res) => {
   try {
-    const { uniqueId } = req.query; // Récupérer le uniqueId depuis les paramètres de l'URL
+    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
 
     if (!uniqueId) {
-      return res
-        .status(403)
-        .json({ error: "Accès interdit : identifiant unique manquant" });
+      return res.status(403).json({ error: "Accès interdit : identifiant unique manquant" });
     }
 
-    const result = await auth.verifyAccess(uniqueId); // Vérifier l'accès en fonction du uniqueId
+    const result = await auth.verifyAccess(uniqueId);  // Vérifier l'accès en fonction du uniqueId
     if (result.success && result.user.access === 1) {
       res.status(200).send("<h1>Bienvenue sur la page privée</h1>");
     } else {
@@ -201,7 +193,7 @@ app.get("/private-page", async (req, res) => {
 
 app.get("/check-access", async (req, res) => {
   try {
-    const { uniqueId } = req.query; // Récupérer le uniqueId depuis les paramètres de l'URL
+    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
 
     if (!uniqueId) {
       return res.status(400).json({ error: "Identifiant unique manquant" });
@@ -212,14 +204,7 @@ app.get("/check-access", async (req, res) => {
 
     if (result.success && result.access === 1) {
       // Si l'accès est autorisé, envoyer le contenu de hidden.html
-      fs.readFile(
-        path.join(process.cwd(), "views", "hidden.html"),
-        "utf-8",
-        (err, data) => {
-          // Envoyer le contenu du fichier HTML au client
-          res.send(data);
-        }
-      );
+      res.sendFile(path.join(__dirname, "views", "hidden.html"));
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
@@ -235,9 +220,9 @@ app.post("/grant-access", async (req, res) => {
     const { email } = req.query;
 
     if (!email) {
-      return res.status(400).json({
-        success: false,
-        error: "L'email est requis",
+      return res.status(400).json({ 
+        success: false, 
+        error: "L'email est requis" 
       });
     }
 
@@ -251,12 +236,41 @@ app.post("/grant-access", async (req, res) => {
     }
   } catch (error) {
     console.error("Erreur lors de l'attribution de l'accès :", error);
-    res.status(500).json({
-      success: false,
-      error: "Erreur serveur",
+    res.status(500).json({ 
+      success: false, 
+      error: "Erreur serveur" 
     });
   }
 });
+// Ajouter cette route dans server.mjs
+app.post("/revoke-access", async (req, res) => {
+  try {
+    const { email } = req.query;
+
+    if (!email) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "L'email est requis" 
+      });
+    }
+
+    // Utiliser la nouvelle fonction du module sqlite
+    const result = await auth.revokeAccessByEmail(email);
+
+    if (result.success) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json(result);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la révocation de l'accès :", error);
+    res.status(500).json({ 
+      success: false, 
+      error: "Erreur serveur" 
+    });
+  }
+});
+
 
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
@@ -265,7 +279,5 @@ app.get("*", (req, res) => {
 
 // Démarrage du serveur
 const listener = app.listen(PORT, () => {
-  console.log(
-    "Votre application écoute sur le port " + listener.address().port
-  );
+  console.log("Votre application écoute sur le port " + listener.address().port);
 });
