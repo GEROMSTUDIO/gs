@@ -37,8 +37,6 @@
               return response.text();
             } else {
               throw new Error("Accès refusé");
-              const redirectURL = `/403.html`;
-              window.location.href = redirectURL;
             }
           })
           .then((html) => {
@@ -48,6 +46,8 @@
           .catch((error) => {
             document.getElementById("message").textContent =
               "Accès non autorisé : " + error.message;
+            const redirectURL = `/403.html`;
+            window.location.href = redirectURL;
           });
       }
 
