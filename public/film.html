@@ -193,12 +193,8 @@
             // Charger dynamiquement le script film.js
             const script = document.createElement("script");
             script.src = "/film.js";
-            script.onload = () => {
-              console.log("Script film.js chargé et exécuté avec succès");
-            };
-            script.onerror = () => {
-              console.error("Erreur de chargement du script film.js");
-            };
+            script.onload = () => {};
+            script.onerror = () => {};
             document.body.appendChild(script);
           })
           .catch((error) => {
@@ -210,7 +206,7 @@
 
       // Lancer la vérification au chargement de la page
       window.onload = checkAccess;
-      
+
       function getCookie(name) {
         const cookies = document.cookie.split("; ");
         for (const cookie of cookies) {
