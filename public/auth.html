@@ -1,120 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Users Acess</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Accès à la Gestion</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        button {
-            flex-grow: 1;
-            padding: 10px 20px;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        #grantButton {
-            background-color: #4CAF50;
-        }
-        #grantButton:hover {
-            background-color: #45a049;
-        }
-        #revokeButton {
-            background-color: #f44336;
-        }
-        #revokeButton:hover {
-            background-color: #d32f2f;
-        }
-        #message {
-            margin-top: 20px;
-            padding: 10px;
-        }
-        .success {
-            color: green;
-        }
-        .error {
-            color: red;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+      }
+      button {
+        padding: 10px 20px;
+        color: white;
+        background-color: #4caf50;
+        border: none;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #45a049;
+      }
+      #message {
+        margin-top: 20px;
+        padding: 10px;
+      }
+      .success {
+        color: green;
+      }
+      .error {
+        color: red;
+      }
     </style>
-</head>
-<body>
-    <h1>Gestion des Accès Utilisateur</h1>
-    <form id="accessForm">
-        <input 
-            type="email" 
-            id="emailInput" 
-            placeholder="Entrez l'email de l'utilisateur" 
-            required
-        >
-        <div class="button-container">
-            <button 
-                type="button" 
-                id="grantButton" 
-                onclick="handleAccessAction('grant')"
-            >
-                Accorder l'Accès
-            </button>
-            <button 
-                type="button" 
-                id="revokeButton" 
-                onclick="handleAccessAction('revoke')"
-            >
-                Supprimer l'Accès
-            </button>
-        </div>
-    </form>
+  </head>
+  <body>
+    <h1>Accès Restreint</h1>
+    <div id="passwordPrompt" style="display: none">
+      <p>Veuillez entrer votre mot de passe pour accéder à la gestion :</p>
+      <input
+        type="password"
+        id="passwordInput"
+        placeholder="Mot de passe"
+        required
+      />
+      <button id="submitPasswordButton" onclick="submitPassword()">
+        Valider
+      </button>
+    </div>
+    <div id="accessForm" style="display: none">
+      <h2>Gestion des Accès Utilisateur</h2>
+      <input
+        type="email"
+        id="emailInput"
+        placeholder="Entrez l'email de l'utilisateur"
+        required
+      />
+      <div>
+        <button onclick="handleAccessAction('grant')">Accorder l'Accès</button>
+        <button onclick="handleAccessAction('revoke')">
+          Supprimer l'Accès
+        </button>
+      </div>
+    </div>
     <div id="message"></div>
 
     <script>
-        function handleAccessAction(action) {
-            // Récupérer l'email
-            const email = document.getElementById('emailInput').value;
-            const messageDiv = document.getElementById('message');
+      function handleAccessAction(action) {
+        // Récupérer l'email depuis le champ d'entrée
+        const email = document.getElementById("emailInput").value;
+        const messageDiv = document.getElementById("message");
 
-            // Effacer le message précédent
-            messageDiv.textContent = '';
-            messageDiv.className = '';
+        // Effacer le message précédent
+        messageDiv.textContent = "";
+        messageDiv.className = "";
 
-            // Déterminer l'URL de la requête basée sur l'action
-            const url = action === 'grant' ? '/grant-access' : '/revoke-access';
-
-            // Envoyer la requête au serveur
-            fetch(`${url}?email=${encodeURIComponent(email)}`, {
-                method: 'POST'
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    messageDiv.textContent = data.message;
-                    messageDiv.className = 'success';
-                    // Vider le champ email après succès
-                    document.getElementById('emailInput').value = '';
-                } else {
-                    messageDiv.textContent = data.error;
-                    messageDiv.className = 'error';
-                }
-            })
-            .catch(error => {
-                messageDiv.textContent = 'Erreur de connexion au serveur';
-                messageDiv.className = 'error';
-                console.error('Erreur:', error);
-            });
+        // Vérification de l'email
+        if (!email) {
+          messageDiv.textContent = "Veuillez entrer une adresse e-mail.";
+          messageDiv.className = "error";
+          return;
         }
+
+        // Récupérer l'uniqueId depuis les cookies
+        const uniqueId = getCookie("uniqueId"); // Fonction pour récupérer les cookies
+
+        if (!uniqueId) {
+          messageDiv.textContent =
+            "Identifiant unique non trouvé. Veuillez vous reconnecter.";
+          messageDiv.className = "error";
+          return;
+        }
+
+        // Déterminer l'URL de la requête basée sur l'action
+        const url = action === "grant" ? "/grant-access" : "/revoke-access";
+
+        // Envoyer la requête au serveur avec l'email et l'uniqueId
+        fetch(
+          `${url}?email=${encodeURIComponent(
+            email
+          )}&uniqueId=${encodeURIComponent(uniqueId)}`,
+          {
+            method: "POST",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              messageDiv.textContent = data.message;
+              messageDiv.className = "success";
+              // Vider le champ email après succès
+              document.getElementById("emailInput").value = "";
+            } else {
+              messageDiv.textContent = data.error;
+              messageDiv.className = "error";
+            }
+          })
+          .catch((error) => {
+            messageDiv.textContent = "Erreur de connexion au serveur";
+            messageDiv.className = "error";
+            console.error("Erreur:", error);
+          });
+      }
+
+      // Fonction utilitaire pour lire un cookie par nom
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return null;
+      }
     </script>
-</body>
+  </body>
 </html>

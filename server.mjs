@@ -13,26 +13,24 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const validPassword = '1234';
+const validUniqueId = '7a894704a9b4266024e90aec9c85e8b7';
 
-
-// Configure multer for file uploads
 const upload = multer({ 
   dest: "uploads/",
   limits: {
-    fileSize: 5 * 1024 * 1024 // Limite à 5MB
+    fileSize: 5 * 1024 * 1024 
   }
 });
 
 
 
-// Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
 
-// Routes pour l'authentification
 app.get("/script.js", (req, res) => {
   res.setHeader("Content-Type", "application/javascript");
   res.sendFile(path.join(__dirname, "public", "script.js"));
@@ -68,13 +66,11 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Route pour le téléchargement d'images et mise à jour de la photo de profil
 app.post("/upload", upload.single("image"), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: "Aucun fichier n'a été téléchargé." });
   }
 
-  // Extraire l'unique_id du nom du fichier
   const uniqueId = path.parse(req.file.originalname).name;
   
   const filePath = req.file.path;
@@ -96,13 +92,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 
     const result = await response.json();
 
-    // Supprime le fichier temporaire
     fs.unlinkSync(filePath);
 
     if (result.success) {
       const imageUrl = result.data.display_url;
 
-      // Met à jour la base de données avec l'URL de l'image en utilisant unique_id
       const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
 
       if (updateResult.success) {
@@ -136,9 +130,6 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-// Dans server.mjs, ajoutez cette nouvelle route :
-
-// Route pour récupérer la photo de profil
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
     const uniqueId = req.params.uniqueId;
@@ -180,7 +171,6 @@ app.get("/check-access", async (req, res) => {
     }
     const result = await auth.verifyAccess(uniqueId);
     if (result.success && result.access === 1) {
-      // Générer le contenu HTML pour le carousel
       const carouselContent = `
         <div class="titrefilm">Nos Films</div>
         <div class="carousel">
@@ -271,7 +261,6 @@ app.get("/check-access", async (req, res) => {
         </div>
       `;
       
-      // Envoyer le contenu du carousel au client
       res.json({ carouselContent });
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
@@ -282,19 +271,45 @@ app.get("/check-access", async (req, res) => {
   }
 });
 
-// Ajouter cette route dans server.mjs
+app.post('/verify-password', (req, res) => {
+    const { uniqueId, password } = req.body;
+
+    if (uniqueId === validUniqueId && password === validPassword) {
+        res.json({ success: true });
+    } else {
+        res.json({ success: false });
+    }
+});
+
+
 app.post("/grant-access", async (req, res) => {
   try {
-    const { email } = req.query;
+    const { email, uniqueId } = req.query;
 
+    // Vérification des paramètres requis
     if (!email) {
-      return res.status(400).json({ 
-        success: false, 
-        error: "L'email est requis" 
+      return res.status(400).json({
+        success: false,
+        error: "L'email est requis",
       });
     }
 
-    // Utiliser la nouvelle fonction du module sqlite
+    if (!uniqueId) {
+      return res.status(400).json({
+        success: false,
+        error: "L'identifiant unique est requis",
+      });
+    }
+
+    // Vérification de l'`uniqueId`
+    if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
+      return res.status(403).json({
+        success: false,
+        error: "Autorisation refusée",
+      });
+    }
+
+    // Utiliser la fonction du module sqlite pour accorder l'accès
     const result = await auth.grantAccessByEmail(email);
 
     if (result.success) {
@@ -304,25 +319,41 @@ app.post("/grant-access", async (req, res) => {
     }
   } catch (error) {
     console.error("Erreur lors de l'attribution de l'accès :", error);
-    res.status(500).json({ 
-      success: false, 
-      error: "Erreur serveur" 
+    res.status(500).json({
+      success: false,
+      error: "Erreur serveur",
     });
   }
 });
-// Ajouter cette route dans server.mjs
+
 app.post("/revoke-access", async (req, res) => {
   try {
-    const { email } = req.query;
+    const { email, uniqueId } = req.query;
 
+    // Vérification des paramètres requis
     if (!email) {
-      return res.status(400).json({ 
-        success: false, 
-        error: "L'email est requis" 
+      return res.status(400).json({
+        success: false,
+        error: "L'email est requis",
       });
     }
 
-    // Utiliser la nouvelle fonction du module sqlite
+    if (!uniqueId) {
+      return res.status(400).json({
+        success: false,
+        error: "L'identifiant unique est requis",
+      });
+    }
+
+    // Vérification de l'`uniqueId`
+    if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
+      return res.status(403).json({
+        success: false,
+        error: "Autorisation refusée",
+      });
+    }
+
+    // Utiliser la fonction du module sqlite pour révoquer l'accès
     const result = await auth.revokeAccessByEmail(email);
 
     if (result.success) {
@@ -332,9 +363,9 @@ app.post("/revoke-access", async (req, res) => {
     }
   } catch (error) {
     console.error("Erreur lors de la révocation de l'accès :", error);
-    res.status(500).json({ 
-      success: false, 
-      error: "Erreur serveur" 
+    res.status(500).json({
+      success: false,
+      error: "Erreur serveur",
     });
   }
 });
