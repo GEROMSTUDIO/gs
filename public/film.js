@@ -1,89 +1,278 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Conteneur pour les films
-    const filmContainer = document.getElementById('filmContainer');
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  hideBanner();
+}
 
-    // Liste de films (vous pouvez remplacer par vos propres données)
-    const films = [
-        { 
-            titre: 'Inception', 
-            realisateur: 'Christopher Nolan', 
-            annee: 2010,
-            description: 'Un film de science-fiction sur le vol de secrets dans les rêves.'
-        },
-        { 
-            titre: 'Matrix', 
-            realisateur: 'Lana et Lilly Wachowski', 
-            annee: 1999,
-            description: 'Un film révolutionnaire sur la réalité virtuelle et la rébellion humaine.'
-        },
-        { 
-            titre: 'Interstellar', 
-            realisateur: 'Christopher Nolan', 
-            annee: 2014,
-            description: 'Un voyage spatial à la recherche d\'une nouvelle terre pour l\'humanité.'
-        }
-    ];
+function rejectCookies() {
+  localStorage.setItem("cookieConsent", "rejected");
+  hideBanner();
+}
 
-    // Fonction pour créer un élément de film
-    function creerElementFilm(film) {
-        const filmElement = document.createElement('div');
-        filmElement.classList.add('film-item');
-        filmElement.innerHTML = `
-            <h3>${film.titre}</h3>
-            <p><strong>Réalisateur:</strong> ${film.realisateur}</p>
-            <p><strong>Année:</strong> ${film.annee}</p>
-            <p>${film.description}</p>
-            <button class="details-btn">Voir plus</button>
-        `;
+function hideBanner() {
+  const banner = document.getElementById("cookieBanner");
+  banner.style.opacity = "0";
+  setTimeout(() => {
+    banner.classList.remove("show");
+    banner.style.opacity = "1";
+  }, 300);
+}
 
-        // Ajout d'interactivité au bouton
-        const detailsBtn = filmElement.querySelector('.details-btn');
-        detailsBtn.addEventListener('click', () => {
-            alert(`Détails de ${film.titre} :\n\n${film.description}`);
-        });
+// Fonction pour obtenir un cookie par son nom
+function getUniqueIdFromCookie() {
+  return document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("uniqueId="))
+    ?.split("=")[1];
+}
 
-        return filmElement;
+// Vérifie l'authentification immédiatement
+(function checkAuth() {
+  const uniqueId = getUniqueIdFromCookie();
+  const currentUrl = window.location.href;
+
+  // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+  if (!currentUrl.includes("connect=true") && uniqueId) {
+    const redirectURL = `https://geromstudio.glitch.me/test.html?connect=true&uniqueId=${encodeURIComponent(
+      uniqueId
+    )}`;
+    window.location.href = redirectURL;
+  } else if (!uniqueId) {
+    console.log("Non connecté");
+  }
+})();
+
+window.addEventListener("load", function () {
+  const banner = document.getElementById("cookieBanner");
+  const cookieConsent = localStorage.getItem("cookieConsent");
+
+  if (!cookieConsent) {
+    setTimeout(() => {
+      banner.classList.add("show");
+    }, 1000);
+  }
+});
+
+const searchBox = document.getElementById("searchBox");
+const searchIcon = document.getElementById("searchIcon");
+const searchInput = document.getElementById("searchInput");
+
+// Afficher ou masquer le champ de recherche
+searchBox.addEventListener("click", function (event) {
+  searchBox.classList.toggle("open");
+  searchIcon.style.display = searchBox.classList.contains("open")
+    ? "none"
+    : "inline-block";
+  if (searchBox.classList.contains("open")) {
+    searchInput.focus(); // Focus sur le champ de texte quand il apparaît
+  }
+  event.stopPropagation(); // Empêche la propagation de l'événement au document
+});
+
+// Fermer le champ de recherche si l'utilisateur clique ailleurs
+document.addEventListener("click", function (event) {
+  if (!searchBox.contains(event.target)) {
+    searchBox.classList.remove("open");
+    searchIcon.style.display = "inline-block";
+  }
+});
+
+// Fermer le champ de recherche si l'utilisateur appuie sur Entrée
+searchInput.addEventListener("keydown", function (event) {
+  if (event.key === "Enter") {
+    searchBox.classList.remove("open");
+    searchIcon.style.display = "inline-block";
+  }
+});
+
+const header = document.getElementById("header");
+header.classList.add("bg");
+let lastScrollY = window.scrollY;
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > lastScrollY) {
+    // Si on descend, cacher le header, sauf si on est déjà en haut
+    if (window.scrollY > 0) {
+      header.classList.add("hidden");
+      dropdownMenu.style.display = "none";
     }
+  } else {
+    // Si on remonte, afficher le header
+    header.classList.remove("hidden");
+  }
 
-    // Fonction pour afficher les films
-    function afficherFilms() {
-        // Vider le conteneur
-        filmContainer.innerHTML = '';
+  lastScrollY = window.scrollY;
 
-        // Ajouter chaque film
-        films.forEach(film => {
-            const filmElement = creerElementFilm(film);
-            filmContainer.appendChild(filmElement);
-        });
+  // Vérifie si on est vraiment en haut de la page
+  if (window.scrollY === 0) {
+    header.classList.add("bg");
+  } else {
+    header.classList.remove("bg");
+  }
+});
+
+function onUserConnected() {
+  const loginButton = document.querySelector(".right-nav .login");
+  const profilePicture = document.getElementById("profile-picture");
+
+  if (loginButton) {
+    loginButton.classList.remove("show-login");
+  }
+
+  if (profilePicture) {
+    profilePicture.classList.add("show");
+    const dropdownMenu = document.querySelector(".dropdown-menu");
+    if (dropdownMenu) {
+      dropdownMenu.style.display = "";
     }
+  }
 
-    // Fonction pour ajouter un nouveau film
-    function ajouterFilm() {
-        const nouveauFilm = {
-            titre: prompt('Entrez le titre du film :'),
-            realisateur: prompt('Entrez le réalisateur :'),
-            annee: parseInt(prompt('Entrez l\'année de sortie :')),
-            description: prompt('Entrez une description :')
-        };
+  fetchProfilePicture();
+}
 
-        // Valider les données
-        if (nouveauFilm.titre && nouveauFilm.realisateur && nouveauFilm.annee && nouveauFilm.description) {
-            films.push(nouveauFilm);
-            afficherFilms();
-        } else {
-            alert('Veuillez remplir tous les champs');
-        }
+function onUserDisconnected() {
+  console.log("L'utilisateur n'est pas connecté !");
+
+  const loginButton = document.querySelector(".right-nav .login");
+
+  if (loginButton) {
+    loginButton.classList.add("show-login");
+  }
+}
+
+function getCookie(name) {
+  const cookies = document.cookie.split("; ");
+  for (const cookie of cookies) {
+    const [key, value] = cookie.split("=");
+    if (key === name) return value;
+  }
+  return null;
+}
+
+async function fetchProfilePicture() {
+  const uniqueId = getCookie("uniqueId");
+  const profilePicture = document.getElementById("profile-picture");
+
+  if (!uniqueId) {
+    console.error("UniqueId introuvable dans les cookies.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`/profile-picture/${uniqueId}`);
+    const data = await response.json();
+
+    if (data.success && data.imageUrl) {
+      profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+      profilePicture.style.backgroundColor = "transparent";
+      profilePicture.classList.add("show");
+    } else {
+      // En cas d'erreur, afficher une image par défaut
+      profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+      profilePicture.classList.add("show");
     }
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'image :", error);
+    profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+    profilePicture.classList.add("show");
+  }
+}
 
-    // Créer un bouton pour ajouter des films
-    const ajouterFilmBtn = document.createElement('button');
-    ajouterFilmBtn.textContent = 'Ajouter un Film';
-    ajouterFilmBtn.classList.add('ajouter-film-btn');
-    ajouterFilmBtn.addEventListener('click', ajouterFilm);
+document.addEventListener("DOMContentLoaded", fetchProfilePicture);
 
-    // Ajouter le bouton avant le conteneur de films
-    filmContainer.parentNode.insertBefore(ajouterFilmBtn, filmContainer);
+const profileContainer = document.getElementById("profile-container");
+const dropdownMenu = document.getElementById("dropdown-menu");
 
-    // Afficher les films initiaux
-    afficherFilms();
+profileContainer.addEventListener("click", () => {
+  const isMenuVisible = dropdownMenu.style.display === "block";
+  dropdownMenu.style.display = isMenuVisible ? "none" : "block";
+});
+
+document.addEventListener("click", (event) => {
+  if (
+    !profileContainer.contains(event.target) &&
+    !dropdownMenu.contains(event.target)
+  ) {
+    dropdownMenu.style.display = "none";
+  }
+});
+
+const menuToggle = document.getElementById("menu-toggle");
+const menu = document.getElementById("menu");
+const menuList = document.getElementById("menu-list");
+
+menuToggle.addEventListener("click", (event) => {
+  event.stopPropagation();
+  menu.style.display =
+    menu.style.display === "none" || menu.style.display === ""
+      ? "block"
+      : "none";
+});
+
+document.addEventListener("click", (event) => {
+  if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+    menu.style.display = "none";
+  }
+});
+
+const uniqueId = getCookie("uniqueId");
+
+if (uniqueId) {
+  menuList.innerHTML = `
+        <li><a href="/profile.html" class="profile">Mon compte</a></li>
+        <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
+      `;
+  menu.style.width = "170px";
+} else {
+  menuList.innerHTML = `
+        <li><a href="/login.html" class="login">Se connecter</a></li>
+      `;
+  menu.style.width = "150px";
+}
+
+const carousel = document.querySelector(".carousel");
+const items = document.querySelectorAll(".carousel-item");
+const itemWidth = items[0].offsetWidth + 30;
+
+function moveNext() {
+  carousel.style.transition = "none";
+  const firstItem = carousel.firstElementChild;
+  carousel.appendChild(firstItem);
+  carousel.style.transform = "translateX(0)";
+  carousel.offsetHeight;
+  carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+  carousel.style.transform = `translateX(-${itemWidth}px)`;
+}
+
+function movePrev() {
+  carousel.style.transition = "none";
+  const lastItem = carousel.lastElementChild;
+  carousel.prepend(lastItem);
+  carousel.style.transform = `translateX(-${itemWidth}px)`;
+  carousel.offsetHeight;
+  carousel.style.transition = "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+  carousel.style.transform = "translateX(0)";
+}
+
+// Auto scroll toutes les 12 secondes
+let autoScroll = setInterval(moveNext, 12000);
+
+document.getElementById("next").addEventListener("click", () => {
+  clearInterval(autoScroll);
+  moveNext();
+  autoScroll = setInterval(moveNext, 12000);
+});
+
+document.getElementById("prev").addEventListener("click", () => {
+  clearInterval(autoScroll);
+  movePrev();
+  autoScroll = setInterval(moveNext, 12000);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("connect") === "true") {
+    onUserConnected();
+  } else {
+    onUserDisconnected();
+  }
 });
