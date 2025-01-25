@@ -191,21 +191,20 @@ app.get("/private-page", async (req, res) => {
 
 app.get("/check-access", async (req, res) => {
   try {
-    const { uniqueId } = req.query; // Récupérer le uniqueId depuis les paramètres de l'URL
+    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
 
     if (!uniqueId) {
       return res.status(400).json({ error: "Identifiant unique manquant" });
     }
 
-    // Vérification de l'accès via le module auth
+    // Déléguer la vérification à la base de données
     const result = await auth.verifyAccess(uniqueId);
 
     if (result.success && result.access === 1) {
-      // Si l'accès est autorisé, envoyer le contenu HTML
-      res.send(authorizedContent);
+      // Si l'accès est autorisé, envoyer le contenu de hidden.html
+      res.sendFile(path.join(__dirname, "public", "film.html"));
     } else {
-      // Si l'accès est refusé, envoyer le contenu HTML de refus
-      res.status(403).send(unauthorizedContent);
+      res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
   } catch (error) {
     console.error("Erreur lors de la vérification d'accès:", error);

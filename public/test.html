@@ -8,7 +8,6 @@
     </style>
     <meta charset="UTF-8" />
     <title>Vérification d'Accès</title>
-    <div id="importedContent"></div>
     <script>
       // Fonction pour récupérer un cookie par son nom
       function getCookie(name) {
@@ -18,39 +17,42 @@
         return null;
       }
 
+      // Fonction pour vérifier l'accès
       function checkAccess() {
+        // Récupérer le uniqueId depuis les cookies
         const uniqueId = getCookie("uniqueId");
 
         if (!uniqueId) {
           document.getElementById("message").textContent =
             "Aucun identifiant trouvé. Veuillez vous connecter.";
-          window.location.href = `/login.html`;
+          const redirectURL = `/login.html`;
+          window.location.href = redirectURL;
           return;
         }
 
-        // Requête pour vérifier l'accès
+        // Envoyer une requête au serveur pour vérifier l'accès
         fetch(`/check-access?uniqueId=${uniqueId}`)
           .then((response) => {
             if (response.ok) {
-              return response.text(); // Retourne le contenu HTML du serveur
+              return response.text();
             } else {
               throw new Error("Accès refusé");
             }
           })
           .then((html) => {
-            // Injecter le contenu retourné dans la page
-            document.getElementById("importedContent").innerHTML = html;
+            // Mettre à jour le contenu de la page
+            document.body.innerHTML = html;
           })
           .catch((error) => {
             document.getElementById("message").textContent =
               "Accès non autorisé : " + error.message;
-            window.location.href = `/403.html`;
+            const redirectURL = `/403.html`;
+            window.location.href = redirectURL;
           });
       }
 
       // Lancer la vérification au chargement de la page
       window.onload = checkAccess;
-
     </script>
   </head>
   <body>

@@ -267,42 +267,6 @@ document.getElementById("prev").addEventListener("click", () => {
   movePrev();
   autoScroll = setInterval(moveNext, 12000);
 });
-
-      function checkAccess() {
-        const uniqueId = getCookie("uniqueId");
-
-        if (!uniqueId) {
-          document.getElementById("message").textContent =
-            "Aucun identifiant trouvé. Veuillez vous connecter.";
-          window.location.href = `/login.html`;
-          return;
-        }
-
-        // Requête pour vérifier l'accès
-        fetch(`/check-access?uniqueId=${uniqueId}`)
-          .then((response) => {
-            if (response.ok) {
-              return response.text(); // Retourne le contenu HTML du serveur
-            } else {
-              throw new Error("Accès refusé");
-            }
-          })
-          .then((html) => {
-            // Injecter le contenu retourné dans la page
-            document.getElementById("importedContent").innerHTML = html;
-          })
-          .catch((error) => {
-            document.getElementById("message").textContent =
-              "Accès non autorisé : " + error.message;
-            window.location.href = `/403.html`;
-          });
-      }
-
-      // Lancer la vérification au chargement de la page
-      window.onload = checkAccess;
-
-
-
+o
 document.addEventListener("DOMContentLoaded", function () {
- cation.search);
-  if (urlP
+ 
