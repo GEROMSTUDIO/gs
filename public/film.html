@@ -1,14 +1,165 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <style>
-      body {
-        background-color: rgb(0, 0, 0);
-      }
-    </style>
     <meta charset="UTF-8" />
-    <title>Vérification d'Accès</title>
-    <div id="importedContent"></div>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GEROM STUDIO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="film.css" />
+    <link
+      rel="icon"
+      href="https://i.ibb.co/jg1z28S/logo.png"
+      type="image/x-icon"
+    />
+  </head>
+
+  <body>
+    <div class="main-content">
+      <header id="header">
+        <nav class="left-nav">
+          <a href="#" class="film">Films</a>
+          <a href="#" class="about">À propos</a>
+          <a href="#" class="contact">Contact</a>
+        </nav>
+        <a href="/index.html" class="home">
+          <img
+            class="logo"
+            src="https://i.ibb.co/4s6sMj9/Logo-removebg-preview.png"
+            alt="Logo du site"
+          />
+        </a>
+        <nav class="right-nav">
+          <a href="login.html" class="login">Se connecter</a>
+          <div class="search-container" id="searchBox">
+            <span class="search-icon" id="searchIcon">
+              <i class="fas fa-search"></i>
+            </span>
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Rechercher..."
+              id="searchInput"
+            />
+          </div>
+          <div class="profile-container" id="profile-container">
+            <div id="profile-picture"></div>
+            <div class="dropdown-arrow"></div>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu">
+            <a href="/profile.html" class="profile-button">Mon compte</a>
+            <div class="dropdown-divider"></div>
+            <a href="/disconnect.html" class="logout-button">Se déconnecter</a>
+          </div>
+        </nav>
+      </header>
+
+      <div class="container">
+        <div class="image-section">
+          <img
+            class="fit-picture"
+            src="https://cdn.pixabay.com/photo/2019/05/19/10/40/cinema-4213751_1280.jpg"
+            alt="Image d'arrière-plan"
+          />
+        </div>
+      </div>
+
+      <div class="bandeau-noir">
+        <h1 class="titre">Films</h1>
+      </div>
+      <div class="bandeau-fondu"></div>
+
+      <div id="importedContent"></div>
+
+      <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-container">
+          <div class="cookie-content">
+            <img
+              src="https://img.icons8.com/?size=64&id=KEx6NTeFDrA8&format=png"
+              alt="Popcorn icon"
+              class="cookie-icon"
+            />
+            <div class="cookie-text">
+              Ce site utilise des cookies pour vous garantir la meilleure
+              expérience sur notre site. En utilisant notre site, vous acceptez
+              les cookies.
+              <a href="#" class="cookie-link">Découvrir nos conditions</a>
+            </div>
+          </div>
+          <div class="cookie-buttons">
+            <button class="cookie-btn accept-btn" onclick="acceptCookies()">
+              Autoriser
+            </button>
+            <button class="cookie-btn reject-btn" onclick="rejectCookies()">
+              Refuser
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="central-container">
+        <div id="menu-toggle" class="menu-toggle">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+
+        <div id="menu" class="menu">
+          <ul id="menu-list"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-dark">
+      <footer>
+        <div>
+          <div class="footer-content">
+            <div>
+              <h3>Services</h3>
+              <ul>
+                <li><a href="#">Film</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a href="#">Emploi</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>À propos</h3>
+              <ul>
+                <li><a href="#">Production</a></li>
+                <li><a href="#">Équipe</a></li>
+                <li><a href="#">Actualité</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Company Name</h3>
+              <p>
+                Société de production cinématographique dédiée à la création de
+                contenus professionnels pour le grand écran. Nous accompagnons
+                chaque étape de vos projets, de l’idée originale à la
+                post-production finale.
+              </p>
+            </div>
+          </div>
+          <div class="social-icons" style="margin-top: 20px">
+            <a href="https://www.youtube.com/@GEROMSTUDIO" target="_blank"
+              ><i class="fab fa-youtube"></i
+            ></a>
+          </div>
+          <p class="copyright">GEROM STUDIO © 2025</p>
+        </div>
+      </footer>
+    </div>
+
     <script>
       // Fonction pour récupérer un cookie par son nom
       function getCookie(name) {
@@ -51,8 +202,290 @@
 
       // Lancer la vérification au chargement de la page
       window.onload = checkAccess;
+
+      function acceptCookies() {
+        localStorage.setItem("cookieConsent", "accepted");
+        hideBanner();
+      }
+
+      function rejectCookies() {
+        localStorage.setItem("cookieConsent", "rejected");
+        hideBanner();
+      }
+
+      function hideBanner() {
+        const banner = document.getElementById("cookieBanner");
+        banner.style.opacity = "0";
+        setTimeout(() => {
+          banner.classList.remove("show");
+          banner.style.opacity = "1";
+        }, 300);
+      }
+
+      // Fonction pour obtenir un cookie par son nom
+      function getUniqueIdFromCookie() {
+        return document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("uniqueId="))
+          ?.split("=")[1];
+      }
+
+      // Vérifie l'authentification immédiatement
+      (function checkAuth() {
+        const uniqueId = getUniqueIdFromCookie();
+        const currentUrl = window.location.href;
+
+        // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+        if (!currentUrl.includes("connect=true") && uniqueId) {
+          const redirectURL = `https://geromstudio.glitch.me/film.html?connect=true&uniqueId=${encodeURIComponent(
+            uniqueId
+          )}`;
+          window.location.href = redirectURL;
+        } else if (!uniqueId) {
+          console.log("Non connecté");
+        }
+      })();
+
+      window.addEventListener("load", function () {
+        const banner = document.getElementById("cookieBanner");
+        const cookieConsent = localStorage.getItem("cookieConsent");
+
+        if (!cookieConsent) {
+          setTimeout(() => {
+            banner.classList.add("show");
+          }, 1000);
+        }
+      });
+
+      const searchBox = document.getElementById("searchBox");
+      const searchIcon = document.getElementById("searchIcon");
+      const searchInput = document.getElementById("searchInput");
+
+      // Afficher ou masquer le champ de recherche
+      searchBox.addEventListener("click", function (event) {
+        searchBox.classList.toggle("open");
+        searchIcon.style.display = searchBox.classList.contains("open")
+          ? "none"
+          : "inline-block";
+        if (searchBox.classList.contains("open")) {
+          searchInput.focus(); // Focus sur le champ de texte quand il apparaît
+        }
+        event.stopPropagation(); // Empêche la propagation de l'événement au document
+      });
+
+      // Fermer le champ de recherche si l'utilisateur clique ailleurs
+      document.addEventListener("click", function (event) {
+        if (!searchBox.contains(event.target)) {
+          searchBox.classList.remove("open");
+          searchIcon.style.display = "inline-block";
+        }
+      });
+
+      // Fermer le champ de recherche si l'utilisateur appuie sur Entrée
+      searchInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          searchBox.classList.remove("open");
+          searchIcon.style.display = "inline-block";
+        }
+      });
+
+      const header = document.getElementById("header");
+      header.classList.add("bg");
+      let lastScrollY = window.scrollY;
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > lastScrollY) {
+          // Si on descend, cacher le header, sauf si on est déjà en haut
+          if (window.scrollY > 0) {
+            header.classList.add("hidden");
+            dropdownMenu.style.display = "none";
+          }
+        } else {
+          // Si on remonte, afficher le header
+          header.classList.remove("hidden");
+        }
+
+        lastScrollY = window.scrollY;
+
+        // Vérifie si on est vraiment en haut de la page
+        if (window.scrollY === 0) {
+          header.classList.add("bg");
+        } else {
+          header.classList.remove("bg");
+        }
+      });
+
+      function onUserConnected() {
+        const loginButton = document.querySelector(".right-nav .login");
+        const profilePicture = document.getElementById("profile-picture");
+
+        if (loginButton) {
+          loginButton.classList.remove("show-login");
+        }
+
+        if (profilePicture) {
+          profilePicture.classList.add("show");
+          const dropdownMenu = document.querySelector(".dropdown-menu");
+          if (dropdownMenu) {
+            dropdownMenu.style.display = "";
+          }
+        }
+
+        fetchProfilePicture();
+      }
+
+      function onUserDisconnected() {
+        console.log("L'utilisateur n'est pas connecté !");
+
+        const loginButton = document.querySelector(".right-nav .login");
+
+        if (loginButton) {
+          loginButton.classList.add("show-login");
+        }
+      }
+
+      function getCookie(name) {
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
+      }
+
+      async function fetchProfilePicture() {
+        const uniqueId = getCookie("uniqueId");
+        const profilePicture = document.getElementById("profile-picture");
+
+        if (!uniqueId) {
+          console.error("UniqueId introuvable dans les cookies.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`/profile-picture/${uniqueId}`);
+          const data = await response.json();
+
+          if (data.success && data.imageUrl) {
+            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+            profilePicture.style.backgroundColor = "transparent";
+            profilePicture.classList.add("show");
+          } else {
+            // En cas d'erreur, afficher une image par défaut
+            profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+            profilePicture.classList.add("show");
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération de l'image :", error);
+          profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+          profilePicture.classList.add("show");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchProfilePicture);
+
+      const profileContainer = document.getElementById("profile-container");
+      const dropdownMenu = document.getElementById("dropdown-menu");
+
+      profileContainer.addEventListener("click", () => {
+        const isMenuVisible = dropdownMenu.style.display === "block";
+        dropdownMenu.style.display = isMenuVisible ? "none" : "block";
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          !profileContainer.contains(event.target) &&
+          !dropdownMenu.contains(event.target)
+        ) {
+          dropdownMenu.style.display = "none";
+        }
+      });
+
+      const menuToggle = document.getElementById("menu-toggle");
+      const menu = document.getElementById("menu");
+      const menuList = document.getElementById("menu-list");
+
+      menuToggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        menu.style.display =
+          menu.style.display === "none" || menu.style.display === ""
+            ? "block"
+            : "none";
+      });
+
+      document.addEventListener("click", (event) => {
+        if (
+          !menu.contains(event.target) &&
+          !menuToggle.contains(event.target)
+        ) {
+          menu.style.display = "none";
+        }
+      });
+
+      const uniqueId = getCookie("uniqueId");
+
+      if (uniqueId) {
+        menuList.innerHTML = `
+        <li><a href="/profile.html" class="profile">Mon compte</a></li>
+        <li><a href="/disconnect.html" class="logout">Se déconnecter</a></li>
+      `;
+        menu.style.width = "170px";
+      } else {
+        menuList.innerHTML = `
+        <li><a href="/login.html" class="login">Se connecter</a></li>
+      `;
+        menu.style.width = "150px";
+      }
+
+      const carousel = document.querySelector(".carousel");
+      const items = document.querySelectorAll(".carousel-item");
+      const itemWidth = items[0].offsetWidth + 30;
+
+      function moveNext() {
+        carousel.style.transition = "none";
+        const firstItem = carousel.firstElementChild;
+        carousel.appendChild(firstItem);
+        carousel.style.transform = "translateX(0)";
+        carousel.offsetHeight;
+        carousel.style.transition =
+          "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+        carousel.style.transform = `translateX(-${itemWidth}px)`;
+      }
+
+      function movePrev() {
+        carousel.style.transition = "none";
+        const lastItem = carousel.lastElementChild;
+        carousel.prepend(lastItem);
+        carousel.style.transform = `translateX(-${itemWidth}px)`;
+        carousel.offsetHeight;
+        carousel.style.transition =
+          "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
+        carousel.style.transform = "translateX(0)";
+      }
+
+      // Auto scroll toutes les 12 secondes
+      let autoScroll = setInterval(moveNext, 12000);
+
+      document.getElementById("next").addEventListener("click", () => {
+        clearInterval(autoScroll);
+        moveNext();
+        autoScroll = setInterval(moveNext, 12000);
+      });
+
+      document.getElementById("prev").addEventListener("click", () => {
+        clearInterval(autoScroll);
+        movePrev();
+        autoScroll = setInterval(moveNext, 12000);
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("connect") === "true") {
+          onUserConnected();
+        } else {
+          onUserDisconnected();
+        }
+      });
     </script>
-  </head>
-  <body>
   </body>
 </html>
