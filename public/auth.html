@@ -2,19 +2,45 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des Accès Utilisateur</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
             max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
             text-align: center;
+            color: #333;
         }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        input:focus {
+            border-color: #4CAF50;
+            outline: none;
         }
         .button-container {
             display: flex;
@@ -22,11 +48,13 @@
             gap: 10px;
         }
         button {
-            flex-grow: 1;
-            padding: 10px 20px;
+            padding: 12px 20px;
             color: white;
             border: none;
+            border-radius: 4px;
             cursor: pointer;
+            flex-grow: 1;
+            font-size: 16px;
         }
         #grantButton {
             background-color: #4CAF50;
@@ -40,111 +68,155 @@
         #revokeButton:hover {
             background-color: #d32f2f;
         }
-        #message {
+        .message {
             margin-top: 20px;
             padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 16px;
         }
         .success {
-            color: green;
+            background-color: #d4edda;
+            color: #155724;
         }
         .error {
-            color: red;
+            background-color: #f8d7da;
+            color: #721c24;
         }
     </style>
 </head>
 <body>
-    <h1>Gestion des Accès Utilisateur</h1>
-    <form id="accessForm">
-        <input 
-            type="email" 
-            id="emailInput" 
-            placeholder="Entrez l'email de l'utilisateur" 
-            required
-        >
-        <input 
-            type="password" 
-            id="passwordInput" 
-            placeholder="Entrez le mot de passe admin" 
-            required
-        >
-        <div class="button-container">
-            <button 
-                type="button" 
-                id="grantButton" 
-                onclick="handleAccessAction('grant')"
+
+    <div class="container">
+        <h1>Gestion des Accès Utilisateur</h1>
+        
+        <!-- Étape 1 : Vérification du mot de passe -->
+        <div id="step1">
+            <input 
+                type="password" 
+                id="passwordInput" 
+                placeholder="Entrez le mot de passe admin" 
+                required
             >
-                Accorder l'Accès
-            </button>
-            <button 
-                type="button" 
-                id="revokeButton" 
-                onclick="handleAccessAction('revoke')"
-            >
-                Supprimer l'Accès
-            </button>
+            <button onclick="verifyPassword()">Vérifier le mot de passe</button>
+            <div id="step1Message" class="message"></div>
         </div>
-    </form>
-    <div id="message"></div>
+        
+        <!-- Étape 2 : Formulaire pour accorder ou révoquer l'accès -->
+        <div id="step2" style="display:none;">
+            <input 
+                type="email" 
+                id="emailInput" 
+                placeholder="Entrez l'email de l'utilisateur" 
+                required
+            >
+            <div class="button-container">
+                <button 
+                    type="button" 
+                    id="grantButton" 
+                    onclick="handleAccessAction('grant')"
+                >
+                    Accorder l'Accès
+                </button>
+                <button 
+                    type="button" 
+                    id="revokeButton" 
+                    onclick="handleAccessAction('revoke')"
+                >
+                    Supprimer l'Accès
+                </button>
+            </div>
+            <div id="step2Message" class="message"></div>
+        </div>
+    </div>
 
     <script>
-        function handleAccessAction(action) {
-            // Récupérer l'email, le mot de passe et le message
-            const email = document.getElementById('emailInput').value;
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(';');
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookie = cookieArr[i].trim();
+                if (cookie.startsWith(name + '=')) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+            return null; // Si le cookie n'existe pas
+        }
+
+        function verifyPassword() {
             const password = document.getElementById('passwordInput').value;
-            const messageDiv = document.getElementById('message');
-            const uniqueId = "7a894704a9b4266024e90aec9c85e8b7"; // Exemple d'uniqueId
-
-            // Effacer le message précédent
-            messageDiv.textContent = '';
-            messageDiv.className = '';
-
-            // Vérification des champs
-            if (!email) {
-                messageDiv.textContent = "Veuillez entrer une adresse email valide.";
-                messageDiv.className = "error";
+            const uniqueId = getCookie('uniqueId');
+            const messageDiv = document.getElementById('step1Message');
+            
+            if (!uniqueId) {
+                messageDiv.textContent = "L'ID unique est introuvable dans les cookies.";
+                messageDiv.classList.add('error');
                 return;
             }
 
             if (!password) {
-                messageDiv.textContent = "Veuillez entrer le mot de passe admin.";
-                messageDiv.className = "error";
+                messageDiv.textContent = "Veuillez entrer le mot de passe.";
+                messageDiv.classList.add('error');
                 return;
             }
 
-            // Déterminer l'URL de la requête basée sur l'action
-            const url = action === 'grant' ? '/grant-access' : '/revoke-access';
-
-            // Envoyer la requête au serveur avec l'email, le mot de passe et l'uniqueId
-            fetch(url, {
+            fetch('/verify-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    uniqueId: uniqueId
-                })
+                body: JSON.stringify({ password, uniqueId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Passer à l'étape 2 si la vérification du mot de passe réussie
+                    document.getElementById('step1').style.display = 'none';
+                    document.getElementById('step2').style.display = 'block';
+                } else {
+                    messageDiv.textContent = "Mot de passe incorrect.";
+                    messageDiv.classList.add('error');
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Erreur de connexion au serveur';
+                messageDiv.classList.add('error');
+            });
+        }
+
+        function handleAccessAction(action) {
+            const email = document.getElementById('emailInput').value;
+            const uniqueId = getCookie('uniqueId');
+            const messageDiv = document.getElementById('step2Message');
+            
+            if (!email) {
+                messageDiv.textContent = "Veuillez entrer l'email.";
+                messageDiv.classList.add('error');
+                return;
+            }
+
+            fetch(action === 'grant' ? '/grant-access' : '/revoke-access', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, uniqueId }),
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
                     messageDiv.textContent = data.message || "Action réalisée avec succès.";
-                    messageDiv.className = 'success';
-                    // Vider les champs après succès
-                    document.getElementById('emailInput').value = '';
-                    document.getElementById('passwordInput').value = '';
+                    messageDiv.classList.add('success');
                 } else {
                     messageDiv.textContent = data.error || "Une erreur s'est produite.";
-                    messageDiv.className = 'error';
+                    messageDiv.classList.add('error');
                 }
             })
             .catch(error => {
                 messageDiv.textContent = 'Erreur de connexion au serveur';
-                messageDiv.className = 'error';
-                console.error('Erreur:', error);
+                messageDiv.classList.add('error');
             });
         }
     </script>
+
 </body>
 </html>

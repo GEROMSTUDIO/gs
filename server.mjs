@@ -13,8 +13,6 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const validPassword = '1234';
-const validUniqueId = '7a894704a9b4266024e90aec9c85e8b7';
 
 const upload = multer({ 
   dest: "uploads/",
@@ -276,7 +274,7 @@ app.post('/verify-password', (req, res) => {
 
     // Remplacer ces variables par vos données réelles
     const validUniqueId = "7a894704a9b4266024e90aec9c85e8b7";
-    const validPassword = "votreMotDePasse";
+    const validPassword = "1234";
 
     if (uniqueId === validUniqueId && password === validPassword) {
         res.json({ success: true });
@@ -287,7 +285,7 @@ app.post('/verify-password', (req, res) => {
 
 app.post("/grant-access", async (req, res) => {
     try {
-        const { email, uniqueId } = req.body;
+        const { email, uniqueId } = req.body;  // Utilisation de req.body et non req.query
 
         if (!email || !uniqueId) {
             return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
@@ -309,7 +307,7 @@ app.post("/grant-access", async (req, res) => {
 
 app.post("/revoke-access", async (req, res) => {
     try {
-        const { email, uniqueId } = req.body;
+        const { email, uniqueId } = req.body;  // Utilisation de req.body et non req.query
 
         if (!email || !uniqueId) {
             return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
@@ -328,6 +326,7 @@ app.post("/revoke-access", async (req, res) => {
         res.status(500).json({ success: false, error: "Erreur serveur" });
     }
 });
+
 
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
