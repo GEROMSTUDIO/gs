@@ -40,6 +40,11 @@
           .then((html) => {
             // Injecter le contenu retourné dans la page
             document.getElementById("importedContent").innerHTML = html;
+
+            // Charger dynamiquement le script
+            const script = document.createElement("script");
+            script.src = "/views/film.js";
+            document.body.appendChild(script);
           })
           .catch((error) => {
             document.getElementById("message").textContent =

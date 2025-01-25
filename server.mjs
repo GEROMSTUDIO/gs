@@ -171,17 +171,36 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
   }
 });
 
-app.get("/private-page", async (req, res) => {
+app.get("/check-access", async (req, res) => {
   try {
-    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
-
+    const { uniqueId } = req.query;
     if (!uniqueId) {
-      return res.status(403).json({ error: "Accès interdit : identifiant unique manquant" });
+      return res.status(400).json({ error: "Identifiant unique manquant" });
     }
-
-    const result = await auth.verifyAccess(uniqueId);  // Vérifier l'accès en fonction du uniqueId
-    if (result.success && result.user.access === 1) {
-      res.status(200).send("<h1>Bienvenue sur la page privée</h1>");
+    
+    // Vérification de l'accès
+    const result = await auth.verifyAccess(uniqueId);
+    
+    if (result.success && result.access === 1) {
+      // Lire le contenu du fichier HTML
+      const htmlContent = fs.readFileSync(path.join(__dirname, "views", "hidden.html"), 'utf8');
+      
+      // Injecter le script de manière sécurisée
+      const modifiedHtml = htmlContent.replace('</body>', `
+        <script>
+          // Récupérer et exécuter le contenu de film.js dynamiquement
+          fetch('/get-film-script')
+            .then(response => response.text())
+            .then(scriptContent => {
+              const scriptElement = document.createElement('script');
+              scriptElement.textContent = scriptContent;
+              document.body.appendChild(scriptElement);
+            })
+            .catch(error => console.error('Erreur de chargement du script:', error));
+        </script>
+      </body>`);
+      
+      res.send(modifiedHtml);
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
@@ -191,26 +210,24 @@ app.get("/private-page", async (req, res) => {
   }
 });
 
-app.get("/check-access", async (req, res) => {
+// Route sécurisée pour servir le script
+app.get("/get-film-script", async (req, res) => {
   try {
-    const { uniqueId } = req.query;  // Récupérer le uniqueId depuis les paramètres de l'URL
-
-    if (!uniqueId) {
-      return res.status(400).json({ error: "Identifiant unique manquant" });
-    }
-
-    // Déléguer la vérification à la base de données
+    // Vérifier à nouveau l'authentification si nécessaire
+    const uniqueId = req.cookies.uniqueId; // Ou récupérer l'ID de session
     const result = await auth.verifyAccess(uniqueId);
-
+    
     if (result.success && result.access === 1) {
-      // Si l'accès est autorisé, envoyer le contenu de hidden.html
-      res.sendFile(path.join(__dirname, "views", "hidden.html"));
+      // Lire et envoyer le contenu du script
+      const scriptContent = fs.readFileSync(path.join(__dirname, "views", "film.js"), 'utf8');
+      res.type('application/javascript');
+      res.send(scriptContent);
     } else {
-      res.status(403).json({ error: "Accès interdit : droits insuffisants" });
+      res.status(403).send('Accès non autorisé');
     }
   } catch (error) {
-    console.error("Erreur lors de la vérification d'accès:", error);
-    res.status(500).json({ error: "Erreur serveur" });
+    console.error("Erreur lors de la récupération du script:", error);
+    res.status(500).send('Erreur serveur');
   }
 });
 
