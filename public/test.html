@@ -8,7 +8,6 @@
     </style>
     <meta charset="UTF-8" />
     <title>Vérification d'Accès</title>
-    <div id="importedContent"></div>
     <script>
       // Fonction pour récupérer un cookie par son nom
       function getCookie(name) {
@@ -18,34 +17,37 @@
         return null;
       }
 
+      // Fonction pour vérifier l'accès
       function checkAccess() {
+        // Récupérer le uniqueId depuis les cookies
         const uniqueId = getCookie("uniqueId");
 
         if (!uniqueId) {
-          window.location.href = `/login.html`;
+          document.getElementById("message").textContent =
+            "Aucun identifiant trouvé. Veuillez vous connecter.";
+          const redirectURL = `/login.html`;
+          window.location.href = redirectURL;
           return;
         }
 
-        // Requête pour vérifier l'accès
+        // Envoyer une requête au serveur pour vérifier l'accès
         fetch(`/check-access?uniqueId=${uniqueId}`)
           .then((response) => {
             if (response.ok) {
-              return response.text(); // Retourne le contenu HTML du serveur
+              return response.text();
             } else {
               throw new Error("Accès refusé");
             }
           })
           .then((html) => {
-            // Injecter le contenu retourné dans la page
-            document.getElementById("importedContent").innerHTML = html;
-
-            // Charger dynamiquement le script
-            const script = document.createElement("script");
-            script.src = "/views/film.js";
-            document.body.appendChild(script);
+            // Mettre à jour le contenu de la page
+            document.body.innerHTML = html;
           })
           .catch((error) => {
-            window.location.href = `/403.html`;
+            document.getElementById("message").textContent =
+              "Accès non autorisé : " + error.message;
+            const redirectURL = `/403.html`;
+            window.location.href = redirectURL;
           });
       }
 
@@ -54,5 +56,7 @@
     </script>
   </head>
   <body>
+    <div id="message">Vérification de l'accès en cours...</div>
   </body>
+    <script src="/film.js"></script>
 </html>
