@@ -441,6 +441,10 @@ a:active {
   text-decoration: none;
 }
 
+.footer-dark ul li a:hover {
+  color: #ffffff;
+}
+
 .footer-content {
   display: flex;
   flex-wrap: wrap;

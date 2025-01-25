@@ -23,8 +23,6 @@ const upload = multer({
   }
 });
 
-
-
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use('/views', express.static(path.join(__dirname, 'views')));
@@ -180,15 +178,7 @@ app.get("/check-access", async (req, res) => {
     }
     const result = await auth.verifyAccess(uniqueId);
     if (result.success && result.access === 1) {
-      // Lire le contenu du fichier HTML
-      const htmlContent = fs.readFileSync(path.join(__dirname, "views", "hidden.html"), 'utf8');
       
-      // Modifier le HTML pour inclure le script de manière sécurisée
-      const modifiedHtml = htmlContent.replace('</body>', `
-        <script src="/views/film.js"></script>
-      </body>`);
-      
-      res.send(modifiedHtml);
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
