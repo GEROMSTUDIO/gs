@@ -10,30 +10,28 @@ import bodyParser from "body-parser";
 // Configuration ES Modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const validUniqueId = "4ce1f89302953b32f6a66e5f817b43f2";
+const validPassword = "Studiopro38@";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const upload = multer({ 
+const upload = multer({
   dest: "uploads/",
   limits: {
-    fileSize: 5 * 1024 * 1024 
-  }
+    fileSize: 5 * 1024 * 1024,
+  },
 });
 
-
-
 app.use(bodyParser.json());
-app.use('/views', express.static(path.join(__dirname, 'views')));
+app.use("/views", express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
-
 
 app.get("/script.js", (req, res) => {
   res.setHeader("Content-Type", "application/javascript");
   res.sendFile(path.join(__dirname, "public", "script.js"));
 });
-
 
 app.post("/login", async (request, response) => {
   const { email, password } = request.body;
@@ -41,7 +39,7 @@ app.post("/login", async (request, response) => {
     response.status(400).json({ error: "Email et mot de passe requis" });
     return;
   }
-  
+
   const result = await auth.verifyUser(email, password);
   if (result.success) {
     response.status(200).json({ ...result, redirectUrl: "/?connect=true" });
@@ -53,9 +51,11 @@ app.post("/login", async (request, response) => {
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    return res.status(400).json({ message: "Email et mot de passe sont requis" });
+    return res
+      .status(400)
+      .json({ message: "Email et mot de passe sont requis" });
   }
-  
+
   const result = await auth.createUser(email, password);
   if (result.success) {
     res.status(200).json({ message: "Inscription réussie !" });
@@ -66,11 +66,13 @@ app.post("/signup", async (req, res) => {
 
 app.post("/upload", upload.single("image"), async (req, res) => {
   if (!req.file) {
-    return res.status(400).json({ message: "Aucun fichier n'a été téléchargé." });
+    return res
+      .status(400)
+      .json({ message: "Aucun fichier n'a été téléchargé." });
   }
 
   const uniqueId = path.parse(req.file.originalname).name;
-  
+
   const filePath = req.file.path;
   const apiKey = "b6aaa0c67529d227d7396207ae91c63a";
   const imgbbUrl = `https://api.imgbb.com/1/upload?key=${apiKey}`;
@@ -81,7 +83,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     const response = await fetch(imgbbUrl, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        "Content-Type": "application/x-www-form-urlencoded",
       },
       body: new URLSearchParams({
         image: imageBase64,
@@ -95,24 +97,27 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     if (result.success) {
       const imageUrl = result.data.display_url;
 
-      const updateResult = await auth.updateProfilePictureByUniqueId(uniqueId, imageUrl);
+      const updateResult = await auth.updateProfilePictureByUniqueId(
+        uniqueId,
+        imageUrl
+      );
 
       if (updateResult.success) {
         res.status(200).json({
           success: true,
           message: "Photo de profil mise à jour avec succès !",
-          imageUrl: imageUrl
+          imageUrl: imageUrl,
         });
       } else {
         res.status(400).json({
           success: false,
-          error: updateResult.error
+          error: updateResult.error,
         });
       }
     } else {
-      res.status(500).json({ 
+      res.status(500).json({
         success: false,
-        error: result.error
+        error: result.error,
       });
     }
   } catch (error) {
@@ -123,7 +128,7 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Une erreur est survenue lors du traitement de l'image.",
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -131,11 +136,11 @@ app.post("/upload", upload.single("image"), async (req, res) => {
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
     const uniqueId = req.params.uniqueId;
-    
+
     if (!uniqueId) {
       return res.status(400).json({
         success: false,
-        message: "L'identifiant unique est requis"
+        message: "L'identifiant unique est requis",
       });
     }
 
@@ -144,19 +149,22 @@ app.get("/profile-picture/:uniqueId", async (req, res) => {
     if (result.success) {
       res.status(200).json({
         success: true,
-        imageUrl: result.profile_picture
+        imageUrl: result.profile_picture,
       });
     } else {
       res.status(404).json({
         success: false,
-        message: result.error
+        message: result.error,
       });
     }
   } catch (error) {
-    console.error("Erreur lors de la récupération de la photo de profil:", error);
+    console.error(
+      "Erreur lors de la récupération de la photo de profil:",
+      error
+    );
     res.status(500).json({
       success: false,
-      message: "Erreur serveur lors de la récupération de la photo de profil"
+      message: "Erreur serveur lors de la récupération de la photo de profil",
     });
   }
 });
@@ -258,7 +266,7 @@ app.get("/check-access", async (req, res) => {
           <button id="next">→</button>
         </div>
       `;
-      
+
       res.json({ carouselContent });
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
@@ -269,64 +277,71 @@ app.get("/check-access", async (req, res) => {
   }
 });
 
-app.post('/verify-password', (req, res) => {
-    const { password, uniqueId } = req.body;
+app.post("/verify-password", (req, res) => {
+  const { password, uniqueId } = req.body;
 
-    // Remplacer ces variables par vos données réelles
-    const validUniqueId = "7a894704a9b4266024e90aec9c85e8b7";
-    const validPassword = "1234";
-
-    if (uniqueId === validUniqueId && password === validPassword) {
-        res.json({ success: true });
-    } else {
-        res.json({ success: false });
-    }
+  if (uniqueId === validUniqueId && password === validPassword) {
+    res.json({ success: true });
+  } else {
+    res.json({ success: false });
+  }
 });
 
 app.post("/grant-access", async (req, res) => {
-    try {
-        const { email, uniqueId } = req.body;  // Utilisation de req.body et non req.query
+  try {
+    const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
-        if (!email || !uniqueId) {
-            return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
-        }
-
-        if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
-            return res.status(403).json({ success: false, error: "Autorisation refusée" });
-        }
-
-        // Fonction pour accorder l'accès
-        const result = await auth.grantAccessByEmail(email);
-        res.status(result.success ? 200 : 404).json(result);
-
-    } catch (error) {
-        console.error("Erreur lors de l'attribution de l'accès :", error);
-        res.status(500).json({ success: false, error: "Erreur serveur" });
+    if (!email || !uniqueId) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          error: "L'email et l'identifiant unique sont requis",
+        });
     }
+
+    if (uniqueId !== validUniqueId) {
+      return res
+        .status(403)
+        .json({ success: false, error: "Autorisation refusée" });
+    }
+
+    // Fonction pour accorder l'accès
+    const result = await auth.grantAccessByEmail(email);
+    res.status(result.success ? 200 : 404).json(result);
+  } catch (error) {
+    console.error("Erreur lors de l'attribution de l'accès :", error);
+    res.status(500).json({ success: false, error: "Erreur serveur" });
+  }
 });
 
 app.post("/revoke-access", async (req, res) => {
-    try {
-        const { email, uniqueId } = req.body;  // Utilisation de req.body et non req.query
+  try {
+    const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
-        if (!email || !uniqueId) {
-            return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
-        }
-
-        if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
-            return res.status(403).json({ success: false, error: "Autorisation refusée" });
-        }
-
-        // Fonction pour révoquer l'accès
-        const result = await auth.revokeAccessByEmail(email);
-        res.status(result.success ? 200 : 404).json(result);
-
-    } catch (error) {
-        console.error("Erreur lors de la révocation de l'accès :", error);
-        res.status(500).json({ success: false, error: "Erreur serveur" });
+    if (!email || !uniqueId) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          error: "L'email et l'identifiant unique sont requis",
+        });
     }
-});
 
+    if (uniqueId !== validUniqueId) {
+      return res
+        .status(403)
+        .json({ success: false, error: "Autorisation refusée" });
+    }
+
+    // Fonction pour révoquer l'accès
+    const result = await auth.revokeAccessByEmail(email);
+    res.status(result.success ? 200 : 404).json(result);
+  } catch (error) {
+    console.error("Erreur lors de la révocation de l'accès :", error);
+    res.status(500).json({ success: false, error: "Erreur serveur" });
+  }
+});
 
 // Route par défaut pour les 404
 app.get("*", (req, res) => {
@@ -335,5 +350,7 @@ app.get("*", (req, res) => {
 
 // Démarrage du serveur
 const listener = app.listen(PORT, () => {
-  console.log("Votre application écoute sur le port " + listener.address().port);
+  console.log(
+    "Votre application écoute sur le port " + listener.address().port
+  );
 });
