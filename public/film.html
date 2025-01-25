@@ -182,6 +182,7 @@
             if (response.ok) {
               return response.json();
             } else {
+              window.location.href = `/blocked.html`;
               throw new Error("Accès refusé");
             }
           })
