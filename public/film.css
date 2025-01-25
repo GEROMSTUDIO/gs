@@ -911,6 +911,9 @@ article p {
 }
 
 @media (max-width: 768px) {
+  .footer-dark {
+    padding: 200px;
+  }
   /* Passer à 1 élément par ligne pour les écrans plus petits */
   .footer-content > div {
     flex: 0 0 100%; /* Changer la largeur pour prendre 100% */

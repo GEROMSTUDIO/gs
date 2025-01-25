@@ -27,6 +27,7 @@ const upload = multer({
 
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
+app.use('/views', express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
@@ -177,27 +178,14 @@ app.get("/check-access", async (req, res) => {
     if (!uniqueId) {
       return res.status(400).json({ error: "Identifiant unique manquant" });
     }
-    
-    // Vérification de l'accès
     const result = await auth.verifyAccess(uniqueId);
-    
     if (result.success && result.access === 1) {
       // Lire le contenu du fichier HTML
       const htmlContent = fs.readFileSync(path.join(__dirname, "views", "hidden.html"), 'utf8');
       
-      // Injecter le script de manière sécurisée
+      // Modifier le HTML pour inclure le script de manière sécurisée
       const modifiedHtml = htmlContent.replace('</body>', `
-        <script>
-          // Récupérer et exécuter le contenu de film.js dynamiquement
-          fetch('/get-film-script')
-            .then(response => response.text())
-            .then(scriptContent => {
-              const scriptElement = document.createElement('script');
-              scriptElement.textContent = scriptContent;
-              document.body.appendChild(scriptElement);
-            })
-            .catch(error => console.error('Erreur de chargement du script:', error));
-        </script>
+        <script src="/views/film.js"></script>
       </body>`);
       
       res.send(modifiedHtml);
@@ -207,27 +195,6 @@ app.get("/check-access", async (req, res) => {
   } catch (error) {
     console.error("Erreur lors de la vérification d'accès:", error);
     res.status(500).json({ error: "Erreur serveur" });
-  }
-});
-
-// Route sécurisée pour servir le script
-app.get("/get-film-script", async (req, res) => {
-  try {
-    // Vérifier à nouveau l'authentification si nécessaire
-    const uniqueId = req.cookies.uniqueId; // Ou récupérer l'ID de session
-    const result = await auth.verifyAccess(uniqueId);
-    
-    if (result.success && result.access === 1) {
-      // Lire et envoyer le contenu du script
-      const scriptContent = fs.readFileSync(path.join(__dirname, "views", "film.js"), 'utf8');
-      res.type('application/javascript');
-      res.send(scriptContent);
-    } else {
-      res.status(403).send('Accès non autorisé');
-    }
-  } catch (error) {
-    console.error("Erreur lors de la récupération du script:", error);
-    res.status(500).send('Erreur serveur');
   }
 });
 

@@ -22,8 +22,6 @@
         const uniqueId = getCookie("uniqueId");
 
         if (!uniqueId) {
-          document.getElementById("message").textContent =
-            "Aucun identifiant trouvé. Veuillez vous connecter.";
           window.location.href = `/login.html`;
           return;
         }
@@ -47,8 +45,6 @@
             document.body.appendChild(script);
           })
           .catch((error) => {
-            document.getElementById("message").textContent =
-              "Accès non autorisé : " + error.message;
             window.location.href = `/403.html`;
           });
       }
@@ -58,6 +54,5 @@
     </script>
   </head>
   <body>
-    <div id="message">Vérification de l'accès en cours...</div>
   </body>
 </html>
