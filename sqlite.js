@@ -20,7 +20,6 @@ dbWrapper
     try {
       if (!exists) {
         console.log("Création de la base de données...");
-        // Création de la table Users
         await db.run(`
           CREATE TABLE Users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -33,7 +32,6 @@ dbWrapper
           )
         `);
 
-        // Création de la table Log pour tracer les connexions
         await db.run(`
           CREATE TABLE AuthLog (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
