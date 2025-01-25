@@ -23,6 +23,8 @@ const upload = multer({
   }
 });
 
+
+
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
@@ -202,7 +204,7 @@ app.get("/check-access", async (req, res) => {
 
     if (result.success && result.access === 1) {
       // Si l'accès est autorisé, envoyer le contenu de hidden.html
-      res.sendFile(path.join(__dirname, "public", "film.html"));
+      res.sendFile(path.join(__dirname, "views", "hidden.html"));
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }

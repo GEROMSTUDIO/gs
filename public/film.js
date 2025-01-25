@@ -267,6 +267,12 @@ document.getElementById("prev").addEventListener("click", () => {
   movePrev();
   autoScroll = setInterval(moveNext, 12000);
 });
-o
+
 document.addEventListener("DOMContentLoaded", function () {
- 
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("connect") === "true") {
+    onUserConnected();
+  } else {
+    onUserDisconnected();
+  }
+});
