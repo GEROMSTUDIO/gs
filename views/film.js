@@ -32,6 +32,7 @@ function getUniqueIdFromCookie() {
 
   // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
   if (!currentUrl.includes("connect=true") && uniqueId) {
+
   } else if (!uniqueId) {
     console.log("Non connecté");
   }
