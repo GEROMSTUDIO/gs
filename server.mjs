@@ -23,6 +23,8 @@ const upload = multer({
   }
 });
 
+
+
 // Ensuite vos autres middlewares
 app.use(bodyParser.json());
 app.use('/views', express.static(path.join(__dirname, 'views')));
@@ -178,7 +180,6 @@ app.get("/check-access", async (req, res) => {
     }
     const result = await auth.verifyAccess(uniqueId);
     if (result.success && result.access === 1) {
-      
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
