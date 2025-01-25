@@ -825,6 +825,7 @@ article p {
     padding: 8px 20px;
   }
 }
+  
 @media screen and (max-width: 820px) {
   .right-nav {
     display: none;
@@ -837,7 +838,7 @@ article p {
   .central-container {
     display: flex;
   }
-    
+
   * {
     margin: 0;
     padding: 0;
