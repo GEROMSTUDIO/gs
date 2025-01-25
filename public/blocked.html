@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accès Interdit - GEROM STUDIO</title>
+    <title>Accès Refusé</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -111,42 +111,10 @@
         </div>
     </div>
     <script>
-        function togglePopup() {
-            const pageContainer = document.getElementById('pageContainer');
-            const popup = document.getElementById('forbiddenPopup');
-            
-            if (popup.style.display === 'block') {
-                // Masquer la popup
-                popup.style.display = 'none';
-                pageContainer.classList.remove('blurred');
-            } else {
-                // Afficher la popup
-                popup.style.display = 'block';
-                pageContainer.classList.add('blurred');
-            }
-        }
-
-        document.getElementById('showPopupBtn').addEventListener('click', togglePopup);
-        function showCustomPopup(message) {
-            const popup = document.getElementById('forbiddenPopup');
-            const pageContainer = document.getElementById('pageContainer');
-            
-            if (message) {
-                popup.querySelector('p').textContent = message;
-            }
-            
-            popup.style.display = 'block';
-            pageContainer.classList.add('blurred');
-        }
-
-        function hidePopup() {
-            const popup = document.getElementById('forbiddenPopup');
-            const pageContainer = document.getElementById('pageContainer');
-            
-            popup.style.display = 'none';
-            pageContainer.classList.remove('blurred');
-        }
-        
+        // Redirige vers index.html après 10 secondes
+        setTimeout(function() {
+            window.location.href = "index.html";
+        }, 15000);
     </script>
 </body>
 </html>
