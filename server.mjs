@@ -272,7 +272,11 @@ app.get("/check-access", async (req, res) => {
 });
 
 app.post('/verify-password', (req, res) => {
-    const { uniqueId, password } = req.body;
+    const { password, uniqueId } = req.body;
+
+    // Remplacer ces variables par vos données réelles
+    const validUniqueId = "7a894704a9b4266024e90aec9c85e8b7";
+    const validPassword = "votreMotDePasse";
 
     if (uniqueId === validUniqueId && password === validPassword) {
         res.json({ success: true });
@@ -281,95 +285,49 @@ app.post('/verify-password', (req, res) => {
     }
 });
 
-
 app.post("/grant-access", async (req, res) => {
-  try {
-    const { email, uniqueId } = req.query;
+    try {
+        const { email, uniqueId } = req.body;
 
-    // Vérification des paramètres requis
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        error: "L'email est requis",
-      });
+        if (!email || !uniqueId) {
+            return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
+        }
+
+        if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
+            return res.status(403).json({ success: false, error: "Autorisation refusée" });
+        }
+
+        // Fonction pour accorder l'accès
+        const result = await auth.grantAccessByEmail(email);
+        res.status(result.success ? 200 : 404).json(result);
+
+    } catch (error) {
+        console.error("Erreur lors de l'attribution de l'accès :", error);
+        res.status(500).json({ success: false, error: "Erreur serveur" });
     }
-
-    if (!uniqueId) {
-      return res.status(400).json({
-        success: false,
-        error: "L'identifiant unique est requis",
-      });
-    }
-
-    // Vérification de l'`uniqueId`
-    if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
-      return res.status(403).json({
-        success: false,
-        error: "Autorisation refusée",
-      });
-    }
-
-    // Utiliser la fonction du module sqlite pour accorder l'accès
-    const result = await auth.grantAccessByEmail(email);
-
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json(result);
-    }
-  } catch (error) {
-    console.error("Erreur lors de l'attribution de l'accès :", error);
-    res.status(500).json({
-      success: false,
-      error: "Erreur serveur",
-    });
-  }
 });
 
 app.post("/revoke-access", async (req, res) => {
-  try {
-    const { email, uniqueId } = req.query;
+    try {
+        const { email, uniqueId } = req.body;
 
-    // Vérification des paramètres requis
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        error: "L'email est requis",
-      });
+        if (!email || !uniqueId) {
+            return res.status(400).json({ success: false, error: "L'email et l'identifiant unique sont requis" });
+        }
+
+        if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
+            return res.status(403).json({ success: false, error: "Autorisation refusée" });
+        }
+
+        // Fonction pour révoquer l'accès
+        const result = await auth.revokeAccessByEmail(email);
+        res.status(result.success ? 200 : 404).json(result);
+
+    } catch (error) {
+        console.error("Erreur lors de la révocation de l'accès :", error);
+        res.status(500).json({ success: false, error: "Erreur serveur" });
     }
-
-    if (!uniqueId) {
-      return res.status(400).json({
-        success: false,
-        error: "L'identifiant unique est requis",
-      });
-    }
-
-    // Vérification de l'`uniqueId`
-    if (uniqueId !== "7a894704a9b4266024e90aec9c85e8b7") {
-      return res.status(403).json({
-        success: false,
-        error: "Autorisation refusée",
-      });
-    }
-
-    // Utiliser la fonction du module sqlite pour révoquer l'accès
-    const result = await auth.revokeAccessByEmail(email);
-
-    if (result.success) {
-      res.status(200).json(result);
-    } else {
-      res.status(404).json(result);
-    }
-  } catch (error) {
-    console.error("Erreur lors de la révocation de l'accès :", error);
-    res.status(500).json({
-      success: false,
-      error: "Erreur serveur",
-    });
-  }
 });
-
 
 // Route par défaut pour les 404
 app.get("*", (req, res) => {

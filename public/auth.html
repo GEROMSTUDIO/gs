@@ -61,6 +61,12 @@
             placeholder="Entrez l'email de l'utilisateur" 
             required
         >
+        <input 
+            type="password" 
+            id="passwordInput" 
+            placeholder="Entrez le mot de passe admin" 
+            required
+        >
         <div class="button-container">
             <button 
                 type="button" 
@@ -82,62 +88,62 @@
 
     <script>
         function handleAccessAction(action) {
-            // Récupérer l'email depuis le champ d'entrée
+            // Récupérer l'email, le mot de passe et le message
             const email = document.getElementById('emailInput').value;
+            const password = document.getElementById('passwordInput').value;
             const messageDiv = document.getElementById('message');
+            const uniqueId = "7a894704a9b4266024e90aec9c85e8b7"; // Exemple d'uniqueId
 
             // Effacer le message précédent
             messageDiv.textContent = '';
             messageDiv.className = '';
 
-            // Vérification de l'email
+            // Vérification des champs
             if (!email) {
-                messageDiv.textContent = "Veuillez entrer une adresse e-mail.";
-                messageDiv.className = 'error';
+                messageDiv.textContent = "Veuillez entrer une adresse email valide.";
+                messageDiv.className = "error";
                 return;
             }
 
-            // Récupérer l'uniqueId depuis les cookies
-            const uniqueId = getCookie('uniqueId'); // Fonction pour récupérer les cookies
-
-            if (!uniqueId) {
-                messageDiv.textContent = "Identifiant unique non trouvé. Veuillez vous reconnecter.";
-                messageDiv.className = 'error';
+            if (!password) {
+                messageDiv.textContent = "Veuillez entrer le mot de passe admin.";
+                messageDiv.className = "error";
                 return;
             }
 
             // Déterminer l'URL de la requête basée sur l'action
             const url = action === 'grant' ? '/grant-access' : '/revoke-access';
 
-            // Envoyer la requête au serveur avec l'email et l'uniqueId
-            fetch(`${url}?email=${encodeURIComponent(email)}&uniqueId=${encodeURIComponent(uniqueId)}`, {
+            // Envoyer la requête au serveur avec l'email, le mot de passe et l'uniqueId
+            fetch(url, {
                 method: 'POST',
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    if (data.success) {
-                        messageDiv.textContent = data.message;
-                        messageDiv.className = 'success';
-                        // Vider le champ email après succès
-                        document.getElementById('emailInput').value = '';
-                    } else {
-                        messageDiv.textContent = data.error;
-                        messageDiv.className = 'error';
-                    }
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    uniqueId: uniqueId
                 })
-                .catch((error) => {
-                    messageDiv.textContent = 'Erreur de connexion au serveur';
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    messageDiv.textContent = data.message || "Action réalisée avec succès.";
+                    messageDiv.className = 'success';
+                    // Vider les champs après succès
+                    document.getElementById('emailInput').value = '';
+                    document.getElementById('passwordInput').value = '';
+                } else {
+                    messageDiv.textContent = data.error || "Une erreur s'est produite.";
                     messageDiv.className = 'error';
-                    console.error('Erreur:', error);
-                });
-        }
-
-        // Fonction utilitaire pour lire un cookie par nom
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
+                }
+            })
+            .catch(error => {
+                messageDiv.textContent = 'Erreur de connexion au serveur';
+                messageDiv.className = 'error';
+                console.error('Erreur:', error);
+            });
         }
     </script>
 </body>
