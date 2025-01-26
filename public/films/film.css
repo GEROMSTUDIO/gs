@@ -760,6 +760,15 @@ a:active {
   color: white;
 }
 
+@media screen and (min-width: 1500px) {
+.section {
+  padding: 200px;
+  position: relative;
+  bottom: 80px;
+  background-color: #242424;
+}
+}
+  
 @media screen and (min-width: 772px) and (max-width: 1090px) {
   .poster {
     max-width: 250px;
