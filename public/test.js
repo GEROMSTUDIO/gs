@@ -1,4 +1,23 @@
-<!DOCTYPE html>
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("filmForm");
+  const output = document.getElementById("generatedCode");
+
+  // Variables pour le script et le modèle HTML
+  let scriptContent = "";
+  let templateHTML = "";
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const filmName = document.getElementById("filmName").value;
+    const actors = document.getElementById("actors").value;
+    const director = document.getElementById("director").value;
+    const summary = document.getElementById("summary").value;
+    const posterLink = document.getElementById("posterLink").value;
+
+    // Définir le modèle HTML
+    templateHTML = `
+    <!DOCTYPE html>
       <html lang="fr">
         <head>
           <meta charset="UTF-8" />
@@ -67,22 +86,22 @@
 
             <section class="section">
               <img
-                src="https://lepredelariviere.fr/wp-content/uploads/2016/12/porc-bio.jpg"
+                src="${posterLink}"
                 alt="Affiche du film"
                 class="poster"
               />
               <div class="content2">
-                <h1 class="title">Test</h1>
+                <h1 class="title">${filmName}</h1>
                 <div class="line-container">
                   <p class="line">Avec</p>
-                  <p class="credits">Jean-Baptiste et Martine du Puy</p>
+                  <p class="credits">${actors}</p>
                 </div>
                 <div class="authors-container">
                   <p class="line2">de</p>
-                  <p class="authors">Hector Le porc</p>
+                  <p class="authors">${director}</p>
                 </div>
                 <p class="synopsis">
-                  kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+                  ${summary}
                 </p>
               </div>
             </section>
@@ -165,5 +184,17 @@
   
       </body>
       </html>
-    
-    <script src="/film.js"></script>
+    `;
+
+    // Définir le script JavaScript à inclure
+    scriptContent = `
+    <script src="film/film.js"></script>
+    `;
+
+    // Générer le code final (combinaison du modèle HTML et du script)
+    const finalCode = templateHTML + scriptContent;
+
+    // Afficher le code généré dans la zone de sortie
+    output.textContent = finalCode.trim();
+  });
+});
