@@ -1,0 +1,828 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 2000px;
+  display: flex;
+  flex-direction: column;
+  background: #212121;
+}
+
+/* Ajout d'un conteneur principal qui prendra tout l'espace disponible */
+.main-content {
+  flex: 1 0 auto; /* Cette propriété est cruciale pour pousser le footer vers le bas */
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bandeau-noir {
+  background-color: #131313;
+  height: 220px;
+  display: flex; /* Pour organiser les éléments */
+  justify-content: center; /* Centrer horizontalement */
+  align-items: center; /* Centrer verticalement */
+  color: white; /* Texte blanc pour contraster avec le fond noir */
+}
+
+.bandeau-fondu {
+  height: 100px;
+  background: linear-gradient(#131313, #212121);
+}
+
+header {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 72px; /* Hauteur fixe, mais vous pouvez aussi utiliser 'em' si vous voulez une proportion à la taille du texte */
+  background-color: #000000;
+  color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: top 0.4s ease;
+  z-index: 1000;
+}
+header.hidden {
+  top: -90px;
+  transition-property: top;
+  transition-duration: 500ms;
+}
+section {
+  padding: 20px;
+}
+header.bg {
+  background-color: #00000083;
+  box-shadow: 0px 0 60px #000000;
+  transition-property: background-color, font-size, transform, color;
+  transition-timing-function: ease-in-out;
+  transition-duration: 280ms;
+}
+
+a:focus,
+a:active {
+  outline: none;
+  border: "";
+}
+
+.logo {
+  position: absolute;
+  bottom: -21.5px;
+  left: -10px;
+  width: 110px;
+  height: 110px;
+  clip-path: inset(0 30px 0 0);
+  object-fit: cover;
+}
+
+.left-nav,
+.right-nav {
+  display: flex;
+}
+
+.login {
+  display: none;
+  font-size: 2rem;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  position: relative;
+  right: 100px;
+  top: 0px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.show-login {
+  display: inline-block !important;
+}
+
+.login:hover {
+  transition: color 0.3s ease;
+  color: rgb(211, 211, 211);
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+#profile-picture {
+  position: relative;
+  right: 100px;
+  top: 2.5px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 0cm solid #cccccc;
+  background-size: cover;
+  background-position: center;
+  display: none; /* Caché par défaut */
+}
+
+#profile-picture.show {
+  display: block; /* S'affichera quand la classe 'show' est ajoutée */
+}
+.dropdown-arrow {
+  display: none;
+  width: 0;
+  height: 0;
+  margin: 2px;
+  position: relative;
+  right: 98px;
+  border-left: 4px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #767676;
+}
+
+/* Conteneur du menu */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 30px; /* Décalage du bord droit */
+  background-color: rgb(40, 40, 40);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 1000;
+  width: 180px;
+  font-family: "Roboto", Arial, sans-serif;
+  text-align: center;
+}
+
+.dropdown-menu a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-menu a:first-child {
+  font-weight: 700; /* Gras pour "Mon compte" */
+  font-size: 16px; /* Texte agrandi */
+  color: rgb(220, 220, 220);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: rgb(100, 100, 100);
+  margin: 5px 0;
+}
+
+.logout-button {
+  display: block;
+  margin: 10px auto;
+  padding: 8px 20px;
+  background-color: rgb(100, 100, 100);
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 5px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  width: 120px;
+}
+
+.logout-button:hover {
+  background-color: rgb(220, 220, 220);
+  color: rgb(0, 0, 0);
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
+}
+
+.profile-button {
+  color: rgb(220, 220, 220);
+}
+.profile-button:hover {
+  background-color: rgb(80, 80, 80);
+  color: rgb(255, 255, 255);
+}
+
+.film {
+  top: 19px;
+  font-size: 2rem;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  position: relative;
+  left: 90px;
+  top: 0px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.film:hover {
+  color: rgb(211, 211, 211);
+}
+.about {
+  top: 19px;
+  font-size: 2rem;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  position: relative;
+  left: 280px;
+  top: 0px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.about:hover {
+  color: rgb(211, 211, 211);
+}
+.contact {
+  font-size: 2rem;
+  margin: 0px;
+  padding: 0px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 2px;
+  position: relative;
+  left: -25px;
+  top: 0px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.contact:hover {
+  color: rgb(211, 211, 211);
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  height: 700px;
+}
+
+.image-section {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.fit-picture {
+  position: absolute;
+  left: 50%;
+  top: -500px;
+  transform: translateX(-50%);
+  height: 1300px; /* Hauteur fixe */
+  top: -70px;
+  width: auto;
+  min-width: 100%;
+  max-width: 2070px; /* Largeur maximale */
+}
+
+.titre {
+  position: absolute;
+  top: 326px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgb(255, 255, 255);
+  font-size: clamp(80px, 12.8vw, 160px);
+  text-align: center;
+  z-index: 1;
+  margin: 0;
+  padding: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-container {
+  position: relative; /* Nécessaire pour servir de référence au positionnement absolu */
+  width: 90%;
+  bottom: 192px;
+  max-width: 1800px;
+  margin: 2rem auto;
+  overflow: hidden;
+  padding-top: 100px; /* Espace au-dessus pour inclure le texte */
+}
+
+.titrefilm {
+  position: absolute; /* Positionnement par rapport à .carousel-container */
+  top: 4px; /* Ajuste la position verticale par rapport au carrousel */
+  left: 0px; /* Positionne à gauche du carrousel */
+  font-family: "Roboto", serif;
+  font-weight: 501;
+  font-style: normal;
+  font-size: 50px;
+  font-variation-settings: "wdth" 100;
+  letter-spacing: 1px;
+  color: rgb(255, 255, 255);
+  text-align: left;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 10; /* S'assure que le texte est visible au-dessus des autres éléments */
+  white-space: nowrap; /* Évite que le texte passe à la ligne */
+}
+
+.carousel {
+  display: flex;
+  gap: 30px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.carousel-item {
+  min-width: 300px;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.image-container {
+  height: 470px;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: all 0.8s ease;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+@media (max-width: 820px) {
+  .image-container {
+    width: 320px; /* Permet à la hauteur de s'adapter sur les petits écrans */
+  }
+}
+
+.carousel-item:hover img {
+  transform: scale(1.04);
+}
+
+.movie-title {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding-left: 5px;
+  transition: all 0.4s ease;
+}
+
+.carousel-item:hover .movie-title {
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateX(5px);
+}
+
+.controls button {
+  position: absolute;
+  top: 54%;
+  transform: translateY(-50%);
+  background: rgba(200, 200, 200, 0.3);
+  color: white;
+  border: none;
+  padding: 20px;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.4s ease;
+  z-index: 10;
+}
+
+.controls button:hover {
+  background: rgba(40, 40, 40, 1);
+}
+
+#prev {
+  left: 10px;
+}
+#next {
+  right: 10px;
+}
+
+.footer-dark {
+  background-color: rgb(26, 26, 26);
+  color: #ffffff;
+  padding: 50px 0;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+}
+
+.footer-dark h3 {
+  
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.footer-dark ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-dark ul li {
+  margin-bottom: 10px;
+}
+
+.footer-dark ul li a {
+  color: #aaaaaa;
+  text-decoration: none;
+}
+
+.footer-dark ul li a:hover {
+  color: #ffffff;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 1200px;
+  margin: 0 auto; /* Centre horizontalement */
+  padding: 0 20px; /* Ajoute un peu d'espace sur les côtés */
+  box-sizing: border-box;
+}
+
+.footer-content > div {
+  flex: 1;
+  padding: 10px;
+  min-width: 280px;
+  box-sizing: border-box;
+  text-align: center; /* Centre le contenu de chaque div */
+}
+
+.footer-dark p {
+  color: #c5c5c5;
+}
+
+.social-icons a {
+  color: #aaaaaa;
+  margin: 0 10px;
+  font-size: 24px;
+  text-decoration: none;
+}
+
+.social-icons a:hover {
+  color: #ffffff;
+}
+
+.search-container {
+  position: absolute; /* Permet de personnaliser la position avec `left` */
+  right: 26px; /* Ajustez cette valeur pour régler la position horizontale */
+  height: 40px;
+  bottom: 15px;
+  width: 30px; /* Taille réduite avant clic */
+  background-color: #696969; /* Rectangle de couleur modérée */
+  border-radius: 15px; /* Bords arrondis modérés */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: width 0.4s ease, left 0.4s ease;
+  padding-left: 10px;
+  padding-right: 15px;
+  z-index: 1000;
+}
+
+.search-container.open {
+  width: 300px; /* Largeur après clic */
+}
+
+.search-icon {
+  font-size: 20px;
+  color: black; /* Icône noire */
+}
+
+.search-input {
+  display: none;
+  padding: 8px 12px;
+  border-radius: 15px; /* Intégration au rectangle */
+  border: none;
+  margin-left: 10px;
+  width: 100%;
+  background-color: #bbbbbb; /* Couleur plus claire */
+  color: black; /* Texte noir */
+  box-sizing: border-box;
+}
+
+.search-container.open .search-input {
+  display: inline-block;
+  outline: none; /* Toujours sans contours */
+}
+
+.search-container.open .search-input:focus {
+  background-color: #919191; /* Couleur légèrement plus claire au focus */
+}
+
+
+.content {
+  padding: 20px;
+  text-align: center;
+}
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgb(255, 255, 255);
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 1000;
+}
+.cookie-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2px;
+}
+.cookie-content {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 0 10px;
+}
+.cookie-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+.cookie-text {
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4;
+  padding-right: 10px;
+}
+.cookie-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 700;
+  transition: text-decoration 0.2s;
+}
+.cookie-link:hover {
+  text-decoration: underline;
+}
+.cookie-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 10px;
+}
+.cookie-btn {
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: opacity 0.2s;
+}
+.cookie-btn:hover {
+  opacity: 0.9;
+}
+.accept-btn {
+  background: #000000;
+  color: white;
+  border: none;
+}
+.reject-btn {
+  background: white;
+  color: #000000;
+  border: 1px solid #e0e0e0;
+}
+.show {
+  display: block;
+}
+
+.central-container {
+  position: relative;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  z-index: 100;
+}
+
+.menu-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 42px; /* Taille augmentée du rond */
+  height: 42px;
+  background-color: #333333;
+  border-radius: 50%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+}
+
+.menu-toggle:hover {
+  background-color: #444444;
+}
+
+/* Trois petits points dans le rond */
+.menu-toggle .dot {
+  width: 6px;
+  height: 6px;
+  background-color: white;
+  border-radius: 50%;
+  margin: 2px;
+}
+
+/* Styles du menu */
+.menu {
+  position: fixed;
+  bottom: 64px; /* Positionner plus près du bouton rond */
+  right: 10px;
+  background-color: #444444;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  display: none; /* Cacher par défaut */
+  padding: 6px 10px; /* Moins de padding */
+  transition: background-color 0.2s, width 0.2s; /* Transition de taille */
+  width: 150px; /* Taille réduite pour "Se connecter" */
+  height: auto; /* Ajuste la hauteur en fonction du contenu */
+  z-index: 900;
+}
+
+.menu:hover {
+  background-color: #4a4a4a; /* Moins de différence de couleur au hover */
+}
+
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu ul li {
+  margin: 4px 0; /* Espacement plus petit */
+}
+
+.menu ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-family: "Arial", sans-serif;
+  display: block;
+  padding: 4px 8px; /* Ajustement du padding */
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover sur l'ensemble du menu */
+.menu ul li a:hover {
+  background-color: #666666;
+  color: #f0f0f0;
+}
+
+/* Centrer "Mon compte" */
+.menu ul li a.profile {
+  text-align: center;
+}
+
+/* Styles pour le bouton "Se déconnecter" */
+.menu ul li a.logout {
+  background-color: rgb(100, 100, 100);
+  padding: 4px 12px; /* Ajuster la taille du padding */
+  text-align: center;
+  font-size: 14px;
+  border-radius: 5px;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.menu ul li a.logout:hover {
+  background-color: rgb(
+    180,
+    180,
+    180
+  ); /* Changer le fond en gris clair au survol */
+  color: #333333; /* Rendre le texte plus foncé */
+}
+
+/* Style spécifique pour "Se connecter" : centrer et mettre en gras */
+.menu ul li a.login {
+  font-size: 14px;
+  left: 0px;
+  font-weight: bold; /* Mettre le texte en gras */
+  text-align: center; /* Centrer le texte */
+}
+
+@media screen and (max-width: 820px) {
+  .right-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  .logo {
+    left: -15px;
+  }
+
+  .container {
+    height: 460px;
+  }
+
+  .titre {
+    top: 240px;
+    font-size: clamp(80px, 12.8vw, 160px);
+  }
+
+  .fit-picture {
+    height: 800px;
+    top: -52px;
+  }
+
+  .titrefilm {
+    font-size: 40px;
+  }
+
+  .contact {
+    position: absolute;
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-50%, -50%);
+  }
+  .film {
+    position: absolute;
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(-200%, -50%);
+  }
+  .about {
+    position: absolute;
+    top: 50%; /* Centrer verticalement */
+    left: 50%; /* Centrer horizontalement */
+    transform: translate(60%, -50%);
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .logo {
+    left: -23px;
+  }
+  .central-container {
+    display: flex;
+    flex-direction: column; /* Évite que les éléments s'étendent horizontalement */
+    height: auto; /* Évite que l'élément occupe tout l'écran */
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .contact {
+    font-size: 1.6rem;
+    transform: translate(-50%, -50%);
+  }
+  .film {
+    font-size: 1.6rem;
+    transform: translate(-181%, -50%);
+  }
+  .about {
+    font-size: 1.6rem;
+    transform: translate(51%, -50%);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .footer-content > div {
+    flex: 0 0 50%;
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .footer-content > div {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  .footer-dark {
+    padding: 30px 0;
+  }
+}
