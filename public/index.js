@@ -1,5 +1,5 @@
-if (window.location.protocol === 'http:') {
-  window.location.replace('https'+window.location.href.slice(4))
+if (window.location.protocol === "http:") {
+  window.location.replace("https" + window.location.href.slice(4));
 }
 
 function acceptCookies() {
@@ -109,7 +109,6 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
 
@@ -129,7 +128,6 @@ function onUserConnected() {
 }
 
 function onUserDisconnected() {
-
   const loginButton = document.querySelector(".right-nav .login");
 
   if (loginButton) {
@@ -138,20 +136,27 @@ function onUserDisconnected() {
 }
 
 function getCookie(name) {
-  const cookies = document.cookie.split("; ");
-  for (const cookie of cookies) {
-    const [key, value] = cookie.split("=");
-    if (key === name) return value;
-  }
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
   return null;
 }
 
 async function fetchProfilePicture() {
-  const uniqueId = getCookie("uniqueId");
-  const profilePicture = document.getElementById("profile-picture");
+  const uniqueId = getCookie("uniqueId"); // Récupérer l'ID unique à partir des cookies
 
   if (!uniqueId) {
+    console.error("UniqueId introuvable dans les cookies.");
     return;
+  }
+
+  // Vérifier si l'image est déjà en cache dans localStorage
+  const cachedImage = localStorage.getItem(`profile-picture-${uniqueId}`);
+  if (cachedImage) {
+    console.log("Image trouvée dans le cache.");
+    const profilePicture = document.getElementById("profile-picture");
+    profilePicture.style.backgroundImage = `url(${cachedImage})`;
+    return; // Si l'image est en cache, ne pas envoyer la requête
   }
 
   try {
@@ -159,21 +164,19 @@ async function fetchProfilePicture() {
     const data = await response.json();
 
     if (data.success && data.imageUrl) {
+      // Enregistrer l'URL de l'image dans le cache
+      localStorage.setItem(`profile-picture-${uniqueId}`, data.imageUrl);
+
+      // Afficher l'image
+      const profilePicture = document.getElementById("profile-picture");
       profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-      profilePicture.style.backgroundColor = "transparent";
-      profilePicture.classList.add("show");
     } else {
-      // En cas d'erreur, afficher une image par défaut
-      profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
-      profilePicture.classList.add("show");
+      console.error("Erreur dans la réponse du serveur.");
     }
   } catch (error) {
     console.error("Erreur lors de la récupération de l'image :", error);
-    profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
-    profilePicture.classList.add("show");
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", fetchProfilePicture);
 
