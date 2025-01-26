@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Remplacer les placeholders dans le modèle HTML par les valeurs
       const finalHTML = templateHTML
         .replace("{{filmName}}", filmName)
+        .replace("{{filmName2}}", filmName)
         .replace("{{actors}}", actors)
         .replace("{{director}}", director)
         .replace("{{summary}}", summary)
@@ -43,8 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
       output.textContent = finalCode.trim();
     } catch (error) {
       console.error("Erreur lors du chargement des fichiers externes:", error);
-      output.textContent = "Une erreur est survenue lors du chargement des fichiers.";
+      output.textContent =
+        "Une erreur est survenue lors du chargement des fichiers.";
     }
   });
 });
-
