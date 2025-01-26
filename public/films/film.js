@@ -257,6 +257,66 @@ document.getElementById("prev").addEventListener("click", () => {
   autoScroll = setInterval(moveNext, 12000);
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const videoIframe = document.getElementById("video");
+  const overlay = document.getElementById("overlay");
+
+  // Fonction pour passer la vidéo en plein écran
+  function enterFullScreen() {
+    if (videoIframe.requestFullscreen) {
+      videoIframe.requestFullscreen();
+    } else if (videoIframe.mozRequestFullScreen) {
+      // Firefox
+      videoIframe.mozRequestFullScreen();
+    } else if (videoIframe.webkitRequestFullscreen) {
+      // Chrome, Safari et Opera
+      videoIframe.webkitRequestFullscreen();
+    } else if (videoIframe.msRequestFullscreen) {
+      // Internet Explorer/Edge
+      videoIframe.msRequestFullscreen();
+    }
+  }
+
+  // Fonction pour sortir du plein écran
+  function exitFullScreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+      // Firefox
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) {
+      // Chrome, Safari et Opera
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) {
+      // Internet Explorer/Edge
+      document.msExitFullscreen();
+    }
+  }
+
+  // Passer la vidéo presque en plein écran au chargement de la page
+  videoIframe.style.width = "100%";
+  videoIframe.style.height = "100%";
+  overlay.style.height = "10%"; // Réduire l'overlay pour correspondre à la taille réduite
+  overlay.style.top = "0"; // L'overlay reste en haut de la vidéo
+
+  // Mise à jour de l'overlay lors du changement d'état du plein écran
+  document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+      // En mode réduit (quand la vidéo sort du plein écran)
+      videoIframe.style.width = "40%";
+      videoIframe.style.height = "40%";
+      overlay.style.height = "40%"; // Réduire la hauteur de l'overlay pour correspondre à la nouvelle taille
+      overlay.style.top = "0"; // L'overlay reste en haut de la vidéo réduite
+    } else {
+      // En mode plein écran
+      videoIframe.style.width = "100%";
+      videoIframe.style.height = "100%";
+      overlay.style.height = "50px"; // Revenir à la taille initiale de l'overlay
+      overlay.style.top = "0"; // L'overlay reste en haut de la vidéo en plein écran
+    }
+  });
+});
+
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get("connect") === "true") {

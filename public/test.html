@@ -1,103 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vidéo avec plein écran et clics désactivés</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-      position: relative;
-    }
-
-    iframe {
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* Overlay invisible pour désactiver les clics */
-    #overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(255, 255, 255, 0); /* Transparent */
-      z-index: 1;
-    }
-  </style>
-</head>
-<body>
-
-  <!-- Overlay invisible pour empêcher les clics -->
-  <div id="overlay"></div>
-
-  <iframe 
-    id="video" 
-    src="https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview" 
-    allow="autoplay; fullscreen" 
-    style="pointer-events: none;"
-    allowfullscreen>
-  </iframe>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const videoIframe = document.getElementById("video");
-      const overlay = document.getElementById("overlay");
-
-      // Fonction pour passer la vidéo en plein écran
-      function enterFullScreen() {
-        if (videoIframe.requestFullscreen) {
-          videoIframe.requestFullscreen();
-        } else if (videoIframe.mozRequestFullScreen) { // Firefox
-          videoIframe.mozRequestFullScreen();
-        } else if (videoIframe.webkitRequestFullscreen) { // Chrome, Safari et Opera
-          videoIframe.webkitRequestFullscreen();
-        } else if (videoIframe.msRequestFullscreen) { // Internet Explorer/Edge
-          videoIframe.msRequestFullscreen();
-        }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Générateur de Page de Film</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 0;
       }
-
-      // Fonction pour sortir du plein écran
-      function exitFullScreen() {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) { // Firefox
-          document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) { // Chrome, Safari et Opera
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) { // Internet Explorer/Edge
-          document.msExitFullscreen();
-        }
+      .form-container,
+      .output-container {
+        margin-bottom: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
       }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+        font-weight: bold;
+      }
+      input,
+      textarea,
+      button {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      .output-container {
+        background: #f9f9f9;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Générateur de Page de Film</h1>
 
-      // Passer la vidéo en plein écran au chargement de la page
-      enterFullScreen();
+    <div class="form-container">
+      <h2>Entrez les détails du film</h2>
+      <form id="filmForm">
+        <label for="filmName">Nom du film :</label>
+        <input type="text" id="filmName" name="filmName" required />
 
-      // Mise à jour de l'overlay lors du changement d'état du plein écran
-      document.addEventListener("fullscreenchange", () => {
-        if (!document.fullscreenElement) {
-          // En mode réduit (quand la vidéo sort du plein écran)
-          videoIframe.style.width = "40%";
-          videoIframe.style.height = "40%";
-          overlay.style.height = "40%";  // Réduire la hauteur de l'overlay pour correspondre à la nouvelle taille
-          overlay.style.top = "0"; // L'overlay reste en haut de la vidéo réduite
-        } else {
-          // En mode plein écran
-          videoIframe.style.width = "100%";
-          videoIframe.style.height = "100%";
-          overlay.style.height = "50px";  // Revenir à la taille initiale de l'overlay
-          overlay.style.top = "0"; // L'overlay reste en haut de la vidéo en plein écran
-        }
-      });
-    });
-  </script>
+        <label for="actors">Acteurs :</label>
+        <input type="text" id="actors" name="actors" required />
 
-</body>
+        <label for="director">Réalisateur :</label>
+        <input type="text" id="director" name="director" required />
+
+        <label for="summary">Résumé :</label>
+        <textarea id="summary" name="summary" rows="4" required></textarea>
+
+        <label for="posterLink">Lien de l'affiche :</label>
+        <input type="url" id="posterLink" name="posterLink" required />
+
+        <button type="submit">Générer le code</button>
+      </form>
+    </div>
+
+    <div class="output-container">
+      <h2>Code généré :</h2>
+      <pre id="generatedCode"></pre>
+    </div>
+
+    <!-- Lien vers le fichier JavaScript externe -->
+    <script src="test.js"></script>
+  </body>
 </html>
