@@ -15,19 +15,16 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <div class="main-content">
       <header id="header">
         <nav class="left-nav">
-          <a href="/film.html" class="film">Films</a>
-          <a href="#" class="about">À propos</a>
-          <a href="#" class="contact">Contact</a>
+          <a href="/film.html" class="film" aria-label="Page des films">Films</a>
+          <a href="#" class="about" aria-label="Page à propos">À propos</a>
+          <a href="#" class="contact" aria-label="Page des films">Contact</a>
+
         </nav>
         <img
           class="logo"
@@ -35,9 +32,9 @@
           alt="Logo du site"
         />
         <nav class="right-nav">
-          <a href="login.html" class="login">Se connecter</a>
+          <a href="login.html" class="login" aria-label="Se connecter">Se connecter</a>
           <div class="search-container" id="searchBox">
-            <span class="search-icon" id="searchIcon">
+            <span class="search-icon" id="searchIcon" aria-label="Icône de recherche">
               <i class="fas fa-search"></i>
             </span>
             <input
@@ -134,17 +131,17 @@
             <div>
               <h3>Services</h3>
               <ul>
-                <li><a href="/film.html">Film</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Emploi</a></li>
+                <li><a href="/film.html" aria-label="Page des films">Film</a></li> 
+                <li><a href="#" aria-label="Page de contact">Contact</a></li>
+                <li><a href="#" aria-label="Page des emploi">Emploi</a></li>
               </ul>
             </div>
             <div>
               <h3>À propos</h3>
               <ul>
-                <li><a href="#">Production</a></li>
-                <li><a href="#">Équipe</a></li>
-                <li><a href="#">Actualité</a></li>
+                <li><a href="#" aria-label="Page de la production">Production</a></li>
+                <li><a href="#" aria-label="Page de l'équipe">Équipe</a></li>
+                <li><a href="#" aria-label="Page des actualité">Actualité</a></li>
               </ul>
             </div>
             <div>
@@ -158,7 +155,7 @@
             </div>
           </div>
           <div class="social-icons" style="margin-top: 20px">
-            <a href="https://www.youtube.com/@GEROMSTUDIO" target="_blank" alt="Youtube"
+            <a href="https://www.youtube.com/@GEROMSTUDIO" target="_blank" alt="Youtube" aria-label="Liens Youtube"
               ><i class="fab fa-youtube"></i
             ></a>
           </div>
