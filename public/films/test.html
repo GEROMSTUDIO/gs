@@ -1,89 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Générateur de Code HTML</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      padding: 0;
-    }
-    .form-container, .output-container {
-      margin-bottom: 20px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .output-container {
-      background: #f9f9f9;
-    }
-    pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-  </style>
-</head>
-<body>
-  <h1>Générateur de Page de Film</h1>
-
-  <div class="form-container">
-    <h2>Entrez les détails du film</h2>
-    <form id="filmForm">
-      <label for="filmName">Nom du film :</label>
-      <input type="text" id="filmName" name="filmName" required>
-
-      <label for="actors">Acteurs :</label>
-      <input type="text" id="actors" name="actors" required>
-
-      <label for="director">Réalisateur :</label>
-      <input type="text" id="director" name="director" required>
-
-      <label for="summary">Résumé :</label>
-      <textarea id="summary" name="summary" rows="4" required></textarea>
-
-      <label for="posterLink">Lien de l'affiche :</label>
-      <input type="url" id="posterLink" name="posterLink" required>
-
-      <button type="submit">Générer le code</button>
-    </form>
-  </div>
-
-  <div class="output-container">
-    <h2>Code généré :</h2>
-    <pre id="generatedCode"></pre>
-  </div>
-
-  <script>
-    const form = document.getElementById("filmForm");
-    const output = document.getElementById("generatedCode");
-
-    form.addEventListener("submit", (event) => {
-      event.preventDefault();
-
-      const filmName = document.getElementById("filmName").value;
-      const actors = document.getElementById("actors").value;
-      const director = document.getElementById("director").value;
-      const summary = document.getElementById("summary").value;
-      const posterLink = document.getElementById("posterLink").value;
-
-const template = `
-<!DOCTYPE html>
-<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -151,22 +67,22 @@ const template = `
 
       <section class="section">
         <img
-          src="${posterLink}"
+          src="https://img.freepik.com/photos-premium/vaches-dans-champ-montagne-clusaz-haute-savoie-france_118047-9786.jpg"
           alt="Affiche du film"
           class="poster"
         />
         <div class="content2">
-          <h1 class="title">${filmName}</h1>
+          <h1 class="title">Test</h1>
           <div class="line-container">
             <p class="line">Avec</p>
-            <p class="credits">${actors}</p>
+            <p class="credits">Jean-Baptiste et MArtine du Puy</p>
           </div>
           <div class="authors-container">
             <p class="line2">de</p>
-            <p class="authors">${director}</p>
+            <p class="authors">Hector Le porc</p>
           </div>
           <p class="synopsis">
-            ${summary}
+            Un jour il découvre sa maison en feu est vas chez le voisin chercher une bouteille d'eau
           </p>
         </div>
       </section>
@@ -246,13 +162,5 @@ const template = `
         </div>
       </footer>
     </div>
-</body>
-</html>
-`;
-
-
-      output.textContent = template.trim();
-    });
-  </script>
 </body>
 </html>
