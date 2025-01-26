@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accès Refusé</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,7 +14,7 @@
         body, html {
             height: 100%;
             font-family: 'Roboto', sans-serif;
-            background: #212121;
+            background: #212121; /* Fond sombre pour la page */
             overflow: hidden;
         }
 
@@ -36,7 +35,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.7);
+            background: #333333; /* Fond gris plus clair opaque */
+            color: #ffffff; /* Texte en blanc pour le contraste */
             border-radius: 15px;
             width: 90%;
             max-width: 500px;
@@ -66,7 +66,7 @@
         .popup-content h1 {
             font-size: 2.5rem;
             margin-bottom: 20px;
-            color: rgb(255,0,0);
+            color: #ff4c4c; /* Rouge plus clair pour le titre */
             text-transform: uppercase;
             letter-spacing: 2px;
         }
@@ -74,13 +74,13 @@
         .popup-content p {
             font-size: 1rem;
             margin-bottom: 30px;
-            color: #cccccc;
+            color: #f5f5f5; /* Gris clair pour le texte */
             line-height: 1.6;
         }
 
         .home-button {
             display: inline-block;
-            background-color: rgb(255,0,0);
+            background-color: #d32f2f; /* Rouge plus foncé pour le bouton */
             color: white;
             padding: 12px 24px;
             text-decoration: none;
@@ -91,7 +91,7 @@
         }
 
         .home-button:hover {
-            background-color: rgb(230,0,0);
+            background-color: #c62828; /* Rouge encore plus foncé pour le survol */
             transform: translateY(-2px);
             box-shadow: 0 7px 14px rgba(0, 0, 0, 0.25);
         }
@@ -111,7 +111,7 @@
         </div>
     </div>
     <script>
-        // Redirige vers index.html après 10 secondes
+        // Redirige vers index.html après 15 secondes
         setTimeout(function() {
             window.location.href = "index.html";
         }, 15000);

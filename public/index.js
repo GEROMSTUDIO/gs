@@ -109,7 +109,6 @@ window.addEventListener("scroll", () => {
 });
 
 function onUserConnected() {
-  console.log("L'utilisateur est connecté !");
 
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");
@@ -130,7 +129,6 @@ function onUserConnected() {
 }
 
 function onUserDisconnected() {
-  console.log("L'utilisateur n'est pas connecté !");
 
   const loginButton = document.querySelector(".right-nav .login");
 
