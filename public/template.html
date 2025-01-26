@@ -67,7 +67,7 @@
 
             <section class="section">
               <img
-                src="${posterLink}"
+                src="{{posterLink}}"
                 alt="Affiche du film"
                 class="poster"
               />
@@ -75,11 +75,11 @@
                 <h1 class="title">{{filmName}}</h1>
                 <div class="line-container">
                   <p class="line">Avec</p>
-                  <p class="credits">{{actors}</p>
+                  <p class="credits">{{actors}}</p>
                 </div>
                 <div class="authors-container">
                   <p class="line2">de</p>
-                  <p class="authors">${director}</p>
+                  <p class="authors">{{director}}</p>
                 </div>
                 <p class="synopsis">
                   {{summary}}
