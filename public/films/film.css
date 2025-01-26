@@ -789,12 +789,12 @@ a:active {
   .section {
     flex-direction: column;
     align-items: center;
-    padding: 87px;
+    padding: 88px;
   }
   .poster {
     max-width: 250px;
     margin-right: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   .content2 {
     align-items: center;
@@ -810,11 +810,12 @@ a:active {
   .line,
   .line2 {
     margin-right: 0;
-    margin-bottom: 2px;
+    margin-bottom: 6px;
   }
   .title {
     font-size: 2.5rem;
     margin-bottom: 5px;
+    margin-bottom: 20px;
   }
   .line,
   .line2,
