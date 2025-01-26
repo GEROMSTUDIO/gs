@@ -19,6 +19,7 @@
       type="image/x-icon"
     />
     <meta name="description" content="Page de film, Ici tous les films de GEROM STUDIO sont présent">
+    <link rel="stylesheet" href="film.css" />
   </head>
 
   <body>
@@ -76,7 +77,6 @@
       </div>
       <div class="bandeau-fondu"></div>
 
-      <div class="carousel-container"></div>
 
       <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-container">
@@ -124,7 +124,7 @@
             <div>
               <h3>Services</h3>
               <ul>
-                <li><a href="https://geromstudio.glitch.me/film.html" aria-label="Page des films">Film</a></li> 
+                <li><a href="film.html" aria-label="Page des films">Film</a></li> 
                 <li><a href="#" aria-label="Page de contact">Contact</a></li>
                 <li><a href="#" aria-label="Page des emploi">Emploi</a></li>
               </ul>
@@ -184,10 +184,6 @@
             }
           })
           .then((data) => {
-            // Insérer le contenu du carousel
-            document.querySelector(".carousel-container").innerHTML =
-              data.carouselContent;
-
             // Charger dynamiquement le script film.js
             const script = document.createElement("script");
             script.src = "/film.js";
