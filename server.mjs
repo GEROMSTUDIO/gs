@@ -181,7 +181,7 @@ app.get("/check-access", async (req, res) => {
       const carouselContent = `
         <div> <h2 class="titrefilm">Nos Films </h2></div>
         <div class="carousel">
-          <a href="#" class="carousel-item">
+          <a href="/films/test.html" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
