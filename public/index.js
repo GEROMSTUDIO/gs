@@ -151,7 +151,6 @@ async function fetchProfilePicture() {
   const profilePicture = document.getElementById("profile-picture");
 
   if (!uniqueId) {
-    console.error("UniqueId introuvable dans les cookies.");
     return;
   }
 
