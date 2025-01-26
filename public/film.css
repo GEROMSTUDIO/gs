@@ -422,7 +422,8 @@ a:active {
   text-align: center;
 }
 
-.footer-dark h2 {
+.footer-dark h3 {
+  
   color: #ffffff;
   margin-bottom: 20px;
 }

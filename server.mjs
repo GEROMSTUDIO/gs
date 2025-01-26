@@ -179,12 +179,12 @@ app.get("/check-access", async (req, res) => {
     const result = await auth.verifyAccess(uniqueId);
     if (result.success && result.access === 1) {
       const carouselContent = `
-        <div class="titrefilm">Nos Films</div>
+        <div> <h2 class="titrefilm">Nos Films </h2></div>
         <div class="carousel">
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.jpg"
+                src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
                 alt="Affiche"
               />
             </div>
@@ -193,7 +193,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/MsDKMMR/4a713bad-8b3f-4590-a36b-208b78c65901.jpg"
+                src="https://i.ibb.co/MsDKMMR/4a713bad-8b3f-4590-a36b-208b78c65901.webp"
                 alt="Affiche"
               />
             </div>
@@ -202,7 +202,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/cgZPRk5/Le-myst-re-de-l-afaire-Joseline-P-tunia.png"
+                src="https://i.ibb.co/cgZPRk5/Le-myst-re-de-l-afaire-Joseline-P-tunia.webp"
                 alt="Affiche"
               />
             </div>
@@ -213,7 +213,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/xXnGL1H/Anniversaire-surprise-pour-Chantal.jpg"
+                src="https://i.ibb.co/xXnGL1H/Anniversaire-surprise-pour-Chantal.webp"
                 alt="Affiche"
               />
             </div>
@@ -222,7 +222,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/h1YWcX3/74-ans-G-rard.jpg"
+                src="https://i.ibb.co/h1YWcX3/74-ans-G-rard.webp"
                 alt="Affiche"
               />
             </div>
@@ -231,7 +231,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/zsNypQ3/l-imposteur-adams.jpg"
+                src="https://i.ibb.co/zsNypQ3/l-imposteur-adams.webp"
                 alt="Affiche"
               />
             </div>
@@ -246,7 +246,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/Tv125hp/50-ans-David.jpg"
+                src="https://i.ibb.co/Tv125hp/50-ans-David.webp"
                 alt="Affiche"
               />
             </div>
@@ -255,7 +255,7 @@ app.get("/check-access", async (req, res) => {
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
-                src="https://i.ibb.co/QpBb6rs/Design-sans-titre.jpg"
+                src="https://i.ibb.co/QpBb6rs/Design-sans-titre.webp"
                 alt="Affiche"
               />
             </div>
