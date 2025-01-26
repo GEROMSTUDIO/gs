@@ -153,7 +153,6 @@ async function fetchProfilePicture() {
   // Vérifier si l'image est déjà en cache dans localStorage
   const cachedImage = localStorage.getItem(`profile-picture-${uniqueId}`);
   if (cachedImage) {
-    console.log("Image trouvée dans le cache.");
     const profilePicture = document.getElementById("profile-picture");
     profilePicture.style.backgroundImage = `url(${cachedImage})`;
     return; // Si l'image est en cache, ne pas envoyer la requête
