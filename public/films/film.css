@@ -197,21 +197,21 @@ a:active {
 
 #overlay {
   position: absolute;
-  top: 750px;
+  top: 748px;
   left: 0px;
   width: 100%;
-  height: 36px;
+  height: 40px;
   background-color: rgba(0, 0, 0, 0); /* Transparent */
   z-index: 1;
 }
 
 iframe {
   border: none;
+  padding: 72px;
   width: 800px;
   height: 450px;
-  position:relative;
-  left: 30%;
-  top: 70px;
+  display: block; /* Permet d'appliquer margin:auto */
+  margin: 0 auto; /* Centre horizontalement */
 }
 
 
@@ -804,6 +804,11 @@ iframe {
   .authors-container {
     margin-bottom: 3px;
   }
+  iframe {
+  border: none;
+  width: 700px;
+  height: 450px;
+}
 }
 @media screen and (max-width: 771px) {
   .section {
@@ -965,7 +970,6 @@ iframe {
 
 @media screen and (max-width: 1300px) {
 iframe {
-  left: 20%;
 }
 }
 
@@ -974,4 +978,5 @@ iframe {
     flex: 0 0 50%;
     width: 50%;
   }
+  
 }
