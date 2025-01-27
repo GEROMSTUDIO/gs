@@ -208,9 +208,9 @@ a:active {
 iframe {
   border: none;
   width: 800px;
-  height: 460px;
+  height: 450px;
   position:relative;
-  left: 31.2%;
+  left: 30%;
   top: 70px;
 }
 
@@ -960,5 +960,23 @@ iframe {
 
   .footer-dark {
     padding: 30px 0;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+iframe {
+  border: none;
+  width: 800px;
+  height: 450px;
+  position:relative;
+  left: 30%;
+  top: 70px;
+}
+}
+
+@media screen and (max-width: 1024px) {
+  .footer-content > div {
+    flex: 0 0 50%;
+    width: 50%;
   }
 }
