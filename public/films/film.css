@@ -965,12 +965,7 @@ iframe {
 
 @media screen and (max-width: 1300px) {
 iframe {
-  border: none;
-  width: 800px;
-  height: 450px;
-  position:relative;
-  left: 30%;
-  top: 70px;
+  left: 20%;
 }
 }
 
