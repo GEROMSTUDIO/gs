@@ -23,6 +23,30 @@ const upload = multer({
   },
 });
 
+const moviesDatabase = {
+    "inception": {
+        filmName: "Inception",
+        filmName2: "Origin",
+        actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
+        director: "Christopher Nolan",
+        summary: "Un voleur expérimenté dans l'art de l'extraction de secrets pendant l'état de rêve se voit offrir une chance de retrouver sa vie d'avant.",
+        posterLink: "https://example.com/inception-poster.jpg",
+        filmLink: "https://example.com/watch-inception"
+    },
+    "matrix": {
+        filmName: "The Matrix",
+        filmName2: "La Matrice",
+        actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
+        director: "Lana et Lilly Wachowski",
+        summary: "Un programmeur découvre que le monde dans lequel il vit est une simulation créée par des machines.",
+        posterLink: "https://example.com/matrix-poster.jpg",
+        filmLink: "https://example.com/watch-matrix"
+    }
+};
+
+
+
+
 app.use(bodyParser.json());
 app.use("/views", express.static(path.join(__dirname, "views")));
 app.use("/admin", express.static(path.join(__dirname, "admin")));
@@ -133,6 +157,24 @@ app.post("/upload", upload.single("image"), async (req, res) => {
     });
   }
 });
+
+
+
+
+
+app.get('/film/:name', (req, res) => {
+    const movieName = req.params.name.toLowerCase();
+    
+    if (moviesDatabase[movieName]) {
+        res.json(moviesDatabase[movieName]);
+    } else {
+        res.status(404).json({
+            error: "Film non trouvé"
+        });
+    }
+});
+
+
 
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
