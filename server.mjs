@@ -24,23 +24,14 @@ const upload = multer({
 });
 
 const films = {
-  "Inception": {
-    filmName: "Inception",
-    filmName2: "Inception (2010)",
-    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
-    director: "Christopher Nolan",
-    summary: "Un voleur qui s'infiltre dans les rêves des gens pour voler leurs secrets doit accomplir une mission complexe d'inception.",
-    posterLink: "https://example.com/inception-poster.jpg",
-    filmLink: "https://example.com/inception-film"
-  },
-  "Interstellar": {
-    filmName: "Interstellar",
-    filmName2: "Interstellar (2014)",
-    actors: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
-    director: "Christopher Nolan",
-    summary: "Une équipe d'explorateurs traverse un trou de ver pour tenter de sauver l'humanité.",
-    posterLink: "https://example.com/interstellar-poster.jpg",
-    filmLink: "https://example.com/interstellar-film"
+  "": {
+    filmName: "",
+    filmName2: "",
+    actors: [""],
+    director: "",
+    summary: "",
+    posterLink: "",
+    filmLink: ""
   }
 };
 
@@ -244,7 +235,7 @@ app.get("/check-access", async (req, res) => {
       const carouselContent = `
         <div> <h2 class="titrefilm">Nos Films </h2></div>
         <div class="carousel">
-          <a href="/films/test.html" class="carousel-item">
+          <a href="/films/film.html?film=La%20Grande%20R%C3%A9v%C3%A9lation" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
