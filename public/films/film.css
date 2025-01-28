@@ -200,8 +200,8 @@ a:active {
   top: 748px;
   left: 0px;
   width: 100%;
-  height: 40px;
-  background-color: rgba(0, 0, 0, 0); /* Transparent */
+  height: 80px;
+  background-color: rgba(0, 0, 0, 1); /* Transparent */
   z-index: 1;
 }
 
@@ -952,13 +952,6 @@ iframe {
   }
 }
 
-@media screen and (max-width: 1024px) {
-  .footer-content > div {
-    flex: 0 0 50%;
-    width: 50%;
-  }
-}
-
 @media screen and (max-width: 768px) {
   .footer-content > div {
     flex: 0 0 100%;
@@ -992,7 +985,10 @@ iframe {
     width: 50%;
   }
   iframe {
-    width: 660px;
+    width: 680px;
     height: 400px;
   }
+  #overlay {
+  top: 660px;
+}
 }
