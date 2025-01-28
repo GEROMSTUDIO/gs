@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>La Grande Révélation</title>
+    <title>{{filmName2}}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="film.css" />
   </head>
 
-  <body>
+  <body>   
     <div class="main-content">
       <header id="header">
         <nav class="left-nav">
@@ -63,29 +63,20 @@
           </div>
         </nav>
       </header>
-
+      
       <section class="section">
-        <img
-          src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
-          alt="Affiche du film"
-          class="poster"
-        />
+        <img src="{{posterLink}}" alt="Affiche du film" class="poster" />
         <div class="content2">
-          <h2 class="title">La Grande Révélation</h2>
+          <h1 class="title">{{filmName}}</h1>
           <div class="line-container">
             <p class="line">Avec</p>
-            <p class="credits">
-              Hanna Bedhiaf, Baptiste Blache, Tristan Vaucheret Perrier...
-            </p>
+            <p class="credits">{{actors}}</p>
           </div>
           <div class="authors-container">
             <p class="line2">de</p>
-            <p class="authors">Romain Lastella</p>
+            <p class="authors">{{director}}</p>
           </div>
-          <p class="synopsis">
-            Comme tous les matins Agatha se rendait au Collège mais aujourd'hui
-            tous bascule...
-          </p>
+          <p class="synopsis">{{summary}}</p>
         </div>
       </section>
 
@@ -93,8 +84,8 @@
 
       <iframe
         id="video"
-        title="Film" 
-        src="https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview"
+        title="Film"
+        src="{{filmLink}}"
         allow="autoplay; fullscreen"
         allowfullscreen
       >
@@ -138,6 +129,11 @@
         </div>
       </div>
     </div>
+            <label for="filmInput">Nom du film :</label>
+  <input type="text" id="filmInput" placeholder="Entrez le nom du film">
+  <button onclick="rechercherFilm()">Rechercher</button>
+    
+
     <div class="footer-dark">
       <footer>
         <div>
@@ -192,89 +188,135 @@
         </div>
       </footer>
     </div>
+
+    <script>
+      // Fonction pour récupérer un cookie par son nom
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return null;
+      }
+
+      function checkAccess() {
+        const uniqueId = getCookie("uniqueId");
+
+        if (!uniqueId) {
+          window.location.href = `/login.html`;
+          return;
+        }
+
+        fetch(`/check-access?uniqueId=${uniqueId}`)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              window.location.href = `/blocked.html`;
+              throw new Error("Accès refusé");
+            }
+          })
+          .then((data) => {
+            // Charger dynamiquement le script film.js
+            const script = document.createElement("script");
+            script.src = "/film.js";
+            script.onload = () => {};
+            script.onerror = () => {};
+            document.body.appendChild(script);
+          })
+          .catch((error) => {
+            document.getElementById("message").textContent =
+              "Accès non autorisé : " + error.message;
+            window.location.href = `/403.html`;
+          });
+      }
+
+      // Lancer la vérification au chargement de la page
+      window.onload = checkAccess;
+
+      function getCookie(name) {
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+          const [key, value] = cookie.split("=");
+          if (key === name) return value;
+        }
+        return null;
+      }
+
+      async function rechercherFilm() {
+        // Récupérer le nom du film entré par l'utilisateur
+        const filmName = document.getElementById("filmInput").value.trim();
+
+        if (!filmName) {
+          alert("Veuillez entrer un nom de film !");
+          return;
+        }
+
+        try {
+          // Faire la requête au serveur
+          const response = await fetch(
+            `https://geromstudio.glitch.me/film/${encodeURIComponent(filmName)}`
+          );
+
+          if (response.ok) {
+            const data = await response.json();
+
+            // Mettre à jour les champs HTML avec les données reçues
+            document.getElementById("filmName").value = data.filmName;
+            document.getElementById("actors").value = data.actors.join(", ");
+            document.getElementById("director").value = data.director;
+            document.getElementById("summary").value = data.summary;
+            document.getElementById("posterLink").value = data.posterLink;
+            document.getElementById("filmLink").value = data.filmLink;
+          } else {
+            alert("Film non trouvé !");
+            clearFields();
+          }
+        } catch (error) {
+          console.error("Erreur lors de la requête :", error);
+          alert("Une erreur s'est produite. Veuillez réessayer plus tard.");
+        }
+      }
+
+      function clearFields() {
+        // Réinitialiser les champs HTML
+        document.getElementById("filmName").value = "";
+        document.getElementById("actors").value = "";
+        document.getElementById("director").value = "";
+        document.getElementById("summary").value = "";
+        document.getElementById("posterLink").value = "";
+        document.getElementById("filmLink").value = "";
+      }
+      
+      async function fetchProfilePicture() {
+        const uniqueId = getCookie("uniqueId");
+        const profilePicture = document.getElementById("profile-picture");
+
+        if (!uniqueId) {
+          console.error("UniqueId introuvable dans les cookies.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`/profile-picture/${uniqueId}`);
+          const data = await response.json();
+
+          if (data.success && data.imageUrl) {
+            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+            profilePicture.style.backgroundColor = "transparent";
+            profilePicture.classList.add("show");
+          } else {
+            // En cas d'erreur, afficher une image par défaut
+            profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+            profilePicture.classList.add("show");
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération de l'image :", error);
+          profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+          profilePicture.classList.add("show");
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", fetchProfilePicture);
+    </script>
   </body>
 </html>
-
-<script>
-  // Fonction pour récupérer un cookie par son nom
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(";").shift();
-    return null;
-  }
-
-  function checkAccess() {
-    const uniqueId = getCookie("uniqueId");
-
-    if (!uniqueId) {
-      window.location.href = `/login.html`;
-      return;
-    }
-
-    fetch(`/check-access?uniqueId=${uniqueId}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          window.location.href = `/blocked.html`;
-          throw new Error("Accès refusé");
-        }
-      })
-      .then((data) => {
-        // Charger dynamiquement le script film.js
-        const script = document.createElement("script");
-        script.src = "/film.js";
-        script.onload = () => {};
-        script.onerror = () => {};
-        document.body.appendChild(script);
-      })
-      .catch((error) => {
-        document.getElementById("message").textContent =
-          "Accès non autorisé : " + error.message;
-        window.location.href = `/403.html`;
-      });
-  }
-
-  // Lancer la vérification au chargement de la page
-  window.onload = checkAccess;
-
-  function getCookie(name) {
-    const cookies = document.cookie.split("; ");
-    for (const cookie of cookies) {
-      const [key, value] = cookie.split("=");
-      if (key === name) return value;
-    }
-    return null;
-  }
-
-  async function fetchProfilePicture() {
-    const uniqueId = getCookie("uniqueId");
-    const profilePicture = document.getElementById("profile-picture");
-
-    if (!uniqueId) {
-      console.error("UniqueId introuvable dans les cookies.");
-      return;
-    }
-
-    try {
-      const response = await fetch(`/profile-picture/${uniqueId}`);
-      const data = await response.json();
-
-      if (data.success && data.imageUrl) {
-        profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
-        profilePicture.style.backgroundColor = "transparent";
-        profilePicture.classList.add("show");
-      } else {
-        // En cas d'erreur, afficher une image par défaut
-        profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
-        profilePicture.classList.add("show");
-      }
-    } catch (error) {
-      console.error("Erreur lors de la récupération de l'image :", error);
-      profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
-      profilePicture.classList.add("show");
-    }
-  }
-  document.addEventListener("DOMContentLoaded", fetchProfilePicture);
-</script>

@@ -23,27 +23,26 @@ const upload = multer({
   },
 });
 
-const moviesDatabase = {
-    "inception": {
-        filmName: "Inception",
-        filmName2: "Origin",
-        actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Ellen Page"],
-        director: "Christopher Nolan",
-        summary: "Un voleur expérimenté dans l'art de l'extraction de secrets pendant l'état de rêve se voit offrir une chance de retrouver sa vie d'avant.",
-        posterLink: "https://example.com/inception-poster.jpg",
-        filmLink: "https://example.com/watch-inception"
-    },
-    "matrix": {
-        filmName: "The Matrix",
-        filmName2: "La Matrice",
-        actors: ["Keanu Reeves", "Laurence Fishburne", "Carrie-Anne Moss"],
-        director: "Lana et Lilly Wachowski",
-        summary: "Un programmeur découvre que le monde dans lequel il vit est une simulation créée par des machines.",
-        posterLink: "https://example.com/matrix-poster.jpg",
-        filmLink: "https://example.com/watch-matrix"
-    }
+const films = {
+  "Inception": {
+    filmName: "Inception",
+    filmName2: "Inception (2010)",
+    actors: ["Leonardo DiCaprio", "Joseph Gordon-Levitt", "Elliot Page"],
+    director: "Christopher Nolan",
+    summary: "Un voleur qui s'infiltre dans les rêves des gens pour voler leurs secrets doit accomplir une mission complexe d'inception.",
+    posterLink: "https://example.com/inception-poster.jpg",
+    filmLink: "https://example.com/inception-film"
+  },
+  "Interstellar": {
+    filmName: "Interstellar",
+    filmName2: "Interstellar (2014)",
+    actors: ["Matthew McConaughey", "Anne Hathaway", "Jessica Chastain"],
+    director: "Christopher Nolan",
+    summary: "Une équipe d'explorateurs traverse un trou de ver pour tenter de sauver l'humanité.",
+    posterLink: "https://example.com/interstellar-poster.jpg",
+    filmLink: "https://example.com/interstellar-film"
+  }
 };
-
 
 
 
@@ -158,22 +157,20 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
+app.get('/film/:filmName', (req, res) => {
+  const filmName = req.params.filmName; // Récupération du nom du film dans la requête
 
+  // Recherche du film dans la base de données locale
+  const film = films[filmName];
 
-
-
-app.get('/film/:name', (req, res) => {
-    const movieName = req.params.name.toLowerCase();
-    
-    if (moviesDatabase[movieName]) {
-        res.json(moviesDatabase[movieName]);
-    } else {
-        res.status(404).json({
-            error: "Film non trouvé"
-        });
-    }
+  if (film) {
+    // Si le film est trouvé, renvoyer ses informations
+    res.json(film);
+  } else {
+    // Si le film n'est pas trouvé, renvoyer un message d'erreur
+    res.status(404).json({ error: "Film non trouvé" });
+  }
 });
-
 
 
 app.get("/profile-picture/:uniqueId", async (req, res) => {
