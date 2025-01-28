@@ -164,26 +164,17 @@ app.get('/film/:filmName', (req, res) => {
 });
 
 app.post('/addFilm', (req, res) => {
-  // Vérification des champs requis dans la requête
-  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
+  const { filmName, actors, director, summary, posterLink, filmLink } = req.body;
 
-  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+  // Vérifie si tous les champs sont fournis
+  if (!filmName || !actors || !director || !summary || !posterLink || !filmLink) {
     return res.status(400).json({ error: 'Tous les champs sont requis.' });
   }
 
-  // Ajout du film à la liste
-  films[filmName] = {
-    filmName,
-    filmName2,
-    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
-    director,
-    summary,
-    posterLink,
-    filmLink,
-  };
+  // Ajoute le film dans la variable (par exemple : une liste de films)
+  films.push({ filmName, actors, director, summary, posterLink, filmLink });
 
-  console.log(`Film ajouté : ${filmName}`);
-  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+  res.status(200).json({ message: 'Film ajouté avec succès !' });
 });
 
 
