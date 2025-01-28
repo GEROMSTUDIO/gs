@@ -41,6 +41,15 @@ const films = {
     summary: "Un requin cherche à manger dans l'Océan",
     posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
     filmLink: "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview"
+  },
+  "La Grande Révélation": {
+    filmName: "La Grande Révélation",
+    filmName2: "La Grande Révélation",
+    actors: ["Hanna Bedhiaf, Baptiste Blache, Tristan Vaucheret Perrier..."],
+    director: "Romain Lastella",
+    summary: "Comme tous les matins Agatha se rendait au Collège mais aujourd'hui tous bascule...",
+    posterLink: "https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp",
+    filmLink: "https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview"
   }
 };
 
