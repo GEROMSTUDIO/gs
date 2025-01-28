@@ -32,6 +32,15 @@ const films = {
     summary: "",
     posterLink: "",
     filmLink: ""
+  },
+    "requin": {
+    filmName: "Requin",
+    filmName2: "Requin",
+    actors: ["Le requin, Des humains"],
+    director: "Romain Lastella",
+    summary: "Un requin cherche à manger dans l'Océan",
+    posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
+    filmLink: "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview"
   }
 };
 
@@ -235,7 +244,7 @@ app.get("/check-access", async (req, res) => {
       const carouselContent = `
         <div> <h2 class="titrefilm">Nos Films </h2></div>
         <div class="carousel">
-          <a href="/films/test.html" class="carousel-item">
+          <a href="films/film.html?film=La%20Grande%20R%C3%A9v%C3%A9lation" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
@@ -291,7 +300,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">L'imposteur Adams</div>
           </a>
-          <a href="#" class="carousel-item">
+          <a href="films/film.html?film=requin" class="carousel-item">
             <div class="image-container">
               <img src="https://i.ibb.co/KqXr1Ss/requin.png" alt="Affiche" />
             </div>

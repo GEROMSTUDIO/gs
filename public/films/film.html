@@ -265,7 +265,8 @@
         const filmName = getQueryParam("film");
 
         if (!filmName) {
-          alert("Paramètre 'film' introuvable dans l'URL !");
+          const redirectURL = `https://geromstudio.glitch.me/film.html`;
+          window.location.href = redirectURL;
           return;
         }
 
@@ -315,8 +316,8 @@
 
       // Regrouper les deux fonctions dans un seul window.onload
       window.onload = function () {
-        rechercherFilm();
         checkAccess();
+        rechercherFilm();
       };
 
       // Appel de fetchProfilePicture dès que le DOM est prêt
