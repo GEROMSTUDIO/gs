@@ -186,14 +186,82 @@
     </div>
 
     <script>
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+        return null;
+      }
 
+      function checkAccess() {
+        const uniqueId = getCookie("uniqueId");
+
+        if (!uniqueId) {
+          window.location.href = `/login.html`;
+          return;
+        }
+
+        fetch(`/check-access?uniqueId=${uniqueId}`)
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              window.location.href = `/blocked.html`;
+              throw new Error("Accès refusé");
+            }
+          })
+          .then((data) => {
+            // Charger dynamiquement le script film.js
+            const script = document.createElement("script");
+            script.src = "/film.js";
+            script.onload = () => {};
+            script.onerror = () => {};
+            document.body.appendChild(script);
+          })
+          .catch((error) => {
+            document.getElementById("message").textContent =
+              "Accès non autorisé : " + error.message;
+            window.location.href = `/403.html`;
+          });
+      }
+
+      async function fetchProfilePicture() {
+        const uniqueId = getCookie("uniqueId");
+        const profilePicture = document.getElementById("profile-picture");
+
+        if (!uniqueId) {
+          console.error("UniqueId introuvable dans les cookies.");
+          return;
+        }
+
+        try {
+          const response = await fetch(`/profile-picture/${uniqueId}`);
+          const data = await response.json();
+
+          if (data.success && data.imageUrl) {
+            profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+            profilePicture.style.backgroundColor = "transparent";
+            profilePicture.classList.add("show");
+          } else {
+            // En cas d'erreur, afficher une image par défaut
+            profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+            profilePicture.classList.add("show");
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération de l'image :", error);
+          profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+          profilePicture.classList.add("show");
+        }
+      }
+
+      // Fonction pour récupérer les paramètres de requête dans l'URL
       function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
       }
 
       async function rechercherFilm() {
-        // Récupérer le nom du film depuis le paramètre "film" dans l'URL
+        // Récupérer le nom du film depuis l'URL
         const filmName = getQueryParam("film");
 
         if (!filmName) {
@@ -202,7 +270,7 @@
         }
 
         try {
-          // Faire la requête au serveur
+          // Faire une requête au serveur pour obtenir les informations sur le film
           const response = await fetch(
             `https://geromstudio.glitch.me/film/${encodeURIComponent(filmName)}`
           );
@@ -210,16 +278,21 @@
           if (response.ok) {
             const data = await response.json();
 
-            // Mettre à jour les champs HTML avec les données reçues
-            document.getElementById("filmName").value = data.filmName;
-            document.getElementById("actors").value = data.actors.join(", ");
-            document.getElementById("director").value = data.director;
-            document.getElementById("summary").value = data.summary;
-            document.getElementById("posterLink").value = data.posterLink;
-            document.getElementById("filmLink").value = data.filmLink;
+            // Remplacer les valeurs dans le HTML avec les données récupérées
+            document.title = data.filmName; // Met à jour le titre de la page
+            document.querySelector(".poster").src = data.posterLink;
+            document.querySelector(
+              ".poster"
+            ).alt = `Affiche de ${data.filmName}`;
+            document.querySelector(".title").textContent = data.filmName;
+            document.querySelector(".credits").textContent =
+              data.actors.join(", ");
+            document.querySelector(".authors").textContent = data.director;
+            document.querySelector(".synopsis").textContent = data.summary;
+            document.querySelector("#video").src = data.filmLink;
           } else {
             alert("Film non trouvé !");
-            clearFields();
+            clearContent();
           }
         } catch (error) {
           console.error("Erreur lors de la requête :", error);
@@ -227,17 +300,27 @@
         }
       }
 
-      function clearFields() {
-        // Réinitialiser les champs HTML
-        document.getElementById("filmName").value = "";
-        document.getElementById("actors").value = "";
-        document.getElementById("director").value = "";
-        document.getElementById("summary").value = "";
-        document.getElementById("posterLink").value = "";
-        document.getElementById("filmLink").value = "";
+      function clearContent() {
+        // Vide les champs HTML en cas d'erreur
+        document.title = "Film non trouvé";
+        document.querySelector(".poster").src = "";
+        document.querySelector(".poster").alt = "Aucune affiche disponible";
+        document.querySelector(".title").textContent = "Film non trouvé";
+        document.querySelector(".credits").textContent = "";
+        document.querySelector(".authors").textContent = "";
+        document.querySelector(".synopsis").textContent =
+          "Aucune description disponible.";
+        document.querySelector("#video").src = "";
       }
 
-      window.onload = rechercherFilm;
+      // Regrouper les deux fonctions dans un seul window.onload
+      window.onload = function () {
+        rechercherFilm();
+        checkAccess();
+      };
+
+      // Appel de fetchProfilePicture dès que le DOM est prêt
+      document.addEventListener("DOMContentLoaded", fetchProfilePicture);
     </script>
   </body>
 </html>

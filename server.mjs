@@ -172,6 +172,30 @@ app.get('/film/:filmName', (req, res) => {
   }
 });
 
+app.post('/addFilm', (req, res) => {
+  // Vérification des champs requis dans la requête
+  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
+
+  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+    return res.status(400).json({ error: 'Tous les champs sont requis.' });
+  }
+
+  // Ajout du film à la liste
+  films[filmName] = {
+    filmName,
+    filmName2,
+    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
+    director,
+    summary,
+    posterLink,
+    filmLink,
+  };
+
+  console.log(`Film ajouté : ${filmName}`);
+  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+});
+
+
 
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
