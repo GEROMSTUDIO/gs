@@ -4,188 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ajouter un Film</title>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: "Arial", sans-serif;
-        margin: 0;
-        padding: 0;
-        background: linear-gradient(to right, rgb(255, 0, 0), rgb(120, 0, 0));
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-
-      .form-container {
-        background: #1a1a28;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-        max-width: 400px;
-        width: 90%;
-        text-align: center;
-      }
-
-      .form-container h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
-        color: rgb(255, 255, 255);
-      }
-
-      .form-container label {
-        display: block;
-        font-size: 14px;
-        margin: 10px 0 5px;
-        text-align: left;
-        color: #ccc;
-      }
-
-      .form-container input,
-      .form-container textarea,
-      .form-container button {
-        width: 100%;
-        padding: 10px;
-        border: none;
-        border-radius: 8px;
-        margin-bottom: 15px;
-        font-size: 14px;
-      }
-
-      .form-container input,
-      .form-container textarea {
-        background: #333;
-        color: #fff;
-      }
-
-      .form-container textarea {
-        resize: none;
-      }
-
-      .form-container button {
-        background: rgb(220, 0, 0);
-        color: #000;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-
-      .form-container button:hover {
-        background: rgb(180, 0, 0);
-      }
-
-      .form-container .back-link {
-        color: rgb(255, 240, 0);
-        text-decoration: none;
-        font-size: 14px;
-      }
-
-      .form-container .back-link:hover {
-        text-decoration: underline;
-      }
-    </style>
   </head>
   <body>
-    <div class="form-container">
-      <h1>Ajouter un Film</h1>
-      <form id="addFilmForm">
-        <label for="filmName">Nom du Film :</label>
-        <input
-          type="text"
-          id="filmName"
-          name="filmName"
-          placeholder="Entrez le titre du film"
-          required
-        />
-
-        <label for="actors">Acteurs (séparés par des virgules) :</label>
-        <input
-          type="text"
-          id="actors"
-          name="actors"
-          placeholder="Exemple : Leonardo DiCaprio, Brad Pitt"
-          required
-        />
-
-        <label for="director">Réalisateur :</label>
-        <input
-          type="text"
-          id="director"
-          name="director"
-          placeholder="Nom du réalisateur"
-          required
-        />
-
-        <label for="summary">Résumé :</label>
-        <textarea
-          id="summary"
-          name="summary"
-          rows="4"
-          placeholder="Entrez un bref résumé du film"
-          required
-        ></textarea>
-
-        <label for="posterLink">Affiche (lien) :</label>
-        <input
-          type="url"
-          id="posterLink"
-          name="posterLink"
-          placeholder="Lien vers l'affiche du film"
-          required
-        />
-
-        <label for="filmLink">Vidéo (lien) :</label>
-        <input
-          type="url"
-          id="filmLink"
-          name="filmLink"
-          placeholder="Lien vers la vidéo du film"
-          required
-        />
-
-        <button type="submit">Ajouter le Film</button>
-      </form>
-      <a href="/film.html" class="back-link">Retour à la liste des films</a>
-    </div>
+    <h1>Ajouter un Film</h1>
+    <form id="addFilmForm">
+      <label>Nom du Film :</label>
+      <input type="text" name="filmName" required /><br />
+      <label>Nom Alternatif :</label>
+      <input type="text" name="filmName2" required /><br />
+      <label>Acteurs (séparés par des virgules) :</label>
+      <input type="text" name="actors" required /><br />
+      <label>Réalisateur :</label>
+      <input type="text" name="director" required /><br />
+      <label>Résumé :</label>
+      <textarea name="summary" required></textarea><br />
+      <label>Affiche (lien) :</label>
+      <input type="url" name="posterLink" required /><br />
+      <label>Vidéo (lien) :</label>
+      <input type="url" name="filmLink" required /><br />
+      <button type="submit">Ajouter</button>
+    </form>
 
     <script>
-      document
-        .getElementById("addFilmForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
+      document.getElementById('addFilmForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-          // Récupère les données du formulaire
-          const formData = new FormData(e.target);
-          const formObject = Object.fromEntries(formData.entries());
+        const formData = new FormData(e.target);
+        const formObject = Object.fromEntries(formData.entries());
 
-          try {
-            const response = await fetch(
-              "https://geromstudio.glitch.me/addFilm",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json", // Indique que les données sont envoyées en JSON
-                },
-                body: JSON.stringify(formObject), // Convertit les données du formulaire en JSON
-              }
-            );
+        try {
+          const response = await fetch('https://geromstudio.glitch.me/addFilm', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formObject),
+          });
 
-            if (response.ok) {
-              const result = await response.json();
-              alert(result.message); // Message de succès
-            } else {
-              const error = await response.json();
-              alert(`Erreur : ${error.error}`); // Affiche le message d'erreur
-            }
-          } catch (err) {
-            alert("Une erreur est survenue. Vérifiez votre connexion.");
-            console.error(err);
+          if (response.ok) {
+            const result = await response.json();
+            alert(result.message);
+          } else {
+            const error = await response.json();
+            alert(`Erreur : ${error.error}`);
           }
-        });
+        } catch (err) {
+          alert('Une erreur est survenue. Vérifiez votre connexion.');
+          console.error(err);
+        }
+      });
     </script>
   </body>
 </html>

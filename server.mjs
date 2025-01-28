@@ -164,17 +164,26 @@ app.get('/film/:filmName', (req, res) => {
 });
 
 app.post('/addFilm', (req, res) => {
-  const { filmName, actors, director, summary, posterLink, filmLink } = req.body;
+  // Vérification des champs requis dans la requête
+  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
 
-  // Vérifie si tous les champs sont fournis
-  if (!filmName || !actors || !director || !summary || !posterLink || !filmLink) {
+  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
     return res.status(400).json({ error: 'Tous les champs sont requis.' });
   }
 
-  // Ajoute le film dans la variable (par exemple : une liste de films)
-  films.push({ filmName, actors, director, summary, posterLink, filmLink });
+  // Ajout du film à la liste
+  films[filmName] = {
+    filmName,
+    filmName2,
+    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
+    director,
+    summary,
+    posterLink,
+    filmLink,
+  };
 
-  res.status(200).json({ message: 'Film ajouté avec succès !' });
+  console.log(`Film ajouté : ${filmName}`);
+  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
 });
 
 
@@ -226,7 +235,7 @@ app.get("/check-access", async (req, res) => {
       const carouselContent = `
         <div> <h2 class="titrefilm">Nos Films </h2></div>
         <div class="carousel">
-          <a href="/films/film.html?film=La%20Grande%20R%C3%A9v%C3%A9lation" class="carousel-item">
+          <a href="/films/test.html" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
