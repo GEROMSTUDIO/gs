@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const director = document.getElementById("director").value;
     const summary = document.getElementById("summary").value;
     const posterLink = document.getElementById("posterLink").value;
+    const filmLink = document.getElementById("filmLink").value;
 
     try {
       // Charger les fichiers externes
@@ -35,7 +36,8 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace("{{actors}}", actors)
         .replace("{{director}}", director)
         .replace("{{summary}}", summary)
-        .replace("{{posterLink}}", posterLink);
+        .replace("{{posterLink}}", posterLink)
+        .replace("{{filmLink}}", filmLink);
 
       // Générer le code final avec le template HTML et le script JavaScript
       const finalCode = finalHTML + "<script>" + scriptContent + "</script>";
