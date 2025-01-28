@@ -966,10 +966,13 @@ iframe {
 @media screen and (max-width: 690px) {
   iframe {
     width: 100%;
-    max-width: 400px;
-    height: 600px;
+    max-width: 600px;
+    height: 400px;
     padding: 20px;
   }
+  #overlay {
+  top: 400px;
+}
 }
 @media screen and (max-width: 410px) {
   iframe {
