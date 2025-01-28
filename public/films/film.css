@@ -197,7 +197,7 @@ a:active {
 
 #overlay {
   position: absolute;
-  top: 748px;
+  top: 690px;
   left: 0px;
   width: 100%;
   height: 80px;
@@ -208,8 +208,7 @@ a:active {
 iframe {
   border: none;
   padding: 72px;
-  width: 800px;
-  height: 450px;
+  aspect-ratio: 16/9;
   display: block;
   margin: 0 auto;
 }
@@ -804,7 +803,7 @@ iframe {
     margin-bottom: 3px;
   }
   #overlay {
-  top: 660px;
+  top: 610px;
   left: 0px;
 }
 }
@@ -1005,7 +1004,7 @@ iframe {
     padding: 15px;
   }
   #overlay {
-    top: 678px;
+    top: 780px;
   }
 }
 
@@ -1018,12 +1017,23 @@ iframe {
     padding: 16px;
   }
   #overlay {
-    top: 780px;
+    top: 800px;
   }
 }
 
 /* Petits mobiles */
-@media screen and (max-width: 460px) {
+@media screen and (min-width: 431px) and (max-width: 460px) {
+  iframe {
+    width: 100%;
+    max-width: 350px;
+    height: 197px;
+    padding: 10px;
+  }
+  #overlay {
+    top: 770px;
+  }
+}
+@media screen  and (max-width: 430px) {
   iframe {
     width: 100%;
     max-width: 350px;
@@ -1033,11 +1043,4 @@ iframe {
   #overlay {
     top: 800px;
   }
-}
-
-/* Ajustements généraux pour la responsivité */
-iframe {
-  aspect-ratio: 16/9;
-  display: block;
-  margin: 0 auto;
 }
