@@ -4,7 +4,7 @@ import fetch from "node-fetch";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
-import sqlite3 from 'sqlite3';
+import auth from "./sqlite.js";
 import bodyParser from "body-parser";
 
 // Configuration ES Modules
@@ -36,7 +36,7 @@ const films = {
     "requin": {
     filmName: "Le Requin",
     filmName2: "Le Requin",
-    actors: ["Le Requin, Des humains"],
+    actors: ["Le requin, Des humains"],
     director: "Romain Lastella",
     summary: "Un requin cherche à manger dans l'Océan",
     posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
@@ -166,37 +166,19 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-app.get('/film/:filmName', async (req, res) => {
-    try {
-        const filmName = req.params.filmName;
-        
-        if (!filmName) {
-            return res.status(400).json({
-                success: false,
-                message: "Le nom du film est requis"
-            });
-        }
+app.get('/film/:filmName', (req, res) => {
+  const filmName = req.params.filmName; // Récupération du nom du film dans la requête
 
-        const result = await films.getFilmByName(filmName);
-        
-        if (result.success) {
-            res.status(200).json({
-                success: true,
-                film: result.film
-            });
-        } else {
-            res.status(404).json({
-                success: false,
-                message: result.error
-            });
-        }
-    } catch (error) {
-        console.error("Erreur lors de la récupération du film:", error);
-        res.status(500).json({
-            success: false,
-            message: "Erreur serveur lors de la récupération du film"
-        });
-    }
+  // Recherche du film dans la base de données locale
+  const film = films[filmName];
+
+  if (film) {
+    // Si le film est trouvé, renvoyer ses informations
+    res.json(film);
+  } else {
+    // Si le film n'est pas trouvé, renvoyer un message d'erreur
+    res.status(404).json({ error: "Film non trouvé" });
+  }
 });
 
 app.post('/addFilm', (req, res) => {
