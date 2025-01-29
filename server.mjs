@@ -34,9 +34,9 @@ const films = {
     filmLink: ""
   },
     "requin": {
-    filmName: "Requin",
-    filmName2: "Requin",
-    actors: ["Le requin, Des humains"],
+    filmName: "Le Requin",
+    filmName2: "Le Requin",
+    actors: ["Le Requin, Des humains"],
     director: "Romain Lastella",
     summary: "Un requin cherche à manger dans l'Océan",
     posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
