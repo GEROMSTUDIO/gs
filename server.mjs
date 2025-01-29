@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
+import { getFilmByName } from 'films.js';
 import bodyParser from "body-parser";
 
 // Configuration ES Modules
@@ -166,18 +167,30 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-app.get('/film/:filmName', (req, res) => {
-  const filmName = req.params.filmName; // Récupération du nom du film dans la requête
+app.get('/film/:filmName', async (req, res) => {
+  const filmName = req.params.filmName; // Récupérer le nom du film de la requête
 
-  // Recherche du film dans la base de données locale
-  const film = films[filmName];
+  try {
+    const film = await getFilmByName(filmName); // Appeler la fonction de films.js
 
-  if (film) {
-    // Si le film est trouvé, renvoyer ses informations
-    res.json(film);
-  } else {
-    // Si le film n'est pas trouvé, renvoyer un message d'erreur
-    res.status(404).json({ error: "Film non trouvé" });
+    if (film) {
+      // Si le film est trouvé, envoyer les données au format JSON
+      res.json({
+        filmName: film.filmName,
+        filmName2: film.filmName2,
+        actors: JSON.parse(film.actors), // Convertir la chaîne JSON des acteurs
+        director: film.director,
+        summary: film.summary,
+        posterLink: film.posterLink,
+        filmLink: film.filmLink
+      });
+    } else {
+      // Si le film n'est pas trouvé, renvoyer une erreur 404
+      res.status(404).json({ error: "Film non trouvé" });
+    }
+  } catch (err) {
+    console.error('Erreur lors de la recherche du film:', err.message);
+    res.status(500).json({ error: "Erreur interne du serveur" });
   }
 });
 
