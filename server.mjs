@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
-import filmDB from './films.js';
+import filmDB from "./films.js";
 import bodyParser from "body-parser";
 
 // Configuration ES Modules
@@ -32,29 +32,30 @@ const films = {
     director: "",
     summary: "",
     posterLink: "",
-    filmLink: ""
+    filmLink: "",
   },
-    "requin": {
+  requin: {
     filmName: "Le Requin",
     filmName2: "Le Requin",
     actors: ["Le requin, Des humains"],
     director: "Romain Lastella",
     summary: "Un requin cherche à manger dans l'Océan",
     posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
-    filmLink: "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview"
+    filmLink:
+      "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview",
   },
   "La Grande Révélation": {
     filmName: "La Grande Révélation",
     filmName2: "La Grande Révélation",
     actors: ["Hanna Bedhiaf, Baptiste Blache, Tristan Vaucheret Perrier..."],
     director: "Romain Lastella",
-    summary: "Comme tous les matins Agatha se rendait au Collège mais aujourd'hui tous bascule...",
+    summary:
+      "Comme tous les matins Agatha se rendait au Collège mais aujourd'hui tous bascule...",
     posterLink: "https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp",
-    filmLink: "https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview"
-  }
+    filmLink:
+      "https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview",
+  },
 };
-
-
 
 app.use(bodyParser.json());
 app.use("/views", express.static(path.join(__dirname, "views")));
@@ -167,49 +168,82 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-app.post('/addFilm', async (req, res) => {
-    try {
+async function startServer() {
+  try {
+    await filmDB.initialize();
+
+    app.post("/addFilm", async (req, res) => {
+      try {
         // Vérification des champs requis dans la requête
-        const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
-        if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
-            return res.status(400).json({ error: 'Tous les champs sont requis.' });
+        const {
+          filmName,
+          filmName2,
+          actors,
+          director,
+          summary,
+          posterLink,
+          filmLink,
+        } = req.body;
+        if (
+          !filmName ||
+          !filmName2 ||
+          !actors ||
+          !director ||
+          !summary ||
+          !posterLink ||
+          !filmLink
+        ) {
+          return res
+            .status(400)
+            .json({ error: "Tous les champs sont requis." });
         }
 
         const result = await filmDB.addFilm({
-            filmName,
-            filmName2,
-            actors: Array.isArray(actors) ? actors : actors.split(','),
-            director,
-            summary,
-            posterLink,
-            filmLink
+          filmName,
+          filmName2,
+          actors: Array.isArray(actors) ? actors : actors.split(","),
+          director,
+          summary,
+          posterLink,
+          filmLink,
         });
 
         console.log(`Film ajouté : ${filmName}`);
-        res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
-    } catch (error) {
-        console.error('Erreur lors de l\'ajout du film:', error);
+        res
+          .status(201)
+          .json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du film:", error);
         res.status(500).json({ error: error.message || "Erreur serveur" });
-    }
-});
+      }
+    });
 
-app.get('/film/:filmName', async (req, res) => {
-    try {
+    app.get("/film/:filmName", async (req, res) => {
+      try {
         const filmName = req.params.filmName;
         const film = await filmDB.getFilmByName(filmName);
-        
+
         if (film) {
-            res.json(film);
+          res.json(film);
         } else {
-            res.status(404).json({ error: "Film non trouvé" });
+          res.status(404).json({ error: "Film non trouvé" });
         }
-    } catch (error) {
-        console.error('Erreur lors de la recherche du film:', error);
+      } catch (error) {
+        console.error("Erreur lors de la recherche du film:", error);
         res.status(500).json({ error: "Erreur serveur" });
-    }
-});
+      }
+    });
+  } catch (error) {
+    console.error(
+      "Erreur lors de l'initialisation de la base de données:",
+      error
+    );
+    process.exit(1);
+  }
+}
 
-
+// Démarrer le serveur avec la gestion des erreurs
+startServer();
 
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
@@ -370,12 +404,10 @@ app.post("/grant-access", async (req, res) => {
     const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
     if (!email || !uniqueId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "L'email et l'identifiant unique sont requis",
-        });
+      return res.status(400).json({
+        success: false,
+        error: "L'email et l'identifiant unique sont requis",
+      });
     }
 
     if (uniqueId !== validUniqueId) {
@@ -398,12 +430,10 @@ app.post("/revoke-access", async (req, res) => {
     const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
     if (!email || !uniqueId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          error: "L'email et l'identifiant unique sont requis",
-        });
+      return res.status(400).json({
+        success: false,
+        error: "L'email et l'identifiant unique sont requis",
+      });
     }
 
     if (uniqueId !== validUniqueId) {
