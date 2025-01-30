@@ -3,149 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recherche de Films</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        .search-form {
-            margin-bottom: 20px;
-        }
-        input[type="text"] {
-            padding: 8px;
-            width: 300px;
-            margin-right: 10px;
-        }
-        button {
-            padding: 8px 16px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .film-details {
-            border: 1px solid #ddd;
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-        }
-        .film-details.visible {
-            display: block;
-        }
-        .error-message {
-            color: red;
-            margin-top: 10px;
-            display: none;
-        }
-        .poster {
-            max-width: 200px;
-            margin: 10px 0;
-        }
-        .actors-list {
-            margin: 10px 0;
-        }
-    </style>
+    <title>Recherche de film</title>
 </head>
 <body>
-    <h1>Recherche de Films</h1>
-    
-    <div class="search-form">
-        <input type="text" id="filmName" placeholder="Entrez le nom du film">
-        <button onclick="searchFilm()">Rechercher</button>
-    </div>
-
-    <div class="error-message" id="errorMessage"></div>
-
-    <div class="film-details" id="filmDetails">
-        <h2 id="title"></h2>
-        <h3 id="originalTitle"></h3>
-        <p><strong>Réalisateur :</strong> <span id="director"></span></p>
-        <p><strong>Résumé :</strong> <span id="summary"></span></p>
-        <img id="poster" class="poster" alt="Affiche du film">
-        <div class="actors-list">
-            <strong>Acteurs :</strong>
-            <ul id="actors"></ul>
-        </div>
-        <p><strong>Lien du film :</strong> <a id="filmLink" target="_blank">Voir le film</a></p>
-    </div>
+    <h1>Recherche de film</h1>
+    <input type="text" id="filmName" placeholder="Entrez le nom du film">
+    <button onclick="searchFilm()">Rechercher</button>
+    <div id="result"></div>
 
     <script>
-        async function searchFilm() {
-            const filmName = document.getElementById('filmName').value;
-            const errorMessage = document.getElementById('errorMessage');
-            const filmDetails = document.getElementById('filmDetails');
-            
+        function searchFilm() {
+            const filmName = document.getElementById("filmName").value;
             if (!filmName) {
-                showError('Veuillez entrer un nom de film');
-                return;
+                alert("Veuillez entrer un nom de film !");
+                return;a
             }
 
-            try {
-                const response = await fetch(`https://geromstudio.glitch.me/film/${encodeURIComponent(filmName)}`);
-                
-                if (!response.ok) {
-                    if (response.status === 404) {
-                        showError('Film non trouvé');
+            fetch(`/film/${encodeURIComponent(filmName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById("result").innerHTML = `<p style="color: red;">${data.error}</p>`;
                     } else {
-                        showError('Une erreur est survenue');
+                        document.getElementById("result").innerHTML = `
+                            <h2>${data.filmName}</h2>
+                            <p><strong>Titre alternatif :</strong> ${data.filmName2}</p>
+                            <p><strong>Réalisateur :</strong> ${data.director}</p>
+                            <p><strong>Résumé :</strong> ${data.summary}</p>
+                            <p><strong>Acteurs :</strong> ${data.actors.join(", ")}</p>
+                            <p><strong>Affiche :</strong> <br><img src="${data.posterLink}" alt="Affiche" width="200"></p>
+                            <p><a href="${data.filmLink}" target="_blank">Voir le film</a></p>
+                        `;
                     }
-                    filmDetails.classList.remove('visible');
-                    return;
-                }
-
-                const film = await response.json();
-                displayFilmDetails(film);
-                errorMessage.style.display = 'none';
-                filmDetails.classList.add('visible');
-
-            } catch (error) {
-                showError('Erreur de connexion au serveur');
-                filmDetails.classList.remove('visible');
-            }
-        }
-
-        function displayFilmDetails(film) {
-            document.getElementById('title').textContent = film.filmName;
-            document.getElementById('originalTitle').textContent = film.filmName2;
-            document.getElementById('director').textContent = film.director;
-            document.getElementById('summary').textContent = film.summary;
-            document.getElementById('poster').src = film.posterLink;
-            document.getElementById('filmLink').href = film.filmLink;
-
-            const actorsList = document.getElementById('actors');
-            actorsList.innerHTML = '';
-            
-            if (film.actors && film.actors.length > 0) {
-                film.actors.forEach(actor => {
-                    const li = document.createElement('li');
-                    li.textContent = actor;
-                    actorsList.appendChild(li);
+                })
+                .catch(error => {
+                    console.error("Erreur :", error);
+                    document.getElementById("result").innerHTML = `<p style="color: red;">Erreur lors de la requête.</p>`;
                 });
-            } else {
-                const li = document.createElement('li');
-                li.textContent = 'Aucun acteur listé';
-                actorsList.appendChild(li);
-            }
         }
-
-        function showError(message) {
-            const errorMessage = document.getElementById('errorMessage');
-            errorMessage.textContent = message;
-            errorMessage.style.display = 'block';
-        }
-
-        // Permettre la recherche en appuyant sur Entrée
-        document.getElementById('filmName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                searchFilm();
-            }
-        });
     </script>
 </body>
 </html>
