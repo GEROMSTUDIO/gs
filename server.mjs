@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
+import filmDB from './films.js';
 import bodyParser from "body-parser";
 
 // Configuration ES Modules
@@ -166,42 +167,46 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-app.get('/film/:filmName', (req, res) => {
-  const filmName = req.params.filmName; // Récupération du nom du film dans la requête
+app.post('/addFilm', async (req, res) => {
+    try {
+        // Vérification des champs requis dans la requête
+        const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
+        if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+            return res.status(400).json({ error: 'Tous les champs sont requis.' });
+        }
 
-  // Recherche du film dans la base de données locale
-  const film = films[filmName];
+        const result = await filmDB.addFilm({
+            filmName,
+            filmName2,
+            actors: Array.isArray(actors) ? actors : actors.split(','),
+            director,
+            summary,
+            posterLink,
+            filmLink
+        });
 
-  if (film) {
-    // Si le film est trouvé, renvoyer ses informations
-    res.json(film);
-  } else {
-    // Si le film n'est pas trouvé, renvoyer un message d'erreur
-    res.status(404).json({ error: "Film non trouvé" });
-  }
+        console.log(`Film ajouté : ${filmName}`);
+        res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+    } catch (error) {
+        console.error('Erreur lors de l\'ajout du film:', error);
+        res.status(500).json({ error: error.message || "Erreur serveur" });
+    }
 });
 
-app.post('/addFilm', (req, res) => {
-  // Vérification des champs requis dans la requête
-  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
-
-  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
-    return res.status(400).json({ error: 'Tous les champs sont requis.' });
-  }
-
-  // Ajout du film à la liste
-  films[filmName] = {
-    filmName,
-    filmName2,
-    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
-    director,
-    summary,
-    posterLink,
-    filmLink,
-  };
-
-  console.log(`Film ajouté : ${filmName}`);
-  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+app.get('/film/:filmName', async (req, res) => {
+    try {
+        const filmName = req.params.filmName;
+        const film = await filmDB.getFilmByName(filmName);
+        
+        if (film) {
+            res.json(film);
+        } else {
+            res.status(404).json({ error: "Film non trouvé" });
+        }
+    } catch (error) {
+        console.error('Erreur lors de la recherche du film:', error);
+        res.status(500).json({ error: "Erreur serveur" });
+    }
 });
 
 
