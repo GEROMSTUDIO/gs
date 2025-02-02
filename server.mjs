@@ -36,7 +36,7 @@ if (fs.existsSync(filmsFile)) {
     films = {}; // Si le fichier n'existe pas encore, initialiser un objet vide
 }
 
-
+app.use(express.json());
 app.use(bodyParser.json());
 app.use("/views", express.static(path.join(__dirname, "views")));
 app.use("/admin", express.static(path.join(__dirname, "admin")));
@@ -189,7 +189,6 @@ app.post('/addFilm', (req, res) => {
     res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
 });
 
-// Route pour mettre à jour un film
 app.post('/updateFilm', (req, res) => {
     const { filmName, updatedFilm } = req.body;
 
@@ -197,7 +196,20 @@ app.post('/updateFilm', (req, res) => {
         return res.status(404).json({ error: 'Film non trouvé.' });
     }
 
-    films[filmName] = updatedFilm;
+    // Vérifier si le nom du film a changé
+    const newFilmName = updatedFilm.filmName;
+
+    if (newFilmName && newFilmName !== filmName) {
+        // Supprimer l'ancienne entrée
+        delete films[filmName];
+
+        // Ajouter le film avec le nouveau nom
+        films[newFilmName] = updatedFilm;
+    } else {
+        // Juste mettre à jour l'entrée existante
+        films[filmName] = updatedFilm;
+    }
+
     saveFilms();
     res.status(200).json({ message: 'Film mis à jour avec succès.' });
 });
@@ -326,7 +338,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">L'imposteur Adams</div>
           </a>
-          <a href="films/film.html?film=Requin" class="carousel-item">
+          <a href="films/film.html?film=Le Requin" class="carousel-item">
             <div class="image-container">
               <img src="https://i.ibb.co/KqXr1Ss/requin.png" alt="Affiche" />
             </div>
