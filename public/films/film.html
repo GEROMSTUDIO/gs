@@ -302,6 +302,7 @@
         document.querySelector(".synopsis").textContent =
           "Aucune description disponible.";
         document.querySelector("#video").src = "";
+        window.location.href = "https://geromstudio.glitch.me/film.html";
       }
 
       window.onload = async function () {
@@ -310,7 +311,7 @@
         setTimeout(() => {
           document.getElementById("loading-screen").style.display = "none";
           document.querySelector(".main-content").style.display = "flex";
-        }, 260);
+        }, 180);
       };
       // Appel de fetchProfilePicture dès que le DOM est prêt
       document.addEventListener("DOMContentLoaded", fetchProfilePicture);

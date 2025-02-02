@@ -2,9 +2,9 @@
   "name": "hello-sqlite",
   "version": "0.1.1",
   "description": "A Node app with SQLite database, instantly up and running.",
-  "main": "server.js",
+  "main": "server.mjs",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.mjs"
   },
   "dependencies": {
     "@fastify/formbody": "^7.4.0",
