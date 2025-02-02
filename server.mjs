@@ -12,26 +12,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const validUniqueId = "4ce1f89302953b32f6a66e5f817b43f2";
 const validPassword = "Studiopro38@";
-const filmsFile = "films.json";
-
-let films = {};
-
-if (fs.existsSync(filmsFile)) {
-  const data = fs.readFileSync(filmsFile, "utf8").trim(); // Supprime les espaces blancs
-  if (data) { // Vérifie si le fichier n'est pas vide
-    try {
-      films = JSON.parse(data);
-    } catch (error) {
-      console.error("Erreur de parsing JSON :", error);
-      films = {}; // Réinitialise si le JSON est corrompu
-    }
-  } else {
-    films = {};
-  }
-} else {
-  films = {};
-}
-
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -43,8 +23,41 @@ const upload = multer({
   },
 });
 
+const films = {
+  "": {
+    filmName: "",
+    filmName2: "",
+    actors: [""],
+    director: "",
+    summary: "",
+    posterLink: "",
+    filmLink: ""
+  },
+    "requin": {
+    filmName: "Le Requin",
+    filmName2: "Le Requin",
+    actors: ["Le requin, Des humains"],
+    director: "Romain Lastella",
+    summary: "Un requin cherche à manger dans l'Océan",
+    posterLink: "https://i.ibb.co/KqXr1Ss/requin.png",
+    filmLink: "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview"
+  },
+  "La Grande Révélation": {
+    filmName: "La Grande Révélation",
+    filmName2: "La Grande Révélation",
+    actors: ["Hanna Bedhiaf, Baptiste Blache, Tristan Vaucheret Perrier..."],
+    director: "Romain Lastella",
+    summary: "Comme tous les matins Agatha se rendait au Collège mais aujourd'hui tous bascule...",
+    posterLink: "https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp",
+    filmLink: "https://drive.google.com/file/d/1wdMp62bhBd7I0J0m_cW0fvpsdfeSBiCY/preview"
+  }
+};
+
+
+
 app.use(bodyParser.json());
 app.use("/views", express.static(path.join(__dirname, "views")));
+app.use("/admin", express.static(path.join(__dirname, "admin")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
@@ -153,81 +166,45 @@ app.post("/upload", upload.single("image"), async (req, res) => {
   }
 });
 
-// Route pour récupérer la liste des films
-app.get("/films", (req, res) => {
-  res.json(films);
+app.get('/film/:filmName', (req, res) => {
+  const filmName = req.params.filmName; // Récupération du nom du film dans la requête
+
+  // Recherche du film dans la base de données locale
+  const film = films[filmName];
+
+  if (film) {
+    // Si le film est trouvé, renvoyer ses informations
+    res.json(film);
+  } else {
+    // Si le film n'est pas trouvé, renvoyer un message d'erreur
+    res.status(404).json({ error: "Film non trouvé" });
+  }
 });
 
-// Route pour ajouter un film
-app.post("/addFilm", (req, res) => {
-  const {
-    filmName,
-    filmName2,
-    actors,
-    director,
-    summary,
-    posterLink,
-    filmLink,
-  } = req.body;
+app.post('/addFilm', (req, res) => {
+  // Vérification des champs requis dans la requête
+  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
 
-  if (
-    !filmName ||
-    !filmName2 ||
-    !actors ||
-    !director ||
-    !summary ||
-    !posterLink ||
-    !filmLink
-  ) {
-    return res.status(400).json({ error: "Tous les champs sont requis." });
+  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+    return res.status(400).json({ error: 'Tous les champs sont requis.' });
   }
 
+  // Ajout du film à la liste
   films[filmName] = {
     filmName,
     filmName2,
-    actors: Array.isArray(actors) ? actors : actors.split(","),
+    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
     director,
     summary,
     posterLink,
     filmLink,
   };
 
-  saveFilms();
-  res
-    .status(201)
-    .json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+  console.log(`Film ajouté : ${filmName}`);
+  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
 });
 
-// Route pour mettre à jour un film
-app.post("/updateFilm", (req, res) => {
-  const { filmName, updatedFilm } = req.body;
 
-  if (!films[filmName]) {
-    return res.status(404).json({ error: "Film non trouvé." });
-  }
-
-  films[filmName] = updatedFilm;
-  saveFilms();
-  res.status(200).json({ message: "Film mis à jour avec succès." });
-});
-
-// Route pour supprimer un film
-app.delete("/deleteFilm/:filmName", (req, res) => {
-  const filmName = req.params.filmName;
-
-  if (!films[filmName]) {
-    return res.status(404).json({ error: "Film non trouvé." });
-  }
-
-  delete films[filmName];
-  saveFilms();
-  res.status(200).json({ message: `Le film "${filmName}" a été supprimé.` });
-});
-
-// Fonction pour sauvegarder les films dans le fichier JSON
-function saveFilms() {
-  fs.writeFileSync(filmsFile, JSON.stringify(films, null, 2), "utf8");
-}
 
 app.get("/profile-picture/:uniqueId", async (req, res) => {
   try {
@@ -388,10 +365,12 @@ app.post("/grant-access", async (req, res) => {
     const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
     if (!email || !uniqueId) {
-      return res.status(400).json({
-        success: false,
-        error: "L'email et l'identifiant unique sont requis",
-      });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          error: "L'email et l'identifiant unique sont requis",
+        });
     }
 
     if (uniqueId !== validUniqueId) {
@@ -414,10 +393,12 @@ app.post("/revoke-access", async (req, res) => {
     const { email, uniqueId } = req.body; // Utilisation de req.body et non req.query
 
     if (!email || !uniqueId) {
-      return res.status(400).json({
-        success: false,
-        error: "L'email et l'identifiant unique sont requis",
-      });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          error: "L'email et l'identifiant unique sont requis",
+        });
     }
 
     if (uniqueId !== validUniqueId) {
