@@ -163,11 +163,16 @@ app.get('/film/:filmName', (req, res) => {
   }
 });
 
+// Route pour récupérer la liste des films
+app.get('/filmslist', (req, res) => {
+    res.json(films);
+});
+
 // Route pour ajouter un film
 app.post('/addFilm', (req, res) => {
-    const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
+    const { filmName, actors, director, summary, posterLink, filmLink } = req.body;
 
-    if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+    if (!filmName || !actors || !director || !summary || !posterLink || !filmLink) {
         return res.status(400).json({ error: 'Tous les champs sont requis.' });
     }
 
