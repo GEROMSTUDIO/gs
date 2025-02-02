@@ -163,28 +163,59 @@ app.get('/film/:filmName', (req, res) => {
   }
 });
 
+// Route pour ajouter un film
 app.post('/addFilm', (req, res) => {
-  // Vérification des champs requis dans la requête
-  const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
+    const { filmName, filmName2, actors, director, summary, posterLink, filmLink } = req.body;
 
-  if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
-    return res.status(400).json({ error: 'Tous les champs sont requis.' });
-  }
+    if (!filmName || !filmName2 || !actors || !director || !summary || !posterLink || !filmLink) {
+        return res.status(400).json({ error: 'Tous les champs sont requis.' });
+    }
 
-  // Ajout du film à la liste
-  films[filmName] = {
-    filmName,
-    filmName2,
-    actors: Array.isArray(actors) ? actors : actors.split(','), // Convertir les acteurs en tableau si nécessaire
-    director,
-    summary,
-    posterLink,
-    filmLink,
-  };
+    films[filmName] = {
+        filmName,
+        filmName,
+        actors: Array.isArray(actors) ? actors : actors.split(','),
+        director,
+        summary,
+        posterLink,
+        filmLink,
+    };
 
-  console.log(`Film ajouté : ${filmName}`);
-  res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
+    saveFilms();
+    res.status(201).json({ message: `Le film "${filmName}" a été ajouté avec succès.` });
 });
+
+// Route pour mettre à jour un film
+app.post('/updateFilm', (req, res) => {
+    const { filmName, updatedFilm } = req.body;
+
+    if (!films[filmName]) {
+        return res.status(404).json({ error: 'Film non trouvé.' });
+    }
+
+    films[filmName] = updatedFilm;
+    saveFilms();
+    res.status(200).json({ message: 'Film mis à jour avec succès.' });
+});
+
+// Route pour supprimer un film
+app.delete('/deleteFilm/:filmName', (req, res) => {
+    const filmName = req.params.filmName;
+
+    if (!films[filmName]) {
+        return res.status(404).json({ error: 'Film non trouvé.' });
+    }
+
+    delete films[filmName];
+    saveFilms();
+    res.status(200).json({ message: `Le film "${filmName}" a été supprimé.` });
+});
+
+
+// Fonction pour sauvegarder les films dans le fichier JSON
+function saveFilms() {
+    fs.writeFileSync(filmsFile, JSON.stringify(films, null, 2), 'utf8');
+}
 
 
 
