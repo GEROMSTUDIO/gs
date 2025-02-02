@@ -178,7 +178,6 @@ app.post('/addFilm', (req, res) => {
 
     films[filmName] = {
         filmName,
-        filmName,
         actors: Array.isArray(actors) ? actors : actors.split(','),
         director,
         summary,
@@ -327,7 +326,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">L'imposteur Adams</div>
           </a>
-          <a href="films/film.html?film=requin" class="carousel-item">
+          <a href="films/film.html?film=Requin" class="carousel-item">
             <div class="image-container">
               <img src="https://i.ibb.co/KqXr1Ss/requin.png" alt="Affiche" />
             </div>

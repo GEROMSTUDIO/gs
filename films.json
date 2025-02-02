@@ -1,13 +1,1 @@
-{
-  "Test": {
-    "filmName2": "iii",
-    "actors": [
-      "Le requin",
-      "            Des humains"
-    ],
-    "director": "Hector Le porc",
-    "summary": "huomihg",
-    "posterLink": "https://img.freepik.com/photos-premium/vaches-dans-champ-montagne-clusaz-haute-savoie-france_118047-9786.jpg",
-    "filmLink": "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/view?usp=drive_link"
-  }
-}
+{}
