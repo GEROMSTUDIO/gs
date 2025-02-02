@@ -3,31 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test API avec Proxy</title>
+    <title>Recherche de Films</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+        .search-form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .film-details {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-top: 20px;
+            display: none;
+        }
+        .film-details.visible {
+            display: block;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
+        .poster {
+            max-width: 200px;
+            margin: 10px 0;
+        }
+        .actors-list {
+            margin: 10px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test API via Proxy</h1>
-    <button onclick="fetchFilms()">Lancer la requête</button>
-    <pre id="output"></pre>
+    <h1>Recherche de Films</h1>
+    
+    <div class="search-form">
+        <input type="text" id="filmName" placeholder="Entrez le nom du film">
+        <button onclick="searchFilm()">Rechercher</button>
+    </div>
+
+    <div class="error-message" id="errorMessage"></div>
+
+    <div class="film-details" id="filmDetails">
+        <h2 id="title"></h2>
+        <h3 id="originalTitle"></h3>
+        <p><strong>Réalisateur :</strong> <span id="director"></span></p>
+        <p><strong>Résumé :</strong> <span id="summary"></span></p>
+        <img id="poster" class="poster" alt="Affiche du film">
+        <div class="actors-list">
+            <strong>Acteurs :</strong>
+            <ul id="actors"></ul>
+        </div>
+        <p><strong>Lien du film :</strong> <a id="filmLink" target="_blank">Voir le film</a></p>
+    </div>
 
     <script>
-        async function fetchFilms() {
+        async function searchFilm() {
+            const filmName = document.getElementById('filmName').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const filmDetails = document.getElementById('filmDetails');
+            
+            if (!filmName) {
+                showError('Veuillez entrer un nom de film');
+                return;
+            }
+
             try {
-                const url = "https://gsadmin.glitch.me/films";
-                const proxy = "https://cors-anywhere.herokuapp.com/";
+                const response = await fetch(`https://geromstudio.glitch.me/film/${encodeURIComponent(filmName)}`);
                 
-                const response = await fetch(proxy + url, { method: "GET" });
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        showError('Film non trouvé');
+                    } else {
+                        showError('Une erreur est survenue');
+                    }
+                    filmDetails.classList.remove('visible');
+                    return;
+                }
 
-                if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+                const film = await response.json();
+                displayFilmDetails(film);
+                errorMessage.style.display = 'none';
+                filmDetails.classList.add('visible');
 
-                const data = await response.json();
-                console.log("Données reçues :", data);
-                document.getElementById("output").textContent = JSON.stringify(data, null, 2);
             } catch (error) {
-                console.error("Erreur lors de la requête :", error);
-                document.getElementById("output").textContent = "Erreur : " + error.message;
+                showError('Erreur de connexion au serveur');
+                filmDetails.classList.remove('visible');
             }
         }
+
+        function displayFilmDetails(film) {
+            document.getElementById('title').textContent = film.filmName;
+            document.getElementById('originalTitle').textContent = film.filmName2;
+            document.getElementById('director').textContent = film.director;
+            document.getElementById('summary').textContent = film.summary;
+            document.getElementById('poster').src = film.posterLink;
+            document.getElementById('filmLink').href = film.filmLink;
+
+            const actorsList = document.getElementById('actors');
+            actorsList.innerHTML = '';
+            
+            if (film.actors && film.actors.length > 0) {
+                film.actors.forEach(actor => {
+                    const li = document.createElement('li');
+                    li.textContent = actor;
+                    actorsList.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.textContent = 'Aucun acteur listé';
+                actorsList.appendChild(li);
+            }
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+
+        // Permettre la recherche en appuyant sur Entrée
+        document.getElementById('filmName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchFilm();
+            }
+        });
     </script>
 </body>
 </html>
