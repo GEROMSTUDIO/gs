@@ -221,44 +221,64 @@ if (uniqueId) {
 const carousel = document.querySelector(".carousel");
 const items = document.querySelectorAll(".carousel-item");
 const itemWidth = items[0].offsetWidth + 30;
+const transitionDuration = 600; // durée de la transition en millisecondes
+
+let isAnimating = false;
 
 function moveNext() {
-  carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+  if (isAnimating) return;
+  
+  isAnimating = true;
+  carousel.style.transition = `transform ${transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
   carousel.style.transform = `translateX(-${itemWidth}px)`;
-
+  
   setTimeout(() => {
-    carousel.style.transition = "none";
     const firstItem = carousel.firstElementChild;
     carousel.appendChild(firstItem);
+    carousel.style.transition = "none";
     carousel.style.transform = "translateX(0)";
-  }, 500);
+    isAnimating = false;
+  }, transitionDuration);
 }
 
 function movePrev() {
-  carousel.style.transition = "none";
+  if (isAnimating) return;
+  
+  isAnimating = true;
   const lastItem = carousel.lastElementChild;
   carousel.prepend(lastItem);
+  
+  carousel.style.transition = "none";
   carousel.style.transform = `translateX(-${itemWidth}px)`;
-
+  
+  // Force reflow
+  carousel.offsetHeight;
+  
+  carousel.style.transition = `transform ${transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+  carousel.style.transform = "translateX(0)";
+  
   setTimeout(() => {
-    carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
-    carousel.style.transform = "translateX(0)";
-  }, 10);
+    isAnimating = false;
+  }, transitionDuration);
+}
+
+// Fonction pour réinitialiser l'intervalle d'auto-scroll
+function resetAutoScroll() {
+  clearInterval(autoScroll);
+  autoScroll = setInterval(moveNext, 12000);
 }
 
 // Auto scroll toutes les 12 secondes
 let autoScroll = setInterval(moveNext, 12000);
 
 document.getElementById("next").addEventListener("click", () => {
-  clearInterval(autoScroll);
   moveNext();
-  autoScroll = setInterval(moveNext, 12000);
+  resetAutoScroll();
 });
 
 document.getElementById("prev").addEventListener("click", () => {
-  clearInterval(autoScroll);
   movePrev();
-  autoScroll = setInterval(moveNext, 12000);
+  resetAutoScroll();
 });
 
 document.addEventListener("DOMContentLoaded", function () {
