@@ -144,8 +144,9 @@
             });
             if (response.ok) {
               const result = await response.json();
-              const redirectURL = `https://geromstudio.glitch.me/index.html`;
-              window.location.href = redirectURL;
+              const redirectURL = `https://geromstudio.glitch.me/admin/main.html`;
+              const params = window.location.search; // Récupère les paramètres actuels
+              location.href = redirectURL + params; // Redirige en gardant les paramètres
               alert(result.message);
             } else {
               const error = await response.json();
