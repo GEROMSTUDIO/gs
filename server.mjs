@@ -292,7 +292,7 @@ app.get("/check-access", async (req, res) => {
             <div class="movie-title">La Grande Révélation</div>
           </a>
           
-          <a href="ilms/film.html?film=Face au difficultés" class="carousel-item">
+          <a href="films/film.html?film=Face%20au%20difficultés" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/MsDKMMR/4a713bad-8b3f-4590-a36b-208b78c65901.webp"
@@ -351,7 +351,7 @@ app.get("/check-access", async (req, res) => {
             <div class="movie-title">Le Requin</div>
           </a>
           
-          <a href="films/film.html?film=50" class="carousel-item">
+          <a href="films/film.html?film=50%20ans%20David" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/Tv125hp/50-ans-David.webp"
@@ -361,7 +361,7 @@ app.get("/check-access", async (req, res) => {
             <div class="movie-title">50 ans David</div>
           </a>
           
-          <a href="#" class="carousel-item">
+          <a href="films/film.html?film=No%C3%ABl%20au%20Coll%C3%A8ge" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/QpBb6rs/Design-sans-titre.webp"
