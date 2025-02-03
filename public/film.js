@@ -221,64 +221,66 @@ if (uniqueId) {
 const carousel = document.querySelector(".carousel");
 const items = document.querySelectorAll(".carousel-item");
 const itemWidth = items[0].offsetWidth + 30;
-const transitionDuration = 600; // durée de la transition en millisecondes
 
+let lastClickTime = 0;
 let isAnimating = false;
+let currentOffset = 0;
+const animationDuration = 700; // Durée de l'animation en ms
+const spamThreshold = 380; // Temps max en ms pour considérer un spam
 
 function moveNext() {
-  if (isAnimating) return;
-  
+  const now = Date.now();
+  const timeSinceLastClick = now - lastClickTime;
+  lastClickTime = now;
+
+  if (isAnimating && timeSinceLastClick < animationDuration - spamThreshold) {
+    // Si on spamme (clic trop rapide), on décale plus vite
+    currentOffset -= itemWidth;
+  } else {
+    currentOffset = -itemWidth;
+  }
+
   isAnimating = true;
-  carousel.style.transition = `transform ${transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
-  carousel.style.transform = `translateX(-${itemWidth}px)`;
-  
+  carousel.style.transition = `transform ${animationDuration / 1000}s cubic-bezier(0.4, 0, 0.2, 1)`;
+  carousel.style.transform = `translateX(${currentOffset}px)`;
+
   setTimeout(() => {
-    const firstItem = carousel.firstElementChild;
-    carousel.appendChild(firstItem);
+    while (currentOffset <= -itemWidth) {
+      currentOffset += itemWidth;
+      const firstItem = carousel.firstElementChild;
+      carousel.appendChild(firstItem);
+    }
     carousel.style.transition = "none";
     carousel.style.transform = "translateX(0)";
     isAnimating = false;
-  }, transitionDuration);
+  }, animationDuration);
 }
+
+
 
 function movePrev() {
-  if (isAnimating) return;
-  
-  isAnimating = true;
+  carousel.style.transition = "none";
   const lastItem = carousel.lastElementChild;
   carousel.prepend(lastItem);
-  
-  carousel.style.transition = "none";
   carousel.style.transform = `translateX(-${itemWidth}px)`;
-  
-  // Force reflow
   carousel.offsetHeight;
-  
-  carousel.style.transition = `transform ${transitionDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`;
+  carousel.style.transition = "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
   carousel.style.transform = "translateX(0)";
-  
-  setTimeout(() => {
-    isAnimating = false;
-  }, transitionDuration);
-}
-
-// Fonction pour réinitialiser l'intervalle d'auto-scroll
-function resetAutoScroll() {
-  clearInterval(autoScroll);
-  autoScroll = setInterval(moveNext, 12000);
 }
 
 // Auto scroll toutes les 12 secondes
 let autoScroll = setInterval(moveNext, 12000);
 
 document.getElementById("next").addEventListener("click", () => {
+  clearInterval(autoScroll);
   moveNext();
-  resetAutoScroll();
+  autoScroll = setInterval(moveNext, 12000);
 });
 
 document.getElementById("prev").addEventListener("click", () => {
+  clearInterval(autoScroll);
   movePrev();
-  resetAutoScroll();
+  autoScroll = setInterval(moveNext, 12000);
 });
 
 document.addEventListener("DOMContentLoaded", function () {
