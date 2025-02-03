@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestion des Films</title>
+    <title>Gestion du Site</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -21,19 +21,19 @@
         background: white;
         padding: 30px;
         width: 780px;
-        padding-top: 130px;
+        padding-top: 120px;
         height: 360px;
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
       h1 {
         font-size: 30px;
-        margin-bottom: 24px;
+        margin-bottom: 30px;
       }
       button {
         display: block;
         width: 100%;
-        margin: 10px 0;
+        margin: 18px 0;
         padding: 10px;
         font-size: 16px;
         border: none;
@@ -54,19 +54,22 @@
   </head>
   <body>
     <div class="container">
-      <h1>Gestion des Films</h1>
+      <h1>Gestion du Site</h1>
       <button class="manage" onclick="redirect('adminfilms.html')">
         Gérez les films
       </button>
       <button class="add" onclick="redirect('addfilm.html')">
         Ajoutez un film
       </button>
+      <button class="add" onclick="redirect('auth.html')">
+        Autorisation utilisateur
+      </button>
     </div>
   </body>
   <script>
     function redirect(page) {
-      const params = window.location.search; // Récupère les paramètres actuels
-      location.href = page + params; // Redirige en gardant les paramètres
+      const params = window.location.search; 
+      location.href = page + params; 
     }
   </script>
 </html>
