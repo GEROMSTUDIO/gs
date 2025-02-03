@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestion des Accès Utilisateur</title>
+    <title>Gestion du Site</title>
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -79,13 +79,13 @@
   </head>
   <body>
     <div class="container">
-      <h1>Gestion des Accès Utilisateur</h1>
+      <h1>Gestion du Site</h1>
 
       <div id="step1">
         <input
           type="password"
           id="passwordInput"
-          placeholder="Entrez le mot de passe admin"
+          placeholder="Entrez le mot de passe"
           required
           oninput="toggleButtonState()"
         />
@@ -97,16 +97,18 @@
     </div>
 
     <script>
+      const uniqueId = getCookie("uniqueId");
       function getCookie(name) {
         let cookieArr = document.cookie.split(";");
         for (let i = 0; i < cookieArr.length; i++) {
           let cookie = cookieArr[i].trim();
           if (cookie.startsWith(name + "=")) {
             return cookie.substring(name.length + 1);
+          }else {
+            const redirectURL = `https://geromstudio.glitch.me/403.html`;
+            window.location.href = redirectURL;
           }
         }
-        const redirectURL = `https://geromstudio.glitch.me/403.html`;
-        window.location.href = redirectURL;
       }
 
       function toggleButtonState() {
@@ -123,7 +125,6 @@
 
       function verifyPassword() {
         const password = document.getElementById("passwordInput").value;
-        const uniqueId = getCookie("uniqueId");
         const messageDiv = document.getElementById("step1Message");
 
         if (!uniqueId) {
@@ -165,7 +166,6 @@
             messageDiv.classList.add("error");
           });
       }
-      
     </script>
   </body>
 </html>

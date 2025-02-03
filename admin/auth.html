@@ -13,7 +13,28 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         height: 100vh;
+      }
+      .btn-retour {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.3s;
+        position: absolute;
+        top: 22px;
+        left: 28px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      .btn-retour:hover {
+        background-color: #0056b3;
       }
       .container {
         background-color: white;
@@ -22,11 +43,11 @@
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         width: 100%;
         max-width: 400px;
+        text-align: center;
       }
       h1 {
         font-size: 24px;
         margin-bottom: 20px;
-        text-align: center;
         color: #333;
       }
       input {
@@ -68,10 +89,6 @@
       #revokeButton:hover {
         background-color: #d32f2f;
       }
-      .button:disabled {
-        background-color: #ccc;
-        cursor: not-allowed;
-      }
       .message {
         margin-top: 20px;
         padding: 10px;
@@ -90,7 +107,8 @@
     </style>
   </head>
   <body>
-    
+    <a onclick="redirect('main.html')" class="btn-retour">Retour</a>
+
     <div class="container">
       <h1>Gestion des Accès Utilisateur</h1>
 
@@ -100,6 +118,7 @@
         placeholder="Entrez l'email de l'utilisateur"
         required
       />
+
       <div class="button-container">
         <button
           type="button"
@@ -120,6 +139,12 @@
     </div>
 
     <script>
+      
+      function redirect(page) {
+        const params = window.location.search;
+        location.href = page + params;
+      }
+      
       function getCookie(name) {
         let cookieArr = document.cookie.split(";");
         for (let i = 0; i < cookieArr.length; i++) {
