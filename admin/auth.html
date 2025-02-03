@@ -90,34 +90,33 @@
     </style>
   </head>
   <body>
+    
     <div class="container">
       <h1>Gestion des Accès Utilisateur</h1>
 
-      <div id="step2">
-        <input
-          type="email"
-          id="emailInput"
-          placeholder="Entrez l'email de l'utilisateur"
-          required
-        />
-        <div class="button-container">
-          <button
-            type="button"
-            id="grantButton"
-            onclick="handleAccessAction('grant')"
-          >
-            Accorder l'Accès
-          </button>
-          <button
-            type="button"
-            id="revokeButton"
-            onclick="handleAccessAction('revoke')"
-          >
-            Supprimer l'Accès
-          </button>
-        </div>
-        <div id="step2Message" class="message"></div>
+      <input
+        type="email"
+        id="emailInput"
+        placeholder="Entrez l'email de l'utilisateur"
+        required
+      />
+      <div class="button-container">
+        <button
+          type="button"
+          id="grantButton"
+          onclick="handleAccessAction('grant')"
+        >
+          Accorder l'Accès
+        </button>
+        <button
+          type="button"
+          id="revokeButton"
+          onclick="handleAccessAction('revoke')"
+        >
+          Supprimer l'Accès
+        </button>
       </div>
+      <div id="step2Message" class="message"></div>
     </div>
 
     <script>
