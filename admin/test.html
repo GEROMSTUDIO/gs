@@ -149,9 +149,9 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              const redirectURL = `https://geromstudio.glitch.me/admin/main.html?connect=true&uniqueId=${encodeURIComponent(
+              const redirectURL = `https://geromstudio.glitch.me/admin/main.html?uniqueId=${encodeURIComponent(
                 uniqueId
-              )}`;
+              )}&password=${encodeURIComponent(password)}`;
               window.location.href = redirectURL;
             } else {
               if (!data.success) {
@@ -165,42 +165,7 @@
             messageDiv.classList.add("error");
           });
       }
-
-      function handleAccessAction(action) {
-        const email = document.getElementById("emailInput").value;
-        const uniqueId = getCookie("uniqueId");
-        const messageDiv = document.getElementById("step2Message");
-
-        if (!email) {
-          messageDiv.textContent = "Veuillez entrer l'email.";
-          messageDiv.classList.add("error");
-          return;
-        }
-
-        fetch(action === "grant" ? "/grant-access" : "/revoke-access", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, uniqueId }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.success) {
-              messageDiv.textContent =
-                data.message || "Action réalisée avec succès.";
-              messageDiv.classList.add("success");
-            } else {
-              messageDiv.textContent =
-                data.error || "Une erreur s'est produite.";
-              messageDiv.classList.add("error");
-            }
-          })
-          .catch((error) => {
-            messageDiv.textContent = "Erreur de connexion au serveur";
-            messageDiv.classList.add("error");
-          });
-      }
+      
     </script>
   </body>
 </html>

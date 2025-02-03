@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestion des Films</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+        overflow: hidden;
+      }
+      .container {
+        text-align: center;
+        background: white;
+        padding: 30px;
+        width: 780px;
+        padding-top: 130px;
+        height: 360px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        font-size: 30px;
+        margin-bottom: 24px;
+      }
+      button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 10px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .manage,
+      .add {
+        background-color: #4682b4;
+        color: white;
+      }
+      .manage:hover,
+      .add:hover {
+        background-color: #4b73eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestion des Films</h1>
+      <button class="manage" onclick="redirect('adminfilms.html')">
+        Gérez les films
+      </button>
+      <button class="add" onclick="redirect('addfilm.html')">
+        Ajoutez un film
+      </button>
+    </div>
+  </body>
+  <script>
+    function redirect(page) {
+      const params = window.location.search; // Récupère les paramètres actuels
+      location.href = page + params; // Redirige en gardant les paramètres
+    }
+  </script>
+</html>
