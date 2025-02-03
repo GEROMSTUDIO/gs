@@ -223,13 +223,15 @@ const items = document.querySelectorAll(".carousel-item");
 const itemWidth = items[0].offsetWidth + 30;
 
 function moveNext() {
-  carousel.style.transition = "none";
-  const firstItem = carousel.firstElementChild;
-  carousel.appendChild(firstItem);
-  carousel.style.transform = "translateX(0)";
-  carousel.offsetHeight;
   carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
   carousel.style.transform = `translateX(-${itemWidth}px)`;
+
+  setTimeout(() => {
+    carousel.style.transition = "none";
+    const firstItem = carousel.firstElementChild;
+    carousel.appendChild(firstItem);
+    carousel.style.transform = "translateX(0)";
+  }, 500);
 }
 
 function movePrev() {
@@ -237,9 +239,11 @@ function movePrev() {
   const lastItem = carousel.lastElementChild;
   carousel.prepend(lastItem);
   carousel.style.transform = `translateX(-${itemWidth}px)`;
-  carousel.offsetHeight;
-  carousel.style.transition = "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)";
-  carousel.style.transform = "translateX(0)";
+
+  setTimeout(() => {
+    carousel.style.transition = "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)";
+    carousel.style.transform = "translateX(0)";
+  }, 10);
 }
 
 // Auto scroll toutes les 12 secondes
