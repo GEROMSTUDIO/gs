@@ -291,7 +291,8 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">La Grande Révélation</div>
           </a>
-          <a href="#" class="carousel-item">
+          
+          <a href="ilms/film.html?film=Face au difficultés" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/MsDKMMR/4a713bad-8b3f-4590-a36b-208b78c65901.webp"
@@ -300,6 +301,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">Face aux difficultés</div>
           </a>
+          
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
@@ -311,6 +313,7 @@ app.get("/check-access", async (req, res) => {
               Le mystére de l'affaire Joseline Pétunia
             </div>
           </a>
+          
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
@@ -320,6 +323,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">Anniversaire suprise pour Chantal</div>
           </a>
+          
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
@@ -329,6 +333,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">74 ans Gérard</div>
           </a>
+          
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
@@ -338,13 +343,15 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">L'imposteur Adams</div>
           </a>
+          
           <a href="films/film.html?film=Le Requin" class="carousel-item">
             <div class="image-container">
               <img src="https://i.ibb.co/KqXr1Ss/requin.png" alt="Affiche" />
             </div>
             <div class="movie-title">Le Requin</div>
           </a>
-          <a href="#" class="carousel-item">
+          
+          <a href="films/film.html?film=50" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/Tv125hp/50-ans-David.webp"
@@ -353,6 +360,7 @@ app.get("/check-access", async (req, res) => {
             </div>
             <div class="movie-title">50 ans David</div>
           </a>
+          
           <a href="#" class="carousel-item">
             <div class="image-container">
               <img
