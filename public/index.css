@@ -1,5 +1,3 @@
-
-
 body {
   margin: 0;
   padding: 0;
@@ -51,8 +49,8 @@ header.bg {
 
 a:focus,
 a:active {
-  outline: none;
-  border: "";
+  outline: 3px solid #108af0;
+  border-radius: 2px;
 }
 
 .logo {
