@@ -321,6 +321,13 @@
           document.querySelector(".main-content").style.display = "flex";
         }, 300);
       };
+
+      document.querySelectorAll("header a").forEach((link) => {
+        link.addEventListener("focus", () => {
+          document.querySelector("header").classList.remove("hidden");
+        });
+      });
+
       // Appel de fetchProfilePicture dès que le DOM est prêt
       document.addEventListener("DOMContentLoaded", fetchProfilePicture);
     </script>

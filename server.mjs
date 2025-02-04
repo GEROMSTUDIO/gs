@@ -361,7 +361,7 @@ app.get("/check-access", async (req, res) => {
             <div class="movie-title">50 ans David</div>
           </a>
           
-          <a href="films/film.html?film=Face%20au%20difficultés" class="carousel-item">
+          <a href="films/film.html?film=No%C3%ABl%20au%20Coll%C3%A8ge" class="carousel-item">
             <div class="image-container">
               <img
                 src="https://i.ibb.co/QpBb6rs/Design-sans-titre.webp"

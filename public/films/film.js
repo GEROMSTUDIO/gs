@@ -257,11 +257,6 @@ document.getElementById("prev").addEventListener("click", () => {
   autoScroll = setInterval(moveNext, 12000);
 });
 
-document.querySelectorAll("header a").forEach((link) => {
-  link.addEventListener("focus", () => {
-    document.querySelector("header").classList.remove("hidden");
-  });
-});
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
