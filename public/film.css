@@ -64,12 +64,6 @@ header.bg {
   transition-duration: 280ms;
 }
 
-a:focus,
-a:active {
-  outline: none;
-  border: "";
-}
-
 .logo {
   position: absolute;
   bottom: -21.5px;
