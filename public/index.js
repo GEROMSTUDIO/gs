@@ -143,7 +143,7 @@ function getCookie(name) {
 }
 
 async function fetchProfilePicture() {
-  const uniqueId = getCookie("uniqueId"); 
+  const uniqueId = getCookie("uniqueId");
 
   if (!uniqueId) {
     console.error("UniqueId introuvable dans les cookies.");
@@ -155,7 +155,7 @@ async function fetchProfilePicture() {
   if (cachedImage) {
     const profilePicture = document.getElementById("profile-picture");
     profilePicture.style.backgroundImage = `url(${cachedImage})`;
-    return; 
+    return;
   }
 
   try {
@@ -228,6 +228,12 @@ if (uniqueId) {
       `;
   menu.style.width = "150px";
 }
+
+document.querySelectorAll("header a").forEach((link) => {
+  link.addEventListener("focus", () => {
+    document.querySelector("header").classList.remove("hidden");
+  });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);

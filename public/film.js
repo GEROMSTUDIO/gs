@@ -241,7 +241,9 @@ function moveNext() {
   }
 
   isAnimating = true;
-  carousel.style.transition = `transform ${animationDuration / 1000}s cubic-bezier(0.4, 0, 0.2, 1)`;
+  carousel.style.transition = `transform ${
+    animationDuration / 1000
+  }s cubic-bezier(0.4, 0, 0.2, 1)`;
   carousel.style.transform = `translateX(${currentOffset}px)`;
 
   setTimeout(() => {
@@ -255,8 +257,6 @@ function moveNext() {
     isAnimating = false;
   }, animationDuration);
 }
-
-
 
 function movePrev() {
   carousel.style.transition = "none";
@@ -281,6 +281,12 @@ document.getElementById("prev").addEventListener("click", () => {
   clearInterval(autoScroll);
   movePrev();
   autoScroll = setInterval(moveNext, 12000);
+});
+
+document.querySelectorAll("header a").forEach((link) => {
+  link.addEventListener("focus", () => {
+    document.querySelector("header").classList.remove("hidden");
+  });
 });
 
 document.addEventListener("DOMContentLoaded", function () {

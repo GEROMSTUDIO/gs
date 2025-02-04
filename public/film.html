@@ -18,16 +18,29 @@
       href="https://i.ibb.co/0XR2Yd5/logo.webp"
       type="image/x-icon"
     />
-    <meta name="description" content="Page de film, Ici tous les films de GEROM STUDIO sont présent">
+    <meta
+      name="description"
+      content="Page de film, Ici tous les films de GEROM STUDIO sont présent"
+    />
   </head>
 
   <body>
     <div class="main-content">
       <header id="header">
         <nav class="left-nav">
-          <a href="film.html" class="film">Films</a>
-          <a href="#" class="about">À propos</a>
-          <a href="#" class="contact">Contact</a>
+          <a
+            href="/film.html"
+            class="film"
+            aria-label="Page des films"
+            tabindex="1"
+            >Films</a
+          >
+          <a href="#" class="about" aria-label="Page à propos" tabindex="3"
+            >À propos</a
+          >
+          <a href="#" class="contact" aria-label="Page des films" tabindex="2"
+            >Contact</a
+          >
         </nav>
         <a href="/index.html" class="home">
           <img
@@ -50,7 +63,7 @@
             />
           </div>
           <div class="profile-container" id="profile-container">
-            <div id="profile-picture"></div>
+            <div id="profile-picture" tabindex="4"></div>
             <div class="dropdown-arrow"></div>
           </div>
           <div class="dropdown-menu" id="dropdown-menu">
@@ -117,14 +130,16 @@
       </div>
     </div>
 
-<div class="footer-dark">
+    <div class="footer-dark">
       <footer>
         <div>
           <div class="footer-content">
             <div>
               <h3>Services</h3>
               <ul>
-                <li><a href="film.html" aria-label="Page des films">Film</a></li> 
+                <li>
+                  <a href="film.html" aria-label="Page des films">Film</a>
+                </li>
                 <li><a href="#" aria-label="Page de contact">Contact</a></li>
                 <li><a href="#" aria-label="Page des emploi">Emploi</a></li>
               </ul>
@@ -132,9 +147,13 @@
             <div>
               <h3>À propos</h3>
               <ul>
-                <li><a href="#" aria-label="Page de la production">Production</a></li>
+                <li>
+                  <a href="#" aria-label="Page de la production">Production</a>
+                </li>
                 <li><a href="#" aria-label="Page de l'équipe">Équipe</a></li>
-                <li><a href="#" aria-label="Page des actualité">Actualité</a></li>
+                <li>
+                  <a href="#" aria-label="Page des actualité">Actualité</a>
+                </li>
               </ul>
             </div>
             <div>
@@ -148,7 +167,11 @@
             </div>
           </div>
           <div class="social-icons" style="margin-top: 20px">
-            <a href="https://www.youtube.com/@GEROMSTUDIO" target="_blank" alt="Youtube" aria-label="Liens Youtube"
+            <a
+              href="https://www.youtube.com/@GEROMSTUDIO"
+              target="_blank"
+              alt="Youtube"
+              aria-label="Liens Youtube"
               ><i class="fab fa-youtube"></i
             ></a>
           </div>
@@ -244,7 +267,6 @@
       }
 
       document.addEventListener("DOMContentLoaded", fetchProfilePicture);
-      
     </script>
   </body>
 </html>
