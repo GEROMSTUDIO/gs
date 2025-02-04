@@ -143,7 +143,7 @@ function getCookie(name) {
 }
 
 async function fetchProfilePicture() {
-  const uniqueId = getCookie("uniqueId"); // Récupérer l'ID unique à partir des cookies
+  const uniqueId = getCookie("uniqueId"); 
 
   if (!uniqueId) {
     console.error("UniqueId introuvable dans les cookies.");
@@ -155,7 +155,7 @@ async function fetchProfilePicture() {
   if (cachedImage) {
     const profilePicture = document.getElementById("profile-picture");
     profilePicture.style.backgroundImage = `url(${cachedImage})`;
-    return; // Si l'image est en cache, ne pas envoyer la requête
+    return; 
   }
 
   try {
