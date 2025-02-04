@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administration Films</title>
+    <meta
+      name="description"
+      content="Admin page"
+    />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -143,12 +147,11 @@
     </div>
 
     <script>
-      
       function redirect(page) {
         const params = window.location.search;
         location.href = page + params;
       }
-      
+
       function toggleButtonState() {
         const password = document.getElementById("passwordInput").value;
         const button = document.getElementById("verifyButton");

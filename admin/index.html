@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestion du Site</title>
+    <meta name="description" content="Admin page" />
     <style>
       body {
         font-family: "Arial", sans-serif;
@@ -104,7 +105,7 @@
           let cookie = cookieArr[i].trim();
           if (cookie.startsWith(name + "=")) {
             return cookie.substring(name.length + 1);
-          }else {
+          } else {
             const redirectURL = `https://geromstudio.glitch.me/403.html`;
             window.location.href = redirectURL;
           }
