@@ -164,7 +164,7 @@ app.get('/film/:filmName', (req, res) => {
 });
 
 // Route pour récupérer la liste des films
-app.get('/filmslist', (req, res) => {
+app.get('/allfilmslist', (req, res) => {
     res.json(films);
 });
 

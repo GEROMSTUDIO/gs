@@ -14,7 +14,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 30px;
-        background-color: #f4f4f4;
+        background-color: #f4f4f7;
       }
 
       h1 {
@@ -181,7 +181,7 @@
       // Fonction pour récupérer la liste des films depuis le serveur
       async function fetchFilms() {
         try {
-          const response = await fetch("/filmslist");
+          const response = await fetch("/allfilmslist");
           films = await response.json();
           displayFilms(); // Appel de la nouvelle fonction pour afficher les films
         } catch (err) {

@@ -12,7 +12,7 @@
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 30px;
-        background-color: #f4f4f4;
+        background-color: #f4f4f7;
       }
 
       h1 {
@@ -222,11 +222,20 @@
         console.log("Liste des films affichée");
       }
 
-      // Fonction pour récupérer la liste des films depuis le serveur
       async function getFilmsList() {
-        const response = await fetch("/filmslist");
-        const data = await response.json();
-        return data.films;
+        try {
+          const response = await fetch("/filmslist");
+          const data = await response.json();
+          if (data && data.films) {
+            return data.films;
+          } else {
+            console.error("Aucune donnée de films trouvée dans la réponse.");
+            return {}; // Retourne un objet vide si les films sont absents
+          }
+        } catch (error) {
+          console.error("Erreur lors de la récupération des films:", error);
+          return {}; // Retourne un objet vide en cas d'erreur
+        }
       }
 
       // Fonction pour afficher la liste des films avec les boutons "Monter" et "Descendre"
