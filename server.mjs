@@ -279,17 +279,105 @@ app.get("/check-access", async (req, res) => {
     }
     const result = await auth.verifyAccess(uniqueId);
     if (result.success && result.access === 1) {
-        const carouselHTML = films.map(film => `
-    <a href="https://geromstudio.glitch.me/films/film.html?film=${film.filmName}" class="carousel-item">
-      <div class="image-container">
-        <img src="${film.posterLink}" alt="Affiche" />
-      </div>
-      <div class="movie-title">${film.filmName}</div>
-    </a>
-  `).join("");
+      const carouselContent = `
+        <div> <h2 class="titrefilm">Nos Films </h2></div>
+        <div class="carousel">
+          <a href="films/film.html?film=La%20Grande%20R%C3%A9v%C3%A9lation" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/h9X4Fb2/La-Grande-R-v-lation.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">La Grande Révélation</div>
+          </a>
+          
+          <a href="films/film.html?film=Face%20au%20difficultés" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/MsDKMMR/4a713bad-8b3f-4590-a36b-208b78c65901.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">Face aux difficultés</div>
+          </a>
+          
+          <a href="#" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/cgZPRk5/Le-myst-re-de-l-afaire-Joseline-P-tunia.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">
+              Le mystére de l'affaire Joseline Pétunia
+            </div>
+          </a>
+          
+          <a href="#" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/xXnGL1H/Anniversaire-surprise-pour-Chantal.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">Anniversaire suprise pour Chantal</div>
+          </a>
+          
+          <a href="#" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/h1YWcX3/74-ans-G-rard.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">74 ans Gérard</div>
+          </a>
+          
+          <a href="#" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/zsNypQ3/l-imposteur-adams.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">L'imposteur Adams</div>
+          </a>
+          
+          <a href="films/film.html?film=Le Requin" class="carousel-item">
+            <div class="image-container">
+              <img src="https://i.ibb.co/KqXr1Ss/requin.png" alt="Affiche" />
+            </div>
+            <div class="movie-title">Le Requin</div>
+          </a>
+          
+          <a href="films/film.html?film=50%20ans%20David" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/Tv125hp/50-ans-David.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">50 ans David</div>
+          </a>
+          
+          <a href="films/film.html?film=No%C3%ABl%20au%20Coll%C3%A8ge" class="carousel-item">
+            <div class="image-container">
+              <img
+                src="https://i.ibb.co/QpBb6rs/Design-sans-titre.webp"
+                alt="Affiche"
+              />
+            </div>
+            <div class="movie-title">Noêl au Collège</div>
+          </a>
+        </div>
+        <div class="controls">
+          <button id="prev">←</button>
+          <button id="next">→</button>
+        </div>
+      `;
 
-  res.send(`<div class="carousel">${carouselHTML}</div>`);
-      
+      res.json({ carouselContent });
     } else {
       res.status(403).json({ error: "Accès interdit : droits insuffisants" });
     }
