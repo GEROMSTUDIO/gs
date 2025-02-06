@@ -1,47 +1,76 @@
 <!DOCTYPE html>
-<html lang="fr">
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Test Carrousel</title>
+    <link rel="stylesheet" href="styles.css" />
+    <title>Home</title>
     <style>
-      .carousel {
-        display: flex;
-        overflow-x: auto;
-        gap: 10px;
-      }
-      .carousel-item {
-        text-decoration: none;
-        color: black;
-      }
-      .image-container img {
-        width: 150px;
-        height: auto;
-      }
-      .movie-title {
-        text-align: center;
-        font-weight: bold;
-      }
+        body {
+            background: rgb(221, 221, 221);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .card {
+          margin: 14px;
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: 0.5s;
+            cursor: pointer;
+        }
+
+        .title {
+            font-size: 2.5rem;
+            opacity: 0;
+            font-weight: bold;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: 0.8s;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.5s;
+            filter: grayscale(1);
+        }
+
+        .card:hover img {
+            filter: grayscale(0);
+            scale: 1.05;
+        }
+
+        .card:hover .title {
+            opacity: 1;
+        }
     </style>
-  </head>
-  <body>
-    <div><h2 class="titrefilm">Nos Films</h2></div>
-    <div id="carousel-container"></div>
-
-    <div class="controls">
-      <button id="prev">←</button>
-      <button id="next">→</button>
-    </div>
-
-    <script>
-      fetch("/carousel")
-        .then((response) => response.text())
-        .then((html) => {
-          document.getElementById("carousel-container").innerHTML = html;
-        })
-        .catch((error) =>
-          console.error("Erreur lors du chargement du carrousel:", error)
-        );
-    </script>
-  </body>
+</head>
+<body>
+    <a href="https://geromstudio.glitch.me">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1657046936070-219449b1b4cd?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTM4fHxib3glMjBwb3Bjb3JufGVufDB8fDB8fHww" alt="Popcorn" />
+            <span class="title">POPCORN</span>
+        </div>
+    </a>
+      <a href="https://geromstudio.glitch.me">
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Popcorn" />
+            <span class="title">CINEMA</span>
+        </div>
+    </a>
+</body>
 </html>
