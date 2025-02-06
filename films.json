@@ -58,5 +58,18 @@
     "summary": "Un requin cherche à manger dans l'Océan",
     "posterLink": "https://i.ibb.co/KqXr1Ss/requin.png",
     "filmLink": "https://drive.google.com/file/d/1Phlnoqo0xkVoUNvA-IMk3siQZe_68lEQ/preview"
+  },
+  "Anniversaire surprise pour Chantal": {
+    "filmName": "Anniversaire surprise pour Chantal",
+    "actors": [
+      "Chantal Liégaux",
+      " Gérard Liégaux",
+      " Caroline Liégaux",
+      " David Liégaux..."
+    ],
+    "director": "Romain Lastella",
+    "summary": "Surprise pour Chantal qui faites ses 70 ans.",
+    "posterLink": "https://i.ibb.co/xXnGL1H/Anniversaire-surprise-pour-Chantal.webp",
+    "filmLink": "http://example.com"
   }
 }
