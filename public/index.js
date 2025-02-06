@@ -144,17 +144,10 @@ function getCookie(name) {
 
 async function fetchProfilePicture() {
   const uniqueId = getCookie("uniqueId");
+  const profilePicture = document.getElementById("profile-picture");
 
   if (!uniqueId) {
     console.error("UniqueId introuvable dans les cookies.");
-    return;
-  }
-
-  // Vérifier si l'image est déjà en cache dans localStorage
-  const cachedImage = localStorage.getItem(`profile-picture-${uniqueId}`);
-  if (cachedImage) {
-    const profilePicture = document.getElementById("profile-picture");
-    profilePicture.style.backgroundImage = `url(${cachedImage})`;
     return;
   }
 
@@ -163,17 +156,18 @@ async function fetchProfilePicture() {
     const data = await response.json();
 
     if (data.success && data.imageUrl) {
-      // Enregistrer l'URL de l'image dans le cache
-      localStorage.setItem(`profile-picture-${uniqueId}`, data.imageUrl);
-
-      // Afficher l'image
-      const profilePicture = document.getElementById("profile-picture");
       profilePicture.style.backgroundImage = `url(${data.imageUrl})`;
+      profilePicture.style.backgroundColor = "transparent";
+      profilePicture.classList.add("show");
     } else {
-      console.error("Erreur dans la réponse du serveur.");
+      // En cas d'erreur, afficher une image par défaut
+      profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+      profilePicture.classList.add("show");
     }
   } catch (error) {
     console.error("Erreur lors de la récupération de l'image :", error);
+    profilePicture.style.backgroundImage = `url('https://img.icons8.com/fluency/48/test-account--v1.png')`;
+    profilePicture.classList.add("show");
   }
 }
 
