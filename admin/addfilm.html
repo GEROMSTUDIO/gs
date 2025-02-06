@@ -179,7 +179,7 @@
                 const redirectURL = `https://geromstudio.glitch.me/admin/main.html`;
                 const params = window.location.search; // Récupère les paramètres actuels
                 location.href = redirectURL + params; // Redirige en gardant les paramètres
-              }, 2000); // 2000 ms = 2 secondes
+              }, 3000); // 2000 ms = 2 secondes
             } else {
               const error = await response.json();
               alert(`Erreur : ${error.error}`);

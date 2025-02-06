@@ -28,8 +28,12 @@ const filmsFile = 'films.json';
 
 chokidar.watch(filmsFile).on('change', (event, path) => {
   console.log(`${path} a été modifié, redémarrage du serveur...`);
-  process.exit(0); // Redémarre le serveur
+
+  setTimeout(() => {
+    process.exit(0); // Redémarre le serveur après 2 secondes
+  }, 2000); // 2000 ms = 2 secondes
 });
+
 
 
 // Charger les films depuis le fichier JSON au démarrage
