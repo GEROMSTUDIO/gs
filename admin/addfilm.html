@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Administration Films</title>
-    <meta
-      name="description"
-      content="Admin page"
-    />
+    <meta name="description" content="Admin page" />
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -175,10 +172,14 @@
             });
             if (response.ok) {
               const result = await response.json();
-              const redirectURL = `https://geromstudio.glitch.me/admin/main.html`;
-              const params = window.location.search; // Récupère les paramètres actuels
-              location.href = redirectURL + params; // Redirige en gardant les paramètres
+
               alert(result.message);
+
+              setTimeout(() => {
+                const redirectURL = `https://geromstudio.glitch.me/admin/main.html`;
+                const params = window.location.search; // Récupère les paramètres actuels
+                location.href = redirectURL + params; // Redirige en gardant les paramètres
+              }, 2000); // 2000 ms = 2 secondes
             } else {
               const error = await response.json();
               alert(`Erreur : ${error.error}`);
