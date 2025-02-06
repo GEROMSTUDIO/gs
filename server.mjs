@@ -313,6 +313,64 @@ app.get("/check-access", async (req, res) => {
   }
 });
 
+app.post('/verify-unique-id', (req, res) => {
+  const { uniqueId } = req.body;
+
+  if (uniqueId === validUniqueId) {
+    // Si uniqueId est valide, répondre avec un statut 200
+    res.status(200).send('ID valide');
+  } else {
+    // Si uniqueId n'est pas valide, répondre avec un statut 403
+    res.status(403).send('ID invalide');
+  }
+});
+
+app.get('/filmslist', (req, res) => {
+    fs.readFile(path.join(__dirname, 'films.json'), 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erreur de lecture du fichier films.json' });
+        }
+        const films = JSON.parse(data);
+        res.json({ films });
+    });
+});
+
+// Endpoint pour enregistrer l'ordre des films
+app.post('/save-films-order', (req, res) => {
+    const { filmsOrder, uniqueId } = req.body;
+
+    // Vérifier si le uniqueId est valide
+    if (uniqueId !== validUniqueId) {
+        return res.status(403).json({ error: 'Accès interdit : uniqueId invalide' });
+    }
+
+    // Si uniqueId est valide, traiter l'ordre des films
+    fs.readFile(path.join(__dirname, 'films.json'), 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erreur de lecture du fichier films.json' });
+        }
+        
+        const films = JSON.parse(data);
+        
+        // Réorganiser les films selon filmsOrder (preservation des données)
+        const reorderedFilms = {};
+        filmsOrder.forEach(filmName => {
+            if (films[filmName]) {
+                reorderedFilms[filmName] = films[filmName];
+            }
+        });
+
+        // Sauvegarder la nouvelle liste d'ordre
+        fs.writeFile(path.join(__dirname, 'films.json'), JSON.stringify(reorderedFilms, null, 2), 'utf8', (err) => {
+            if (err) {
+                return res.status(500).json({ error: 'Erreur lors de l\'enregistrement de l\'ordre des films' });
+            }
+            res.json({ success: true });
+        });
+    });
+});
+
+
 app.post("/verify-password", (req, res) => {
   const { password, uniqueId } = req.body;
 

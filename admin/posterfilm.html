@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Films à l'affiche</title>
+    <meta name="description" content="Admin page" />
+
+    <style>
+      /* Styles généraux */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 30px;
+        background-color: #f4f4f4;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 32px;
+        color: #333;
+        font-size: 36px;
+      }
+
+      /* Liste des films */
+      #films-list {
+        margin: 20px;
+        padding: 0;
+        list-style-type: none;
+      }
+
+      .film-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        flex-wrap: wrap;
+      }
+
+      .film-item img {
+        width: 100px;
+        height: 150px;
+        margin-right: 20px;
+      }
+
+      .film-item button {
+        margin-left: 10px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .film-item .film-info {
+        flex-grow: 1;
+        min-width: 200px;
+      }
+
+      /* Boîte de message de succès */
+      .success-message {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        display: none;
+      }
+
+      /* Bouton "Enregistrer l'Ordre" */
+      #save-order {
+        display: none;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+      }
+
+      #save-order:hover {
+        background-color: #0056b3;
+      }
+
+      /* Style pour le bouton retour */
+      .btn-retour {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        text-decoration: none;
+        position: absolute;
+        top: 22px;
+        left: 28px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-retour:hover {
+        background-color: #0056b3;
+      }
+
+      /* Media Queries pour les écrans plus petits */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 28px;
+        }
+
+        .film-item {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .film-item img {
+          margin-bottom: 10px;
+        }
+
+        .film-item .film-info {
+          min-width: 100%;
+        }
+
+        #save-order {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 28px;
+          padding-top: 32px;
+        }
+
+        .film-item {
+          padding: 15px;
+        }
+
+        .film-item img {
+          width: 80px;
+          height: 120px;
+        }
+
+        #save-order {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a href="main.html" class="btn-retour">Retour</a>
+
+    <h1>Films à l'affiche</h1>
+    <ul id="films-list"></ul>
+    <button id="save-order">Enregistrer l'Ordre</button>
+
+    <!-- Message de succès -->
+    <div id="success-message" class="success-message">
+      Ordre des films enregistré avec succès !
+    </div>
+
+    <script>
+      window.onload = function () {
+        // Vérifier si le cookie uniqueId est présent
+        const uniqueId = getCookie("uniqueId");
+
+        if (!uniqueId) {
+          // Si le cookie est introuvable, rediriger vers 403.html
+          window.location.href = "/403.html";
+        } else {
+          // Vérifier le uniqueId auprès du serveur
+          verifyUniqueId(uniqueId);
+        }
+      };
+
+      // Fonction pour récupérer la valeur du cookie
+      function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+          return parts.pop().split(";").shift();
+        }
+        return null; // Retourner null si le cookie n'est pas trouvé
+      }
+
+      // Fonction pour vérifier le uniqueId auprès du serveur
+      function verifyUniqueId(uniqueId) {
+        // Envoi d'une requête au serveur pour vérifier le uniqueId
+        fetch("/verify-unique-id", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ uniqueId: uniqueId }), // Envoyer le uniqueId au serveur
+        })
+          .then((response) => {
+            if (response.ok) {
+              // Si le serveur valide le uniqueId, charger les films
+              displayFilms();
+            } else {
+              // Si le serveur renvoie une erreur (ex: 403), rediriger vers 403.html
+              window.location.href = "/403.html";
+            }
+          })
+          .catch((error) => {
+            console.error("Erreur de connexion au serveur:", error);
+            window.location.href = "/403.html"; // En cas d'erreur réseau, rediriger vers 403.html
+          });
+      }
+
+      // Fonction pour afficher la liste des films (à adapter selon votre logique)
+      function displayFilms() {
+        // Votre logique pour afficher les films
+        console.log("Liste des films affichée");
+      }
+
+      // Fonction pour récupérer la liste des films depuis le serveur
+      async function getFilmsList() {
+        const response = await fetch("/filmslist");
+        const data = await response.json();
+        return data.films;
+      }
+
+      // Fonction pour afficher la liste des films avec les boutons "Monter" et "Descendre"
+      async function displayFilms() {
+        const films = await getFilmsList();
+        const filmsListElement = document.getElementById("films-list");
+        filmsListElement.innerHTML = ""; // Réinitialiser la liste avant de l'afficher
+
+        Object.keys(films).forEach((filmName) => {
+          const film = films[filmName];
+
+          const filmItem = document.createElement("li");
+          filmItem.className = "film-item";
+          filmItem.dataset.filmName = filmName;
+
+          // Affichage de l'affiche et du nom du film
+          filmItem.innerHTML = ` 
+                    <img src="${film.posterLink}" alt="${filmName}">
+                    <div class="film-info">
+                        <strong>${filmName}</strong>
+                        <p>${film.summary}</p>
+                    </div>
+                    <button class="move-up">Monter</button>
+                    <button class="move-down">Descendre</button>
+                `;
+
+          // Ajouter l'élément à la liste
+          filmsListElement.appendChild(filmItem);
+
+          // Gérer les événements des boutons "Monter" et "Descendre"
+          filmItem
+            .querySelector(".move-up")
+            .addEventListener("click", () => moveFilm(filmName, "up"));
+          filmItem
+            .querySelector(".move-down")
+            .addEventListener("click", () => moveFilm(filmName, "down"));
+        });
+
+        // Afficher le bouton "Enregistrer l'Ordre" seulement si des films sont présents
+        document.getElementById("save-order").style.display =
+          filmsListElement.children.length > 0 ? "block" : "none";
+      }
+
+      // Fonction pour déplacer un film vers le haut ou vers le bas
+      function moveFilm(filmName, direction) {
+        const filmsListElement = document.getElementById("films-list");
+        const filmItem = document.querySelector(
+          `[data-film-name="${filmName}"]`
+        );
+        const films = Array.from(filmsListElement.children);
+        const index = films.indexOf(filmItem);
+
+        if (direction === "up" && index > 0) {
+          filmsListElement.insertBefore(filmItem, films[index - 1]);
+        } else if (direction === "down" && index < films.length - 1) {
+          filmsListElement.insertBefore(filmItem, films[index + 2] || null);
+        }
+
+        // Afficher le bouton "Enregistrer l'Ordre"
+        document.getElementById("save-order").style.display = "block";
+      }
+
+      // Fonction pour enregistrer l'ordre des films avec vérification du uniqueId
+      async function saveFilmsOrder() {
+        const filmsListElement = document.getElementById("films-list");
+        const filmsOrder = Array.from(filmsListElement.children).map(
+          (item) => item.dataset.filmName
+        );
+
+        // Récupérer le uniqueId du cookie
+        const uniqueId = getCookie("uniqueId");
+
+        if (!uniqueId) {
+          window.location.href = "blocked.html";
+          return;
+        }
+
+        const response = await fetch("/save-films-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            filmsOrder,
+            uniqueId, // Ajouter uniqueId dans la requête
+          }),
+        });
+
+        const data = await response.json();
+        if (data.success) {
+          // Afficher un message de succès
+          const successMessage = document.getElementById("success-message");
+          successMessage.style.display = "block";
+
+          // Cacher le message après quelques secondes
+          setTimeout(() => {
+            successMessage.style.display = "none";
+          }, 3000);
+        } else {
+          window.location.href = "blocked.html";
+        }
+      }
+
+      // Enregistrer l'ordre des films lorsque l'on clique sur le bouton "Enregistrer"
+      document
+        .getElementById("save-order")
+        .addEventListener("click", saveFilmsOrder);
+    </script>
+  </body>
+</html>
