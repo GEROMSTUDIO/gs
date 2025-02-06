@@ -12,6 +12,7 @@
     "@fastify/view": "^8.0.0",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
+    "chokidar": "^4.0.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "express-session": "^1.18.1",

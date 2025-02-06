@@ -5,6 +5,7 @@ import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
+import chokidar from 'chokidar';
 import bodyParser from "body-parser";
 
 // Configuration ES Modules
@@ -24,6 +25,12 @@ const upload = multer({
 });
 
 const filmsFile = 'films.json';
+
+chokidar.watch(filmsFile).on('change', (event, path) => {
+  console.log(`${path} a été modifié, redémarrage du serveur...`);
+  process.exit(0); // Redémarre le serveur
+});
+
 
 // Charger les films depuis le fichier JSON au démarrage
 let films = {};
