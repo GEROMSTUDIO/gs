@@ -275,6 +275,7 @@
 
       async function rechercherFilm() {
         const filmName = getQueryParam("film");
+        document.title = filmName;
         if (!filmName) {
           window.location.href = "https://geromstudio.glitch.me/film.html";
           return;
@@ -319,7 +320,7 @@
         setTimeout(() => {
           document.getElementById("loading-screen").style.display = "none";
           document.querySelector(".main-content").style.display = "flex";
-        }, 300);
+        }, 320);
       };
 
       document.querySelectorAll("header a").forEach((link) => {
