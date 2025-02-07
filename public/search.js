@@ -73,11 +73,14 @@ function getUniqueIdFromCookie() {
     
   } else if (!uniqueId && !currentUrl.includes("connect=false")) {
     console.log("Non connecté");
-        const redirectURL = `https://geromstudio.glitch.me/search.html`;
-        const togo = `&connect=false`;
-    const params = window.location.search;
-    location.href = redirectURL + params + togo;
-  }
+    const redirectURL = `https://geromstudio.glitch.me/search.html`;
+    const params = new URLSearchParams(window.location.search);
+    const qValue = params.get("q");
+    const newParams = qValue ? `?q=${encodeURIComponent(qValue)}` : "";
+    const togo = `&connect=false`;
+    location.href = redirectURL + newParams + togo;
+}
+
 })();
 
 window.addEventListener("load", function () {

@@ -431,7 +431,15 @@ main {
   position: absolute;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
-
+        .card {
+            background: rgb(221, 221, 221);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
         .card {
           margin: 14px;
             position: relative;
