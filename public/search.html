@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Résultats de recherche</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 50px;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        color: #333;
+      }
+      #searchQuery {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 20px;
+      }
+      #results {
+        display: flex;
+        flex-direction: column; /* Met les cartes en colonne */
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .result-card {
+        width: 90%;
+        max-width: 500px; /* Réduit la taille des cartes */
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        cursor: pointer;
+        text-align: left;
+      }
+      .result-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      }
+      .result-card h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #222; /* Plus de bleu */
+      }
+      .result-card p {
+        color: #666;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      header {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        width: 100vw; /* Largeur de 100% de la largeur de la fenêtre */
+        height: 72px; /* Hauteur fixe, mais vous pouvez aussi utiliser 'em' si vous voulez une proportion à la taille du texte */
+        background-color: #000000;
+        color: rgb(255, 255, 255);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: top 0.4s ease;
+        z-index: 1000;
+      }
+      header.hidden {
+        top: -90px;
+        transition-property: top;
+        transition-duration: 500ms;
+      }
+      section {
+        padding: 20px;
+      }
+      header.bg {
+        /* background: linear-gradient(to top, #00000049, #000000bd); /* Dégradé horizontal */
+        background-color: #00000083;
+        box-shadow: 0px 0 60px #000000;
+        transition-property: background-color, font-size, transform, color;
+        transition-timing-function: ease-in-out;
+        transition-duration: 280ms;
+      }
+
+      .logo {
+        position: absolute;
+        bottom: -21.5px;
+        left: -10px;
+        width: 110px;
+        height: 110px;
+        clip-path: inset(0 0px 0 0);
+        object-fit: cover;
+      }
+
+      .left-nav,
+      .right-nav {
+        display: flex;
+      }
+
+      .login {
+        display: none;
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        right: 100px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+      }
+
+      .show-login {
+        display: inline-block !important;
+      }
+
+      .login:hover {
+        transition: color 0.3s ease;
+        color: rgb(211, 211, 211);
+      }
+
+      .profile-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+        cursor: pointer;
+      }
+
+      #profile-picture {
+        position: relative;
+        right: 100px;
+        top: 2.5px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 0cm solid #cccccc;
+        background-size: cover;
+        background-position: center;
+        display: none; /* Caché par défaut */
+      }
+
+      #profile-picture.show {
+        display: block; /* S'affichera quand la classe 'show' est ajoutée */
+      }
+      .dropdown-arrow {
+        display: none;
+        width: 0;
+        height: 0;
+        margin: 2px;
+        position: relative;
+        right: 98px;
+        border-left: 4px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #767676;
+      }
+
+      /* Conteneur du menu */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 70px;
+        right: 30px; /* Décalage du bord droit */
+        background-color: rgb(40, 40, 40);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        z-index: 1000;
+        width: 180px;
+        font-family: "Roboto", Arial, sans-serif;
+        text-align: center;
+      }
+
+      .dropdown-menu a {
+        display: block;
+        padding: 10px;
+        text-decoration: none;
+        color: rgb(255, 255, 255);
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+      }
+
+      .dropdown-menu a:first-child {
+        font-weight: 700; /* Gras pour "Mon compte" */
+        font-size: 16px; /* Texte agrandi */
+        color: rgb(220, 220, 220);
+      }
+
+      .dropdown-divider {
+        height: 1px;
+        background-color: rgb(100, 100, 100);
+        margin: 5px 0;
+      }
+
+      .logout-button {
+        display: block;
+        margin: 10px auto;
+        padding: 8px 20px;
+        background-color: rgb(100, 100, 100);
+        text-align: center;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 5px;
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+        width: 120px;
+      }
+
+      .logout-button:hover {
+        background-color: rgb(220, 220, 220);
+        color: rgb(0, 0, 0);
+        box-shadow: 0 2px 4px rgba(255, 0, 0, 0.5); /* Ombre rouge */
+      }
+
+      .profile-button {
+        color: rgb(220, 220, 220);
+      }
+      .profile-button:hover {
+        background-color: rgb(80, 80, 80);
+        color: rgb(255, 255, 255);
+      }
+
+      .film {
+        top: 19px;
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: 90px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .film:hover {
+        color: rgb(211, 211, 211);
+      }
+      .about {
+        top: 19px;
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: 280px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .about:hover {
+        color: rgb(211, 211, 211);
+      }
+      .contact {
+        font-size: 2rem;
+        margin: 0px;
+        padding: 0px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        letter-spacing: 2px;
+        position: relative;
+        left: -25px;
+        top: 0px;
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+      .contact:hover {
+        color: rgb(211, 211, 211);
+      }
+    </style>
+  </head>
+  <body>
+    <header id="header">
+      <nav class="left-nav">
+        <a
+          href="/film.html"
+          class="film"
+          aria-label="Page des films"
+          tabindex="1"
+          >Films</a
+        >
+        <a href="#" class="about" aria-label="Page à propos" tabindex="3"
+          >À propos</a
+        >
+        <a href="#" class="contact" aria-label="Page des films" tabindex="2"
+          >Contact</a
+        >
+      </nav>
+      <img
+        class="logo"
+        src="https://i.ibb.co/pZyKf6K/Logo-removebg-preview.webp"
+        alt="Logo du site"
+      />
+      <nav class="right-nav">
+        <a
+          href="login.html"
+          class="login"
+          aria-label="Se connecter"
+          tabindex="4"
+          >Se connecter</a
+        >
+
+        <div class="profile-container" id="profile-container">
+          <div id="profile-picture" tabindex="4" alt="Profile Picture"></div>
+          <div class="dropdown-arrow"></div>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu">
+          <a href="/profile.html" class="profile-button">Mon compte</a>
+          <div class="dropdown-divider"></div>
+          <a href="/disconnect.html" class="logout-button">Se déconnecter</a>
+        </div>
+      </nav>
+    </header>
+
+    <h1>Résultats de recherche</h1>
+    <p id="searchQuery"></p>
+    <div id="results">Chargement...</div>
+
+    <script>
+      // Fonction pour obtenir un cookie par son nom
+      function getUniqueIdFromCookie() {
+        return document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("uniqueId="))
+          ?.split("=")[1];
+      }
+
+      // Vérifie l'authentification immédiatement
+      (function checkAuth() {
+        const uniqueId = getUniqueIdFromCookie();
+        const currentUrl = window.location.href;
+
+        // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
+        if (!currentUrl.includes("connect=true") && uniqueId) {
+          const redirectURL = `https://geromstudio.glitch.me/index.html?connect=true&uniqueId=${encodeURIComponent(
+            uniqueId
+          )}`;
+          window.location.href = redirectURL;
+        } else if (!uniqueId) {
+          console.log("Non connecté");
+        }
+      })();
+
+      window.addEventListener("load", function () {
+        const banner = document.getElementById("cookieBanner");
+        const cookieConsent = localStorage.getItem("cookieConsent");
+
+        if (!cookieConsent) {
+          setTimeout(() => {
+            banner.classList.add("show");
+          }, 1000);
+        }
+      });
+
+      async function fetchResults() {
+        const params = new URLSearchParams(window.location.search);
+        const query = params.get("q");
+        document.getElementById(
+          "searchQuery"
+        ).innerText = `Résultats pour : "${query}"`;
+
+        let response = await fetch(`/search?q=${query}`);
+        let pages = await response.json();
+
+        let resultsContainer = document.getElementById("results");
+        resultsContainer.innerHTML = ""; // Efface les anciens résultats
+
+        if (pages.length === 0) {
+          resultsContainer.innerHTML = "<p>Aucun résultat trouvé.</p>";
+          return;
+        }
+
+        pages.forEach((page) => {
+          let div = document.createElement("div");
+          div.className = "result-card";
+          div.innerHTML = `
+                    <h3>${page.title}</h3>
+                    <p>${page.description}</p>
+                `;
+          div.addEventListener("click", () => {
+            window.location.href = page.url;
+          });
+          resultsContainer.appendChild(div);
+        });
+      }
+
+      fetchResults();
+    </script>
+  </body>
+</html>
