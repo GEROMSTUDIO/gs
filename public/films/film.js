@@ -75,7 +75,7 @@ document
     if (event.key === "Enter") {
       let query = this.value.trim();
       if (query.length > 2) {
-      window.location.href = `search.html?q=${encodeURIComponent(query)}&connect=true`;
+      window.location.href = `https://geromstudio.glitch.me/search.html?q=${encodeURIComponent(query)}&connect=true`;
       }
     }
   });
