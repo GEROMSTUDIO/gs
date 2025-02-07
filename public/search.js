@@ -121,6 +121,17 @@ searchInput.addEventListener("keydown", function (event) {
   }
 });
 
+document
+  .getElementById("searchInput")
+  .addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      let query = this.value.trim();
+      if (query.length > 3) {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
+
 function onUserConnected() {
   const loginButton = document.querySelector(".right-nav .login");
   const profilePicture = document.getElementById("profile-picture");

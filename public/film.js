@@ -68,6 +68,17 @@ searchInput.addEventListener("keydown", function (event) {
   }
 });
 
+document
+  .getElementById("searchInput")
+  .addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      let query = this.value.trim();
+      if (query.length > 3) {
+        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+      }
+    }
+  });
+
 const header = document.getElementById("header");
 header.classList.add("bg");
 let lastScrollY = window.scrollY;
