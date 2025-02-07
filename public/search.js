@@ -70,11 +70,12 @@ function getUniqueIdFromCookie() {
 
   // Vérifie si l'URL actuelle ne contient pas déjà les paramètres
   if (!currentUrl.includes("connect=true") && uniqueId) {
-    const redirectURL = `https://geromstudio.glitch.me/search.html?connect=true&uniqueId=${encodeURIComponent(
+    const redirectURL = `https://geromstudio.glitch.me/search.html`;
+        const togo = `&connect=true&uniqueId=${encodeURIComponent(
       uniqueId
     )}`;
     const params = window.location.search;
-    location.href = redirectURL + params;
+    location.href = redirectURL + params + togo;
   } else if (!uniqueId) {
     console.log("Non connecté");
   }

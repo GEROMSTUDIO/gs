@@ -22,7 +22,7 @@ const pages = [
     { title: "Accueil", url: "/index.html", description: "Page d'accueil du site" },
     { title: "À propos", url: "/about.html", description: "En savoir plus sur notre équipe" },
     { title: "Contact", url: "/contact.html", description: "Nous contacter facilement" },
-      { title: "Contactation", url: "/contact.html", description: "Nous contacter facilement" },
+    { title: "Contactation", url: "/contact.html", description: "Nous contacter facilement" },
     { title: "Services", url: "/services.html", description: "Découvrez nos services" },
     { title: "Blog", url: "/blog.html", description: "Les derniers articles et nouvelles" },
     { title: "Projets", url: "/projects.html", description: "Nos projets récents et futurs" }
