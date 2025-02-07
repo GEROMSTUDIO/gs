@@ -74,7 +74,7 @@ document
     if (event.key === "Enter") {
       let query = this.value.trim();
       if (query.length > 3) {
-        window.location.href = `search.html?q=${encodeURIComponent(query)}`;
+        window.location.href = `search.html?q=${encodeURIComponent(query)}&connect=true`;
       }
     }
   });

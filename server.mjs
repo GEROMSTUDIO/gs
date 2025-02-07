@@ -23,6 +23,8 @@ const pages = [
     { title: "À propos", url: "/about.html", description: "En savoir plus sur notre production" },
     { title: "Contact", url: "/contact.html", description: "Nous contacter facilement" },
     { title: "Films", url: "/film.html", description: "Découvrez nos films" },
+    { title: "Login", url: "/login.html", description: "Se connecter au site" },
+    { title: "Se connecter", url: "/login.html", description: "Se connecter au site" },
     { title: "Mon compte", url: "/profile.html", description: "Paramétre du compte" }
 ];
 

@@ -73,8 +73,8 @@ document
   .addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       let query = this.value.trim();
-      if (query.length > 3) {
-        window.location.href = `https://geromstudio.glitch.me/search.html?q=${encodeURIComponent(query)}`;
+      if (query.length > 2) {
+      window.location.href = `search.html?q=${encodeURIComponent(query)}&connect=true`;
       }
     }
   });
