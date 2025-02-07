@@ -17,6 +17,7 @@ function hideBanner() {
   }, 300);
 }
 
+
 // Fonction pour obtenir un cookie par son nom
 function getUniqueIdFromCookie() {
   return document.cookie
