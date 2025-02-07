@@ -2,6 +2,40 @@ if (window.location.protocol === "http:") {
   window.location.replace("https" + window.location.href.slice(4));
 }
 
+async function fetchResults() {
+  const params = new URLSearchParams(window.location.search);
+  const query = params.get("q");
+  document.getElementById(
+    "searchQuery"
+  ).innerText = `Résultats pour : "${query}"`;
+
+  let response = await fetch(`/search?q=${query}`);
+  let pages = await response.json();
+
+  let resultsContainer = document.getElementById("results");
+  resultsContainer.innerHTML = ""; // Efface les anciens résultats
+
+  if (pages.length === 0) {
+    resultsContainer.innerHTML = "<p>Aucun résultat trouvé.</p>";
+    return;
+  }
+
+  pages.forEach((page) => {
+    let div = document.createElement("div");
+    div.className = "result-card";
+    div.innerHTML = `
+                    <h3>${page.title}</h3>
+                    <p>${page.description}</p>
+                `;
+    div.addEventListener("click", () => {
+      window.location.href = page.url;
+    });
+    resultsContainer.appendChild(div);
+  });
+}
+
+fetchResults();
+
 function acceptCookies() {
   localStorage.setItem("cookieConsent", "accepted");
   hideBanner();
@@ -39,8 +73,8 @@ function getUniqueIdFromCookie() {
     const redirectURL = `https://geromstudio.glitch.me/search.html?connect=true&uniqueId=${encodeURIComponent(
       uniqueId
     )}`;
-            const params = window.location.search;
-        location.href = redirectURL + params;
+    const params = window.location.search;
+    location.href = redirectURL + params;
   } else if (!uniqueId) {
     console.log("Non connecté");
   }
@@ -83,29 +117,6 @@ searchInput.addEventListener("keydown", function (event) {
   if (event.key === "Enter") {
     searchBox.classList.remove("open");
     searchIcon.style.display = "inline-block";
-  }
-});
-
-const header = document.getElementById("header");
-header.classList.add("bg");
-let lastScrollY = window.scrollY;
-
-window.addEventListener("scroll", () => {
-  if (window.scrollY > lastScrollY) {
-    if (window.scrollY > 0) {
-      header.classList.add("hidden");
-      dropdownMenu.style.display = "none";
-    }
-  } else {
-    header.classList.remove("hidden");
-  }
-
-  lastScrollY = window.scrollY;
-
-  if (window.scrollY === 0) {
-    header.classList.add("bg");
-  } else {
-    header.classList.remove("bg");
   }
 });
 
@@ -223,12 +234,6 @@ if (uniqueId) {
       `;
   menu.style.width = "150px";
 }
-
-document.querySelectorAll("header a").forEach((link) => {
-  link.addEventListener("focus", () => {
-    document.querySelector("header").classList.remove("hidden");
-  });
-});
 
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);

@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import auth from "./sqlite.js";
 import chokidar from 'chokidar';
 import bodyParser from "body-parser";
+import Fuse from "fuse.js";
 
 // Configuration ES Modules
 const __filename = fileURLToPath(import.meta.url);
@@ -16,6 +17,22 @@ const validPassword = "Studiopro38@";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const pages = [
+    { title: "Accueil", url: "/index.html", description: "Page d'accueil du site" },
+    { title: "À propos", url: "/about.html", description: "En savoir plus sur notre équipe" },
+    { title: "Contact", url: "/contact.html", description: "Nous contacter facilement" },
+      { title: "Contactation", url: "/contact.html", description: "Nous contacter facilement" },
+    { title: "Services", url: "/services.html", description: "Découvrez nos services" },
+    { title: "Blog", url: "/blog.html", description: "Les derniers articles et nouvelles" },
+    { title: "Projets", url: "/projects.html", description: "Nos projets récents et futurs" }
+];
+
+// Configuration de la recherche floue avec Fuse.js
+const fuse = new Fuse(pages, {
+    keys: ["title"],  // Recherche basée sur le titre uniquement
+    threshold: 0.4    // Niveau de tolérance aux fautes (0 = strict, 1 = large)
+});
 
 const upload = multer({
   dest: "uploads/",
@@ -73,6 +90,19 @@ app.post("/login", async (request, response) => {
     response.status(401).json(result);
   }
 });
+
+app.get("/search", (req, res) => {
+    let query = req.query.q;
+    if (!query) {
+        return res.json([]);  // Aucune recherche effectuée
+    }
+
+    query = query.toLowerCase();
+    let results = fuse.search(query).map(result => result.item); // Recherche floue
+
+    res.json(results);
+});
+
 
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;

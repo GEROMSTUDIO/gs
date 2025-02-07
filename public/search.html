@@ -16,26 +16,50 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     />
     <link rel="stylesheet" href="search.css" />
-    <meta name="description" content="Société de production cinématograpghique. Films disponibles sur le le site">
+    <meta
+      name="description"
+      content="Société de production cinématograpghique. Films disponibles sur le le site"
+    />
   </head>
   <body>
     <div class="main-content">
       <header id="header">
         <nav class="left-nav">
-          <a href="/film.html" class="film" aria-label="Page des films" tabindex="1">Films</a>
-          <a href="#" class="about" aria-label="Page à propos" tabindex="3" >À propos</a>
-          <a href="#" class="contact" aria-label="Page des films" tabindex="2">Contact</a>
-
+          <a
+            href="/film.html"
+            class="film"
+            aria-label="Page des films"
+            tabindex="1"
+            >Films</a
+          >
+          <a href="#" class="about" aria-label="Page à propos" tabindex="3"
+            >À propos</a
+          >
+          <a href="#" class="contact" aria-label="Page des films" tabindex="2"
+            >Contact</a
+          >
         </nav>
-        <img
-          class="logo"
-          src="https://i.ibb.co/pZyKf6K/Logo-removebg-preview.webp"
-          alt="Logo du site"
-        />
+        <a href="/index.html" class="home">
+          <img
+            class="logo"
+            src="https://i.ibb.co/pZyKf6K/Logo-removebg-preview.webp"
+            alt="Logo du site"
+          />
+        </a>
         <nav class="right-nav">
-          <a href="login.html" class="login" aria-label="Se connecter" tabindex="4">Se connecter</a>
+          <a
+            href="login.html"
+            class="login"
+            aria-label="Se connecter"
+            tabindex="4"
+            >Se connecter</a
+          >
           <div class="search-container" id="searchBox">
-            <span class="search-icon" id="searchIcon" aria-label="Icône de recherche">
+            <span
+              class="search-icon"
+              id="searchIcon"
+              aria-label="Icône de recherche"
+            >
               <i class="fas fa-search"></i>
             </span>
             <input
@@ -46,7 +70,7 @@
             />
           </div>
           <div class="profile-container" id="profile-container">
-            <div id="profile-picture" tabindex="4" alt="Profile Picture" ></div>
+            <div id="profile-picture" tabindex="4" alt="Profile Picture"></div>
             <div class="dropdown-arrow"></div>
           </div>
           <div class="dropdown-menu" id="dropdown-menu">
@@ -57,20 +81,27 @@
         </nav>
       </header>
 
-
+      <div class="content" id="content">
+                    <h1>Résultats de recherche</h1>
+      <p id="searchQuery"></p>
+      <div id="results">Chargement...</div>
+      </div>
+      
       <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-container">
           <div class="cookie-content">
             <img
               src="https://img.icons8.com/?size=64&id=KEx6NTeFDrA8&format=png"
-                alt="Icône représentant des popcorns"
+              alt="Icône représentant des popcorns"
               class="cookie-icon"
             />
             <div class="cookie-text">
               Ce site utilise des cookies pour vous garantir la meilleure
               expérience sur notre site. En utilisant notre site, vous acceptez
               les cookies.
-              <a href="#" alt="Conditions d'utilisation" class="cookie-link">Découvrir nos conditions </a>
+              <a href="#" alt="Conditions d'utilisation" class="cookie-link"
+                >Découvrir nos conditions
+              </a>
             </div>
           </div>
           <div class="cookie-buttons">
@@ -96,44 +127,58 @@
         </div>
       </div>
 
-    <div class="footer-dark">
-      <footer>
-        <div>
-          <div class="footer-content">
-            <div>
-              <h3>Services</h3>
-              <ul>
-                <li><a href="/film.html" aria-label="Page des films" >Film</a></li> 
-                <li><a href="#" aria-label="Page de contact" >Contact</a></li>
-                <li><a href="#" aria-label="Page des emploi" >Emploi</a></li>
-              </ul>
+
+      <div class="footer-dark">
+        <footer>
+          <div>
+            <div class="footer-content">
+              <div>
+                <h3>Services</h3>
+                <ul>
+                  <li>
+                    <a href="/film.html" aria-label="Page des films">Film</a>
+                  </li>
+                  <li><a href="#" aria-label="Page de contact">Contact</a></li>
+                  <li><a href="#" aria-label="Page des emploi">Emploi</a></li>
+                </ul>
+              </div>
+              <div>
+                <h3>À propos</h3>
+                <ul>
+                  <li>
+                    <a href="#" aria-label="Page de la production"
+                      >Production</a
+                    >
+                  </li>
+                  <li><a href="#" aria-label="Page de l'équipe">Équipe</a></li>
+                  <li>
+                    <a href="#" aria-label="Page des actualité">Actualité</a>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h3>Company Name</h3>
+                <p>
+                  Société de production cinématographique dédiée à la création
+                  de contenus professionnels pour le grand écran. Nous
+                  accompagnons chaque étape de vos projets, de l’idée originale
+                  à la post-production finale.
+                </p>
+              </div>
             </div>
-            <div>
-              <h3>À propos</h3>
-              <ul>
-                <li><a href="#" aria-label="Page de la production" >Production</a></li>
-                <li><a href="#" aria-label="Page de l'équipe" >Équipe</a></li>
-                <li><a href="#" aria-label="Page des actualité">Actualité</a></li>
-              </ul>
+            <div class="social-icons" style="margin-top: 20px">
+              <a
+                href="https://www.youtube.com/@GEROMSTUDIO"
+                target="_blank"
+                alt="Youtube"
+                aria-label="Liens Youtube"
+                ><i class="fab fa-youtube"></i
+              ></a>
             </div>
-            <div>
-              <h3>Company Name</h3>
-              <p>
-                Société de production cinématographique dédiée à la création de
-                contenus professionnels pour le grand écran. Nous accompagnons
-                chaque étape de vos projets, de l’idée originale à la
-                post-production finale.
-              </p>
-            </div>
+            <p class="copyright">GEROM STUDIO © 2025</p>
           </div>
-          <div class="social-icons" style="margin-top: 20px">
-            <a href="https://www.youtube.com/@GEROMSTUDIO" target="_blank" alt="Youtube" aria-label="Liens Youtube"
-              ><i class="fab fa-youtube"></i
-            ></a>
-          </div>
-          <p class="copyright">GEROM STUDIO © 2025</p>
-        </div>
-      </footer>
+        </footer>
+      </div>
     </div>
 
     <script src="search.js"></script>

@@ -658,6 +658,55 @@ main {
   text-align: center; /* Centrer le texte */
 }
 
+.content {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 50px;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  padding: 100px;
+  color: #333;
+}
+#searchQuery {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 20px;
+}
+#results {
+  display: flex;
+  flex-direction: column; /* Met les cartes en colonne */
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+.result-card {
+  width: 90%;
+  max-width: 500px; /* Réduit la taille des cartes */
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+  text-align: left;
+}
+.result-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.result-card h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #222; /* Plus de bleu */
+}
+.result-card p {
+  color: #666;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 @media screen and (max-width: 359px) {
   .cookie-banner {
     padding: 10px 0;
