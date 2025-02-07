@@ -454,6 +454,7 @@ main {
 
 /* Article styles */
 .article-box {
+  padding-top: 12px;
   font-family: "Segoe UI", system-ui, sans-serif;
   background-color: white;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -506,9 +507,10 @@ a {
 }
 .licard {
   position: relative;
-  top: 74px;
+  top: 76px;
   display: flex;
   justify-content: center;
+ flex-wrap: wrap;  
   align-items: center;
   margin: 0;
   font-family: "Poppins", sans-serif;
@@ -516,8 +518,8 @@ a {
 .card {
   margin: 14px;
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 360px;
+  height: 360px;
   background: #ffffffff;
   border-radius: 15px;
   overflow: hidden;
