@@ -421,6 +421,7 @@ main {
 }
 
 .container2 {
+  background-color: #f3f4f6;
   display: flex;
   top: 840px;
   left: 0;
@@ -430,6 +431,78 @@ main {
   align-items: center;
   position: absolute;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+.max-w-6xl {
+  max-width: 72rem;
+}
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+.p-6 {
+  padding: 1.5rem;
+}
+.grid {
+  display: grid;
+}
+.gap-6 {
+  gap: 1.5rem;
+}
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+/* Article styles */
+.article-box {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background-color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 470px;
+}
+
+.article-box:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Image styles */
+.article-image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+}
+
+/* Content styles */
+.article-content {
+  padding: 1.75rem;
+}
+
+.article-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.article-text {
+  color: #4b5563;
+  line-height: 1.6;
+  font-size: 1.05rem;
+}
+
+/* Media query for desktop */
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Liens */
+a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 .licard {
   position: relative;
@@ -492,20 +565,7 @@ main {
   text-align: center;
   transition: transform 0.3s ease;
 }
-.article-title {
-  color: #2c3e50;
-  font-size: 2.2em;
-  margin-bottom: 20px;
-  border-bottom: 3px solid rgb(0, 0, 0);
-  padding-bottom: 10px;
-}
-.article-content {
-  color: #34495e;
-  line-height: 1.7;
-  text-align: justify;
-  font-size: 1.1em;
-  margin-bottom: 20px;
-}
+
 .article-meta {
   color: #7f8c8d;
   font-style: italic;
