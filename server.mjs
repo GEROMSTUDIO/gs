@@ -20,12 +20,10 @@ const PORT = process.env.PORT || 3000;
 
 const pages = [
     { title: "Accueil", url: "/index.html", description: "Page d'accueil du site" },
-    { title: "À propos", url: "/about.html", description: "En savoir plus sur notre équipe" },
+    { title: "À propos", url: "/about.html", description: "En savoir plus sur notre production" },
     { title: "Contact", url: "/contact.html", description: "Nous contacter facilement" },
-    { title: "Contactation", url: "/contact.html", description: "Nous contacter facilement" },
-    { title: "Services", url: "/services.html", description: "Découvrez nos services" },
-    { title: "Blog", url: "/blog.html", description: "Les derniers articles et nouvelles" },
-    { title: "Projets", url: "/projects.html", description: "Nos projets récents et futurs" }
+    { title: "Films", url: "/film.html", description: "Découvrez nos films" },
+    { title: "Mon compte", url: "/profile.html", description: "Paramétre du compte" }
 ];
 
 // Configuration de la recherche floue avec Fuse.js

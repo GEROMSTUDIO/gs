@@ -126,7 +126,7 @@ document
   .addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       let query = this.value.trim();
-      if (query.length > 3) {
+      if (query.length > 2) {
         window.location.href = `search.html?q=${encodeURIComponent(query)}`;
       }
     }
