@@ -324,7 +324,7 @@ app.get("/check-access", async (req, res) => {
         const film = films[key];
         const filmName = film.filmName || film.filmName2 || key;
         return `
-          <a href="https://geromstudio.glitch.me/films/film.html?film=${encodeURIComponent(filmName)}" class="carousel-item">
+          <a href="https://geromstudio.onrender.com/films/film.html?film=${encodeURIComponent(filmName)}" class="carousel-item">
             <div class="image-container">
               <img src="${film.posterLink}" alt="Affiche" />
             </div>
